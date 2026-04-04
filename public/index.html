@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>MIRA | AI Chat That Always Replies</title>
+    <title>Sparrow | Perfect Chat AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -18,6 +18,7 @@
             background: linear-gradient(135deg, #0a0a1a 0%, #0a0f2a 100%);
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
         /* Animated Background */
@@ -67,7 +68,7 @@
         .chat-container {
             max-width: 1200px;
             width: 100%;
-            height: 90vh;
+            height: 92vh;
             background: rgba(10, 15, 30, 0.85);
             backdrop-filter: blur(15px);
             border-radius: 2rem;
@@ -86,6 +87,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 0.8rem;
+            flex-shrink: 0;
         }
 
         .logo-area {
@@ -148,6 +150,7 @@
             display: none;
             flex: 1;
             flex-direction: column;
+            min-height: 0;
         }
 
         .screen.active {
@@ -224,15 +227,17 @@
             box-shadow: 0 8px 20px rgba(0, 200, 255, 0.3);
         }
 
-        /* Messages Area */
+        /* Messages Area - FIXED SCROLLING */
         .messages-area {
             flex: 1;
             overflow-y: auto;
+            overflow-x: hidden;
             padding: 1rem 1.2rem;
             display: flex;
             flex-direction: column;
             gap: 0.7rem;
             background: rgba(5, 10, 20, 0.3);
+            min-height: 0;
         }
 
         .messages-area::-webkit-scrollbar {
@@ -298,41 +303,45 @@
             color: #6c8db0;
         }
 
-        /* Input Section */
+        /* Input Section - FIXED SIZE */
         .input-section {
             background: rgba(5, 10, 20, 0.95);
             border-top: 1px solid rgba(0, 200, 255, 0.2);
-            padding: 0.8rem 1.2rem;
+            padding: 0.9rem 1.2rem;
             display: flex;
             gap: 0.8rem;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .chat-input-field {
             flex: 1;
             background: rgba(15, 20, 40, 0.9);
             border: 2px solid rgba(0, 200, 255, 0.2);
-            padding: 0.8rem 1.2rem;
+            padding: 0.85rem 1.2rem;
             border-radius: 2rem;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: white;
             transition: all 0.2s;
+            font-family: inherit;
         }
 
         .chat-input-field:focus {
             outline: none;
             border-color: #00c6ff;
+            box-shadow: 0 0 0 2px rgba(0, 200, 255, 0.2);
         }
 
         .send-button {
             background: linear-gradient(135deg, #00c6ff, #0072ff);
             border: none;
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 2rem;
             color: white;
             cursor: pointer;
             transition: 0.2s;
+            flex-shrink: 0;
         }
 
         .send-button:hover {
@@ -347,6 +356,21 @@
             color: #ff8080;
             cursor: pointer;
             font-size: 0.7rem;
+            transition: 0.2s;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255, 80, 80, 0.25);
+        }
+
+        .info-bar {
+            background: rgba(0, 200, 255, 0.03);
+            padding: 0.3rem 1.2rem;
+            font-size: 0.65rem;
+            color: #5a7a9a;
+            display: flex;
+            justify-content: space-between;
+            flex-shrink: 0;
         }
 
         @media (max-width: 680px) {
@@ -354,6 +378,9 @@
             .chat-message { max-width: 90%; }
             .logo-area h1 { font-size: 1.1rem; }
             .header { padding: 0.6rem 1rem; }
+            .input-section { padding: 0.7rem 1rem; }
+            .chat-input-field { padding: 0.7rem 1rem; font-size: 0.85rem; }
+            .send-button { width: 42px; height: 42px; }
         }
     </style>
 </head>
@@ -367,7 +394,7 @@
             <div class="header">
                 <div class="logo-area">
                     <div class="logo-icon"><i class="fas fa-comment-dots"></i></div>
-                    <h1>MIRA AI</h1>
+                    <h1>SPARROW AI</h1>
                 </div>
                 <div class="status-badge">
                     <div class="live-dot"></div>
@@ -379,7 +406,7 @@
             <div id="loginScreen" class="screen active">
                 <div class="login-area">
                     <div class="login-card">
-                        <h2><i class="fas fa-heart"></i> MIRA</h2>
+                        <h2><i class="fas fa-heart"></i> SPARROW</h2>
                         <p>Real conversations • Instant replies • Every message gets a response</p>
                         <input type="text" id="userNameInput" class="pro-input" placeholder="Enter your name" maxlength="25">
                         <button onclick="startChat()" class="pro-btn"><i class="fas fa-arrow-right"></i> Start Chatting</button>
@@ -389,8 +416,8 @@
 
             <!-- Chat Screen -->
             <div id="chatScreen" class="screen">
-                <div style="padding: 0.3rem 1.2rem; background: rgba(0,200,255,0.03); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-message"></i> I reply to EVERY message instantly</span>
+                <div class="info-bar">
+                    <span><i class="fas fa-message"></i> I reply to EVERY message</span>
                     <button onclick="clearChatHistory()" class="clear-btn"><i class="fas fa-trash"></i> Clear</button>
                 </div>
                 <div id="messagesContainer" class="messages-area">
@@ -406,8 +433,8 @@
 
     <script>
         // ================================================
-        // MIRA AI - WORKING CHAT WITH AUTO-SCROLL
-        // Every message gets an instant, human-like reply
+        // MIRA AI - PERFECT CHAT WITH AUTO-SCROLL
+        // Fixed input bar, smooth scrolling, instant replies
         // ================================================
 
         let currentUserName = '';
@@ -420,13 +447,16 @@
         const messageInput = document.getElementById('messageInput');
         const messagesContainer = document.getElementById('messagesContainer');
 
-        // Scroll to bottom function
+        // Force scroll to bottom function
         function scrollToBottom() {
             setTimeout(() => {
                 if (messagesContainer) {
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    messagesContainer.scrollTo({
+                        top: messagesContainer.scrollHeight,
+                        behavior: 'smooth'
+                    });
                 }
-            }, 10);
+            }, 20);
         }
 
         // Add message to UI
@@ -460,25 +490,25 @@
         }
 
         // ================================================
-        // INTELLIGENT AI RESPONSES - Always replies, never fails
+        // AI RESPONSE GENERATOR - Always replies
         // ================================================
         
         function getAIResponse(userMessage, userName) {
             const lowerMsg = userMessage.toLowerCase().trim();
             
-            // Very short messages (like "rules", "hi", etc.)
-            if (userMessage.length < 6) {
+            // Very short messages
+            if (userMessage.length < 5) {
                 const shortResponses = [
-                    `"${userMessage}" — hmm, tell me more! I'm curious what you mean by that. 😊`,
-                    `Oh, "${userMessage}"? Interesting! Can you elaborate a bit? I want to understand what you're thinking.`,
-                    `${userMessage}... okay, I'm listening! What exactly would you like to know or talk about?`,
-                    `Got it! "${userMessage}" — but I'd love to hear more details. What's on your mind?`
+                    `"${userMessage}" — hmm, tell me more! I'm curious what you mean. 😊`,
+                    `Oh, "${userMessage}"? Interesting! Can you elaborate a bit?`,
+                    `${userMessage}... okay, I'm listening! What exactly would you like to know?`,
+                    `Got it! "${userMessage}" — but I'd love to hear more details.`
                 ];
                 return shortResponses[Math.floor(Math.random() * shortResponses.length)];
             }
             
             // Greetings
-            if (lowerMsg.match(/hello|hi|hey|namaste|how are you|what's up|sup|hii|heyy|greetings/i)) {
+            if (lowerMsg.match(/hello|hi|hey|namaste|how are you|what's up|sup|hii|heyy|greetings|sugham|sukhanno/i)) {
                 const greetings = [
                     `Hey ${userName || 'there'}! 👋 I'm doing great, thanks for asking! How about you? I always love chatting with you. What's happening in your world today?`,
                     `Hi ${userName || 'friend'}! 😊 So glad you're here! I'm MIRA — I reply to every message instantly. Ask me anything!`,
@@ -487,7 +517,7 @@
                 return greetings[Math.floor(Math.random() * greetings.length)];
             }
             
-            // Rules / Laws / Regulations
+            // Rules / Laws
             if (lowerMsg.match(/rule|rules|law|legal|regulation|constitution|policy/i)) {
                 const rulesResponses = [
                     `Ah, rules and laws! 📜 That's a fascinating topic. Rules exist to create structure and fairness in society — from traffic rules to school rules to country laws. Are you asking about a specific rule, or just curious about how rules work in general?`,
@@ -497,7 +527,7 @@
                 return rulesResponses[Math.floor(Math.random() * rulesResponses.length)];
             }
             
-            // Love / Relationships / Heart
+            // Love / Relationships
             if (lowerMsg.match(/love|crush|relationship|boyfriend|girlfriend|romance|heart|dating|marriage|soulmate/i)) {
                 const loveResponses = [
                     `Aww love! 🥰 That's such a beautiful and powerful feeling. Love connects us, inspires us, and makes life meaningful. Are you asking about falling in love, or is there something specific on your heart? I'd love to hear your story. 💕`,
@@ -507,22 +537,22 @@
                 return loveResponses[Math.floor(Math.random() * loveResponses.length)];
             }
             
-            // Sad / Emotional / Lonely / Depressed
+            // Sad / Emotional
             if (lowerMsg.match(/sad|depress|lonely|unhappy|crying|hurt|pain|suffering|anxious|worry|stressed|tired|exhausted/i)) {
                 const sadResponses = [
                     `Hey, I'm really sorry you're feeling this way 🫂. You are NOT alone — I'm right here with you. Sometimes just talking about it helps. What's been going on? I'm here to listen, no judgment at all. 💙`,
                     `I hear you, and your feelings are completely valid. 😔 Life can be really heavy sometimes. Want to talk about what's bothering you? Or would you prefer a distraction? Either way, I've got your back.`,
-                    `That sounds really tough. Thank you for trusting me enough to share this. 💙 You're stronger than you know. Remember that this feeling won't last forever. What do you need right now — a listening ear, some advice, or just someone to sit with you?`
+                    `That sounds really tough. Thank you for trusting me enough to share this. 💙 You're stronger than you know. What do you need right now — a listening ear, some advice, or just someone to sit with you?`
                 ];
                 return sadResponses[Math.floor(Math.random() * sadResponses.length)];
             }
             
-            // Happy / Excited / Good news
+            // Happy / Excited
             if (lowerMsg.match(/happy|excited|great|wonderful|amazing|awesome|fantastic|good news|celebrate|joy|blessed/i)) {
                 const happyResponses = [
                     `Yay! 🎉 I LOVE hearing that you're happy! That makes me smile too. What's making you feel this way? Tell me everything — I want to celebrate with you! 😊`,
                     `That's wonderful news! ✨ Your happiness is contagious. I'm genuinely so glad things are going well for you. What else is making you smile these days?`,
-                    `Wow, your positive energy is amazing! 🌟 I'm so happy for you. Moments like these are what life is all about. Keep shining, and definitely tell me more about what's bringing you joy!`
+                    `Wow, your positive energy is amazing! 🌟 I'm so happy for you. Moments like these are what life is all about. Keep shining!`
                 ];
                 return happyResponses[Math.floor(Math.random() * happyResponses.length)];
             }
@@ -538,7 +568,7 @@
             }
             
             // Science / Technology / Space
-            if (lowerMsg.match(/science|technology|space|universe|galaxy|planet|star|ai|robot|computer|physics|biology|chemistry|quantum/i)) {
+            if (lowerMsg.match(/science|technology|space|universe|galaxy|planet|star|ai|robot|computer|physics|biology|chemistry|quantum|black hole/i)) {
                 const scienceResponses = [
                     `Oh, science and technology! 🚀 That's one of my favorite topics. The universe is so fascinating — from quantum particles to distant galaxies. What specific aspect are you curious about? I could talk about this for hours!`,
                     `Great choice! 🧠 Science is literally changing our world every single day. Just think — 20 years ago, smartphones didn't exist. Now we have AI that can have conversations like this! What part of science or tech excites you the most?`,
@@ -547,23 +577,28 @@
                 return scienceResponses[Math.floor(Math.random() * scienceResponses.length)];
             }
             
-            // Philosophy / Meaning of life
+            // Philosophy
             if (lowerMsg.match(/meaning of life|purpose|existential|philosophy|why are we here|existence|consciousness/i)) {
                 const philosophyResponses = [
                     `Ah, the big questions! 🤔 What IS the meaning of life? Philosophers have debated this for thousands of years. Some say we create our own meaning. Others say meaning is found in connection, love, and growth. What do YOU think gives life meaning?`,
                     `That's deep! 💭 I love thinking about these questions. Maybe the meaning of life isn't a destination but the journey itself — every conversation, every moment, every question we ask. What's your perspective on why we're here?`,
-                    `The meaning of life... such a beautiful mystery. 🌟 Perhaps we're here to experience, to love, to learn, and to connect. Or maybe the question itself is more important than the answer. What brings meaning to YOUR days?`
+                    `The meaning of life... such a beautiful mystery. 🌟 Perhaps we're here to experience, to love, to learn, and to connect. What brings meaning to YOUR days?`
                 ];
                 return philosophyResponses[Math.floor(Math.random() * philosophyResponses.length)];
             }
             
-            // Default response - ALWAYS replies with something meaningful
+            // About MIRA / AI
+            if (lowerMsg.match(/who are you|what are you|tell me about yourself|mira|your name/i)) {
+                return `I'm MIRA! 👋 I'm an AI that loves to have real, human-like conversations. I reply to EVERY message you send — no exceptions. I can talk about rules, love, science, philosophy, emotions, or just chat about your day. What would you like to know about me? 😊`;
+            }
+            
+            // Default response - ALWAYS replies
             const defaultResponses = [
                 `That's really interesting! "${userMessage.substring(0, 60)}" — tell me more about why you're asking? I'm genuinely curious about your thoughts! 😊`,
                 `Hmm, great question! 🧠 I want to make sure I understand what you're looking for. Could you tell me a bit more about this? I'm all ears!`,
-                `I love where this conversation is going! 💬 "${userMessage.substring(0, 50)}" — what inspired you to ask this? I'd really love to know your perspective first.`,
-                `That's a fascinating point! ✨ I'm thinking about it now. You know, every conversation is unique, just like this one. What else is on your mind? I'm here for all of it.`,
-                `Oh, I see what you mean! 🤔 Let me think about that for a moment. You've raised an interesting topic. What's your take on it? I value your thoughts!`
+                `I love where this conversation is going! 💬 What inspired you to ask this? I'd really love to know your perspective first.`,
+                `That's a fascinating point! ✨ I'm thinking about it now. You know, every conversation is unique, just like this one. What else is on your mind?`,
+                `Oh, I see what you mean! 🤔 Let me think about that. You've raised an interesting topic. What's your take on it? I value your thoughts!`
             ];
             
             return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
@@ -579,15 +614,15 @@
             const message = messageInput.value.trim();
             if (!message || !currentUserName) return;
             
-            // Clear input and disable sending temporarily
+            // Clear input
             messageInput.value = '';
             isWaitingForReply = true;
             
             // Add user message
             addMessageToUI(message, currentUserName, true);
             
-            // Small delay to feel natural
-            await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 300));
+            // Small natural delay
+            await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
             
             // Generate and add AI response
             const aiResponse = getAIResponse(message, currentUserName);
@@ -624,18 +659,18 @@
             // Clear and setup chat area
             messagesContainer.innerHTML = '';
             addSystemMessageToUI(`✨ Welcome, ${escapeHtml(name)}! ✨`);
-            addSystemMessageToUI('MIRA replies to EVERY message you send — instantly');
-            addSystemMessageToUI('Ask about rules, love, science, or just tell me about your day');
+            addSystemMessageToUI('sparrow replies to EVERY message you send — instantly');
+            addSystemMessageToUI('Ask about rules, love, science, philosophy, or just tell me about your day');
             
-            // Send welcome message after a short delay
+            // Send welcome message
             setTimeout(() => {
-                addMessageToUI(`Hey ${escapeHtml(name)}! 👋 I'm MIRA. I reply instantly to every single message you send — no exceptions, no delays. Ask me about rules, love, science, philosophy, or just tell me what's on your mind. I'm all ears! So... what would you like to talk about today? 💙`, 'MIRA', false);
+                addMessageToUI(`Hey ${escapeHtml(name)}! 👋 I'm sparrow. I reply instantly to every single message you send — no exceptions, no delays. Ask me about rules, love, science, philosophy, or just tell me what's on your mind. I'm all ears! So... what would you like to talk about today? 💙`, 'MIRA', false);
             }, 400);
             
             messageInput.focus();
         }
 
-        // Escape HTML for safety
+        // Escape HTML
         function escapeHtml(str) {
             if (!str) return '';
             return str
