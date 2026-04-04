@@ -3,88 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SparrowChat Pro 🌟</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>SparrowChat - Talk to Strangers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Matrix Background -->
-    <div class="matrix-bg"></div>
-    
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
             <div class="logo">
-                <div class="logo-icon">🌟</div>
-                <h3>SparrowChat Pro</h3>
+                <span class="logo-icon">🌟</span>
+                <h1>SparrowChat</h1>
             </div>
-            <div class="user-info">
-                <div class="user-avatar" id="user-avatar"></div>
-                <div id="current-user" class="current-user"></div>
-            </div>
-            <div class="stats">
-                <div class="stat">
-                    <span class="stat-number" id="user-count">1</span>
-                    <span>Online</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number" id="message-count">0</span>
-                    <span>Messages</span>
-                </div>
-            </div>
-        </div>
+            <div class="status" id="status">Connecting...</div>
+        </header>
 
-        <!-- Main Chat -->
-        <div class="main-chat">
+        <!-- Main Content -->
+        <main class="main">
             <!-- Login Screen -->
             <div id="login-screen" class="screen active">
-                <div class="login-content">
-                    <h1 class="neon-text">SparrowChat Pro</h1>
-                    <p class="login-subtitle">Advanced Real-time Communication</p>
-                    <div class="input-group">
-                        <input type="text" id="username" placeholder="Enter your name..." maxlength="20">
-                        <button class="join-btn" onclick="joinChat()">
-                            <span>Join Chat</span>
-                            <div class="btn-glow"></div>
-                        </button>
+                <div class="login-box">
+                    <h2>Talk to Strangers</h2>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" placeholder="Enter a nickname" maxlength="15">
+                        <button onclick="joinChat()" class="start-btn">Start Chatting</button>
+                    </div>
+                    <div class="features">
+                        <span>✅ Anonymous</span>
+                        <span>✅ Real-time</span>
+                        <span>✅ Mobile</span>
                     </div>
                 </div>
             </div>
 
             <!-- Chat Screen -->
             <div id="chat-screen" class="screen">
-                <div class="header">
-                    <div class="header-left">
-                        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-                        <h2 class="neon-text-small">#general</h2>
+                <div class="chat-header">
+                    <div class="user-info">
+                        <span class="user-name" id="partner-name">Stranger</span>
+                        <span class="online-indicator"></span>
                     </div>
-                    <div class="header-right">
-                        <span class="typing-indicator" id="typing-indicator"></span>
-                        <button class="leave-btn" onclick="leaveChat()">Exit</button>
+                    <div class="actions">
+                        <button onclick="nextChat()" class="next-btn">Next</button>
+                        <button onclick="leaveChat()" class="stop-btn">Stop</button>
                     </div>
                 </div>
                 
                 <div id="messages" class="messages"></div>
                 
-                <div class="message-input-container">
-                    <div class="message-input-wrapper">
-                        <input type="text" id="messageInput" placeholder="Type a message... (Ctrl+Enter)" maxlength="1000">
-                        <button class="send-btn" onclick="sendMessage()">
-                            <svg viewBox="0 0 24 24" width="20" height="20">
-                                <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="input-features">
-                        <button class="feature-btn emoji-btn">😊</button>
-                        <button class="feature-btn upload-btn">📎</button>
-                    </div>
+                <div class="input-area">
+                    <input type="text" id="messageInput" placeholder="Say something..." maxlength="500">
+                    <button onclick="sendMessage()" class="send-icon">➤</button>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+    <script src="/socket.io
