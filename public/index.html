@@ -2,61 +2,883 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SparrowChat - Talk to Strangers</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Nimbus Chat | Professional Cloud Messaging</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f0fa 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating elements animation */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .float-1 {
+            top: 10%;
+            left: 5%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(59,130,246,0) 70%);
+            border-radius: 50%;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        .float-2 {
+            bottom: 15%;
+            right: 3%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(0,200,255,0.1) 0%, rgba(0,200,255,0) 70%);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        .float-3 {
+            top: 40%;
+            right: 10%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(100,150,255,0.12) 0%, rgba(100,150,255,0) 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .float-4 {
+            bottom: 30%;
+            left: 8%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0) 70%);
+            border-radius: 50%;
+            animation: float 18s ease-in-out infinite 2s;
+        }
+
+        .float-5 {
+            top: 20%;
+            left: 20%;
+            width: 60px;
+            height: 60px;
+            background: rgba(59,130,246,0.08);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morphing 10s ease-in-out infinite;
+        }
+
+        .float-6 {
+            bottom: 20%;
+            right: 20%;
+            width: 100px;
+            height: 100px;
+            background: rgba(0,150,255,0.06);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: morphing 14s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-30px) translateX(15px); }
+        }
+
+        @keyframes morphing {
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; transform: rotate(0deg); }
+            50% { border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%; transform: rotate(10deg); }
+        }
+
+        /* Main container */
+        .app-wrapper {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* Glassmorphism card */
+        .chat-container {
+            max-width: 1400px;
+            width: 100%;
+            height: 88vh;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(59,130,246,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Professional Header */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(37,99,235,0.2);
+        }
+
+        .logo-area h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .live-badge {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(16,185,129,0.2);
+            animation: pulse-green 1.8s infinite;
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { opacity: 0.6; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Login Screen - Professional */
+        .login-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eef2ff;
+        }
+
+        .login-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-sub {
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.4rem;
+        }
+
+        .pro-input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            background: #fafcff;
+        }
+
+        .pro-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+
+        .pro-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border: none;
+            padding: 0.9rem;
+            border-radius: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pro-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.25);
+        }
+
+        .features-list {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            font-size: 0.75rem;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .feature-item i {
+            color: #3b82f6;
+            font-size: 0.7rem;
+        }
+
+        /* Chat Screen Header */
+        .chat-header {
+            background: white;
+            padding: 0.8rem 2rem;
+            border-bottom: 1px solid #eef2ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .room-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .room-badge {
+            background: #eff6ff;
+            padding: 0.3rem 0.9rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .room-name {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            padding: 0.45rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .icon-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .icon-btn.danger {
+            color: #ef4444;
+            border-color: #fee2e2;
+        }
+
+        .icon-btn.danger:hover {
+            background: #fef2f2;
+        }
+
+        /* Messages Area - Clean & Professional */
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: #fafcff;
+        }
+
+        .messages-area::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .messages-area::-webkit-scrollbar-track {
+            background: #eef2ff;
+            border-radius: 10px;
+        }
+
+        .messages-area::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+
+        /* Message Bubbles */
+        .chat-message {
+            display: flex;
+            flex-direction: column;
+            max-width: 70%;
+            animation: slideMessage 0.25s ease-out;
+        }
+
+        @keyframes slideMessage {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-message.own {
+            align-self: flex-end;
+        }
+
+        .chat-message.other {
+            align-self: flex-start;
+        }
+
+        .message-bubble {
+            padding: 0.7rem 1.2rem;
+            border-radius: 1.2rem;
+            background: white;
+            border: 1px solid #eef2ff;
+            color: #1e293b;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            word-wrap: break-word;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .chat-message.own .message-bubble {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1e3a8a;
+        }
+
+        .message-footer {
+            display: flex;
+            gap: 12px;
+            font-size: 0.65rem;
+            margin: 0.3rem 0.8rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .message-footer .name {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .system-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            background: #f1f5f9;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            width: fit-content;
+            margin: 0.5rem auto;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Input Area */
+        .input-section {
+            background: white;
+            border-top: 1px solid #eef2ff;
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .chat-input-field {
+            flex: 1;
+            background: #fafcff;
+            border: 1.5px solid #e2e8f0;
+            padding: 0.85rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .chat-input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.1);
+        }
+
+        .send-button {
+            background: #2563eb;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .send-button:hover {
+            background: #1d4ed8;
+            transform: scale(1.02);
+        }
+
+        /* Responsive */
+        @media (max-width: 680px) {
+            .chat-container { height: 95vh; border-radius: 1.2rem; }
+            .header, .chat-header, .input-section { padding: 0.8rem 1rem; }
+            .messages-area { padding: 1rem; }
+            .chat-message { max-width: 88%; }
+            .login-card { padding: 1.8rem; margin: 1rem; }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <span class="logo-icon">🌟</span>
-                <h1>SparrowChat</h1>
-            </div>
-            <div class="status" id="status">Connecting...</div>
-        </header>
 
-        <!-- Main Content -->
-        <main class="main">
-            <!-- Login Screen -->
-            <div id="login-screen" class="screen active">
-                <div class="login-box">
-                    <h2>Talk to Strangers</h2>
-                    <div class="input-wrapper">
-                        <input type="text" id="username" placeholder="Enter a nickname" maxlength="15">
-                        <button onclick="joinChat()" class="start-btn">Start Chatting</button>
-                    </div>
-                    <div class="features">
-                        <span>✅ Anonymous</span>
-                        <span>✅ Real-time</span>
-                        <span>✅ Mobile</span>
+    <!-- Floating animated elements for professional depth -->
+    <div class="floating-element float-1"></div>
+    <div class="floating-element float-2"></div>
+    <div class="floating-element float-3"></div>
+    <div class="floating-element float-4"></div>
+    <div class="floating-element float-5"></div>
+    <div class="floating-element float-6"></div>
+
+    <div class="app-wrapper">
+        <div class="chat-container">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo-area">
+                    <div class="logo-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <h1>NimbusChat</h1>
+                </div>
+                <div class="status-pill">
+                    <div class="live-badge"></div>
+                    <span id="globalStatus">Live · Ready</span>
+                </div>
+            </div>
+
+            <!-- Login View -->
+            <div id="loginView" class="screen active">
+                <div class="login-area">
+                    <div class="login-card">
+                        <h2>Welcome back</h2>
+                        <div class="login-sub">Connect with your team & peers</div>
+                        <div class="input-group">
+                            <label><i class="fas fa-user-astronaut"></i> Display name</label>
+                            <input type="text" id="usernameField" class="pro-input" placeholder="e.g., Alex Chen" maxlength="24">
+                        </div>
+                        <button onclick="joinUnifiedChat()" class="pro-btn">
+                            <i class="fas fa-paper-plane"></i> Join Conversation
+                        </button>
+                        <div class="features-list">
+                            <span class="feature-item"><i class="fas fa-bolt"></i> Real‑time</span>
+                            <span class="feature-item"><i class="fas fa-shield-alt"></i> Encrypted</span>
+                            <span class="feature-item"><i class="fas fa-globe"></i> Cross‑platform</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Chat Screen -->
-            <div id="chat-screen" class="screen">
+            <!-- Chat View -->
+            <div id="chatView" class="screen">
                 <div class="chat-header">
-                    <div class="user-info">
-                        <span class="user-name" id="partner-name">Stranger</span>
-                        <span class="online-indicator"></span>
+                    <div class="room-info">
+                        <div class="room-badge"><i class="fas fa-hashtag"></i> general</div>
+                        <div class="room-name" id="roomDisplay">Main Lobby</div>
                     </div>
-                    <div class="actions">
-                        <button onclick="nextChat()" class="next-btn">Next</button>
-                        <button onclick="leaveChat()" class="stop-btn">Stop</button>
+                    <div class="action-buttons">
+                        <button onclick="clearProfessionalChat()" class="icon-btn"><i class="fas fa-eraser"></i> Clear</button>
+                        <button onclick="exitToLogin()" class="icon-btn danger"><i class="fas fa-sign-out-alt"></i> Exit</button>
                     </div>
                 </div>
-                
-                <div id="messages" class="messages"></div>
-                
-                <div class="input-area">
-                    <input type="text" id="messageInput" placeholder="Say something..." maxlength="500">
-                    <button onclick="sendMessage()" class="send-icon">➤</button>
+
+                <div id="messageList" class="messages-area">
+                    <div class="system-note"><i class="fas fa-info-circle"></i> Welcome — messages are synced in real-time across all participants.</div>
+                </div>
+
+                <div class="input-section">
+                    <input type="text" id="chatMessageInput" class="chat-input-field" placeholder="Type a message..." maxlength="600" autocomplete="off">
+                    <button onclick="dispatchMessage()" class="send-button"><i class="fas fa-arrow-up"></i></button>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
-    <script src="/socket.io
+    <script>
+        // ----------------------------------------------
+        // PROFESSIONAL CHAT SYSTEM | WHITE & BLUE THEME
+        // BroadcastChannel + LocalStorage persistence
+        // Floating UI + modern glassmorphic design
+        // ----------------------------------------------
+
+        let activeUser = '';
+        let isActiveSession = false;
+        let messageHistory = [];
+
+        // DOM refs
+        const loginScreen = document.getElementById('loginView');
+        const chatScreen = document.getElementById('chatView');
+        const usernameField = document.getElementById('usernameField');
+        const chatMessageInput = document.getElementById('chatMessageInput');
+        const messagesContainer = document.getElementById('messageList');
+        const globalStatusSpan = document.getElementById('globalStatus');
+        const roomDisplaySpan = document.getElementById('roomDisplay');
+
+        let broadcastChannel = null;
+
+        // Helper: Update status indicator
+        function setStatus(text, isOnline = true) {
+            globalStatusSpan.innerHTML = isOnline ? `<i class="fas fa-circle" style="font-size: 0.55rem; color:#10b981; margin-right: 4px;"></i> ${text}` : text;
+        }
+
+        // Escape HTML to avoid injection
+        function sanitize(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+
+        // Format timestamp
+        function getFormattedTime() {
+            return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Add a message to the UI (professional bubbles)
+        function renderMessage(username, text, timestamp, isOwn = false, isSystem = false) {
+            if (isSystem) {
+                const sysDiv = document.createElement('div');
+                sysDiv.className = 'system-note';
+                sysDiv.innerHTML = `<i class="fas fa-waveform"></i> ${sanitize(text)}`;
+                messagesContainer.appendChild(sysDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                return;
+            }
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-message ${isOwn ? 'own' : 'other'}`;
+            const displayTime = timestamp || getFormattedTime();
+            const displayName = isOwn ? 'You' : sanitize(username);
+            
+            msgDiv.innerHTML = `
+                <div class="message-bubble">${sanitize(text)}</div>
+                <div class="message-footer">
+                    <span class="name">${displayName}</span>
+                    <span>${displayTime}</span>
+                </div>
+            `;
+            messagesContainer.appendChild(msgDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addSystemMessage(text) {
+            renderMessage('', text, '', false, true);
+        }
+
+        function clearChatUI() {
+            messagesContainer.innerHTML = '';
+            addSystemMessage('Chat history cleared • conversation refreshed');
+        }
+
+        // Broadcast channel communication
+        function initBroadcast() {
+            if (broadcastChannel) {
+                try { broadcastChannel.close(); } catch(e) {}
+            }
+            broadcastChannel = new BroadcastChannel('nimbus_pro_channel');
+            
+            broadcastChannel.onmessage = (event) => {
+                const payload = event.data;
+                if (!payload || !payload.type) return;
+                
+                switch(payload.type) {
+                    case 'chat':
+                        const isOwnMessage = (payload.username === activeUser);
+                        renderMessage(payload.username, payload.text, payload.timestamp, isOwnMessage, false);
+                        // store history
+                        messageHistory.push({ username: payload.username, text: payload.text, timestamp: payload.timestamp });
+                        if (messageHistory.length > 250) messageHistory.shift();
+                        break;
+                    case 'join':
+                        if (payload.username !== activeUser) {
+                            addSystemMessage(`${sanitize(payload.username)} joined the space ✨`);
+                        }
+                        break;
+                    case 'leave':
+                        if (payload.username !== activeUser) {
+                            addSystemMessage(`${sanitize(payload.username)} left the conversation`);
+                        }
+                        break;
+                    case 'clear_all':
+                        if (payload.requester !== activeUser) {
+                            clearChatUI();
+                            addSystemMessage(`Session cleared by ${sanitize(payload.requester)}`);
+                        }
+                        break;
+                }
+            };
+        }
+
+        // Broadcast message to everyone
+        function broadcastChatMessage(text, username) {
+            if (!broadcastChannel) return;
+            const messageData = {
+                type: 'chat',
+                username: username,
+                text: text,
+                timestamp: getFormattedTime()
+            };
+            broadcastChannel.postMessage(messageData);
+        }
+
+        function broadcastJoin(username) {
+            if (!broadcastChannel) return;
+            broadcastChannel.postMessage({ type: 'join', username: username });
+        }
+
+        function broadcastLeave(username) {
+            if (!broadcastChannel) return;
+            broadcastChannel.postMessage({ type: 'leave', username: username });
+        }
+
+        function broadcastClear(requester) {
+            if (!broadcastChannel) return;
+            broadcastChannel.postMessage({ type: 'clear_all', requester: requester });
+        }
+
+        // Core actions
+        function joinUnifiedChat() {
+            const rawName = usernameField.value.trim();
+            if (!rawName) {
+                alert('Please enter a display name to join');
+                return;
+            }
+            if (rawName.length > 24) {
+                alert('Name too long (max 24 chars)');
+                return;
+            }
+            
+            activeUser = rawName;
+            isActiveSession = true;
+            
+            // init comms
+            initBroadcast();
+            
+            // Notify others that this user joined
+            broadcastJoin(activeUser);
+            
+            // Switch UI
+            loginScreen.classList.remove('active');
+            chatScreen.classList.add('active');
+            setStatus(`Connected as ${activeUser}`, true);
+            roomDisplaySpan.innerHTML = `<i class="fas fa-users"></i> Team Chat · ${activeUser}`;
+            
+            // Add welcome messages
+            setTimeout(() => {
+                addSystemMessage(`Welcome, ${sanitize(activeUser)} — you're now in the professional cloud chat.`);
+                addSystemMessage(`<i class="fas fa-sync-alt"></i> Messages appear in real‑time for everyone.`);
+            }, 100);
+            
+            chatMessageInput.focus();
+            
+            // Store in session
+            sessionStorage.setItem('nimbus_user', activeUser);
+        }
+        
+        function dispatchMessage() {
+            const rawMsg = chatMessageInput.value.trim();
+            if (!rawMsg || !isActiveSession || !activeUser) return;
+            if (rawMsg.length > 600) {
+                addSystemMessage('Message too long (max 600 chars)');
+                return;
+            }
+            
+            // broadcast to all connected clients
+            broadcastChatMessage(rawMsg, activeUser);
+            
+            // Optionally also render locally for immediate feedback (but broadcast will also come back)
+            // To avoid double render: we can rely on broadcast but slight delay; but better to avoid duplicate
+            // Actually, the broadcast message will be received by this client as well, so rendering will happen there.
+            // No need to render twice. Perfect.
+            chatMessageInput.value = '';
+            chatMessageInput.focus();
+        }
+        
+        function clearProfessionalChat() {
+            if (!isActiveSession) return;
+            if (confirm('Clear chat history for everyone in this room?')) {
+                broadcastClear(activeUser);
+                // Also clear local UI immediately
+                clearChatUI();
+                addSystemMessage(`You cleared the conversation history`);
+            }
+        }
+        
+        function exitToLogin() {
+            if (!isActiveSession) return;
+            
+            // Notify others that user is leaving
+            broadcastLeave(activeUser);
+            
+            // Close channel
+            if (broadcastChannel) {
+                broadcastChannel.close();
+                broadcastChannel = null;
+            }
+            
+            isActiveSession = false;
+            activeUser = '';
+            
+            // Switch UI
+            chatScreen.classList.remove('active');
+            loginScreen.classList.add('active');
+            setStatus('Ready', true);
+            
+            // Clear message container for next session
+            messagesContainer.innerHTML = '';
+            messageHistory = [];
+            
+            usernameField.value = '';
+            sessionStorage.removeItem('nimbus_user');
+        }
+        
+        // Enter key support
+        function setupEnterKey() {
+            chatMessageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && isActiveSession) {
+                    e.preventDefault();
+                    dispatchMessage();
+                }
+            });
+            
+            usernameField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    joinUnifiedChat();
+                }
+            });
+        }
+        
+        // Optional: restore previous session if exists
+        function restorePreviousSession() {
+            const storedUser = sessionStorage.getItem('nimbus_user');
+            if (storedUser && storedUser.trim()) {
+                usernameField.value = storedUser;
+                // small delay to ensure dom ready
+                setTimeout(() => {
+                    joinUnifiedChat();
+                }, 50);
+            }
+        }
+        
+        // Initialize event handlers and restore
+        function initApp() {
+            setupEnterKey();
+            restorePreviousSession();
+            // Set default status styling
+            setStatus('Ready to connect', true);
+        }
+        
+        initApp();
+    </script>
+</body>
+</html>
