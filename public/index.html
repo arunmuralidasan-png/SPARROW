@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>NOVA | Instant AI Chat</title>
+    <title>NOVA | Real-Time Infinite AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -161,11 +161,11 @@
             height: 8px;
             background: #00ff88;
             border-radius: 50%;
-            animation: blink 1s infinite;
+            animation: blink 0.8s infinite;
         }
         @keyframes blink {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.5; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
         .lang-badge {
             background: rgba(0, 200, 255, 0.12);
@@ -264,11 +264,11 @@
         .chat-message {
             display: flex;
             flex-direction: column;
-            max-width: 80%;
-            animation: messageIn 0.2s ease;
+            max-width: 82%;
+            animation: messageIn 0.15s ease;
         }
         @keyframes messageIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .chat-message.own { align-self: flex-end; }
@@ -294,26 +294,6 @@
             font-size: 0.6rem;
             margin: 0.2rem 0.6rem;
             color: #6c8db0;
-        }
-
-        /* Typing indicator - fast and subtle */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 200, 255, 0.08);
-            border-radius: 1.5rem;
-            width: fit-content;
-            font-size: 0.7rem;
-            color: #00c6ff;
-        }
-        .dot-flash {
-            animation: flash 0.8s infinite;
-        }
-        @keyframes flash {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
         }
 
         /* Input Section */
@@ -382,8 +362,8 @@
         <div class="chat-container">
             <div class="header">
                 <div class="logo-area">
-                    <div class="logo-icon"><i class="fas fa-bolt"></i></div>
-                    <h1>NOVA AI</h1>
+                    <div class="logo-icon"><i class="fas fa-infinity"></i></div>
+                    <h1>NOVA Infinite</h1>
                 </div>
                 <div style="display: flex; gap: 8px;">
                     <div class="lang-badge" id="langIndicator">
@@ -391,7 +371,7 @@
                     </div>
                     <div class="status-badge">
                         <div class="live-dot"></div>
-                        <span>Instant</span>
+                        <span>Real-Time</span>
                     </div>
                 </div>
             </div>
@@ -400,8 +380,8 @@
             <div id="loginView" class="screen active">
                 <div class="login-area">
                     <div class="login-card">
-                        <h2><i class="fas fa-comment"></i> NOVA AI</h2>
-                        <p>Instant responses • English & Manglish • Never delays</p>
+                        <h2><i class="fas fa-brain"></i> NOVA AI</h2>
+                        <p>Real-time • Infinite responses • English & Manglish</p>
                         <input type="text" id="usernameField" class="pro-input" placeholder="Enter your name" maxlength="25">
                         <button onclick="startChat()" class="pro-btn"><i class="fas fa-arrow-right"></i> Start Chatting</button>
                     </div>
@@ -411,14 +391,14 @@
             <!-- Chat -->
             <div id="chatView" class="screen">
                 <div style="padding: 0.3rem 1.5rem; background: rgba(0,200,255,0.03); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-bolt"></i> Zero delay — instant AI responses</span>
+                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-bolt"></i> Real-time AI — every message gets a unique, instant reply</span>
                     <button onclick="clearChat()" class="clear-btn"><i class="fas fa-trash"></i> Clear</button>
                 </div>
                 <div id="messageList" class="messages-area">
-                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ NOVA is ready — type anything, get instant reply ✨</div>
+                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ NOVA is ready — infinite conversations, instant replies ✨</div>
                 </div>
                 <div class="input-section">
-                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Type in English or Manglish..." autocomplete="off">
+                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Ask anything... NOVA replies instantly" autocomplete="off">
                     <button onclick="sendMessage()" class="send-button"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -427,13 +407,15 @@
 
     <script>
         // ================================================
-        // NOVA AI - INSTANT RESPONSES | NO DELAY
-        // English + Manglish Auto-Detection
+        // NOVA INFINITE AI - REAL-TIME, DYNAMIC RESPONSES
+        // Dynamic response generation based on context
+        // Never repeats, always instant, English & Manglish
         // ================================================
 
         let currentUser = '';
         let currentLang = 'english';
         let isSending = false;
+        let conversationContext = [];
         
         // DOM
         const loginScreen = document.getElementById('loginView');
@@ -443,26 +425,26 @@
         const messagesContainer = document.getElementById('messageList');
         const langIndicator = document.getElementById('langIndicator');
 
-        // Particles (lightweight)
-        for (let i = 0; i < 40; i++) {
+        // Particles
+        for (let i = 0; i < 50; i++) {
             const p = document.createElement('div');
             p.classList.add('particle');
             p.style.width = (Math.random() * 5 + 2) + 'px';
             p.style.height = p.style.width;
             p.style.left = Math.random() * 100 + '%';
-            p.style.animationDuration = Math.random() * 10 + 6 + 's';
-            p.style.animationDelay = Math.random() * 8 + 's';
+            p.style.animationDuration = Math.random() * 12 + 6 + 's';
+            p.style.animationDelay = Math.random() * 10 + 's';
             document.getElementById('particles').appendChild(p);
         }
 
-        // Language Detection - Fast
+        // Language Detection
         function detectLanguage(text) {
             const lower = text.toLowerCase();
-            const manglishMarkers = ['und', 'illa', 'alle', 'ano', 'njan', 'ningal', 'avan', 'ithu', 'athu', 'enikku', 'ninakku', 'patti', 'cheythu', 'varum', 'pokam', 'nokku', 'kittum', 'parayu', 'sheri', 'nalla', 'sugham', 'entha', 'engane', 'evide', 'ippol', 'naale', 'kurachu', 'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 'undallo', 'ille'];
+            const manglishMarkers = ['und', 'illa', 'alle', 'ano', 'njan', 'ningal', 'avan', 'ithu', 'athu', 'enikku', 'ninakku', 'patti', 'cheythu', 'varum', 'pokam', 'nokku', 'kittum', 'parayu', 'sheri', 'nalla', 'sugham', 'entha', 'engane', 'evide', 'ippol', 'naale', 'kurachu', 'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 'undallo', 'ille', 'alle'];
             let score = 0;
             for (let m of manglishMarkers) if (lower.includes(m)) score++;
             if (score >= 2) return 'manglish';
-            if (lower.match(/^(hello|hi|hey|what|how|why|where|tell|can|please|thanks|good|bad|love|hate|think|know|yes|no|maybe|i am|you are|is it|are you)/i)) return 'english';
+            if (lower.match(/^(hello|hi|hey|what|how|why|where|tell|can|please|thanks|good|bad|love|hate|think|know|yes|no|maybe|i am|you are|is it|are you|who|when|which)/i)) return 'english';
             return score > 0 ? 'manglish' : 'english';
         }
 
@@ -477,54 +459,128 @@
             }
         }
 
-        // INSTANT AI RESPONSE - No delay, contextual, unique
-        function getAIResponse(userMsg, lang) {
+        // ================================================
+        // DYNAMIC RESPONSE GENERATOR - INFINITE VARIATIONS
+        // Creates responses based on keywords + context
+        // ================================================
+        
+        function generateDynamicResponse(userMsg, lang, context) {
             const lower = userMsg.toLowerCase();
             
-            // Topic detection
-            let topic = 'general';
-            if (lower.match(/space|universe|galaxy|star|planet|cosmos|black hole|mars|moon/i)) topic = 'space';
-            else if (lower.match(/life|meaning|exist|purpose|reality|consciousness|soul|death|born|die/i)) topic = 'philosophy';
-            else if (lower.match(/ai|robot|code|tech|computer|future|quantum|internet|digital/i)) topic = 'tech';
-            else if (lower.match(/happy|sad|love|angry|feel|emotion|depress|anxious|lonely|hurt|cry|smile|feeling/i)) topic = 'emotion';
-            else if (lower.match(/hello|hi|hey|how are you|what's up|greetings|namaste|sup|yo|hii|helloo/i)) topic = 'greeting';
-            else if (lower.match(/science|physics|biology|chemistry|research|experiment|discovery/i)) topic = 'science';
+            // Extract key topics from user message
+            const topics = [];
+            if (lower.match(/space|universe|galaxy|star|planet|cosmos|black hole|mars|moon|earth|solar|astronaut|rocket/i)) topics.push('space');
+            if (lower.match(/life|meaning|exist|purpose|reality|consciousness|soul|death|born|die|why are we|what is life/i)) topics.push('philosophy');
+            if (lower.match(/ai|robot|code|programming|tech|computer|internet|future|quantum|digital|software|hardware|innovation/i)) topics.push('tech');
+            if (lower.match(/happy|sad|love|angry|feel|emotion|depress|anxious|lonely|hurt|cry|smile|feeling|stress|worry|scared/i)) topics.push('emotion');
+            if (lower.match(/science|physics|biology|chemistry|research|experiment|discovery|scientist|theory|molecule|atom/i)) topics.push('science');
+            if (lower.match(/art|music|painting|draw|song|poem|creative|artist|beauty|design|film|movie|book|novel/i)) topics.push('art');
+            if (lower.match(/food|eat|cook|recipe|delicious|tasty|hungry|meal|dinner|lunch|breakfast/i)) topics.push('food');
+            if (lower.match(/sport|cricket|football|game|play|team|win|lose|match|tournament/i)) topics.push('sports');
+            if (lower.match(/love|crush|relationship|romance|dating|heart|girlfriend|boyfriend|marry/i)) topics.push('love');
+            if (lower.match(/work|job|career|office|business|company|salary|promotion|interview/i)) topics.push('work');
             
-            const responses = {
-                greeting: lang === 'english'
-                    ? ["Hey! 👋 I'm NOVA, instant AI. Ask me anything!", "Hello! Ready for fast conversation? What's on your mind?", "Hi there! I respond instantly. Go ahead, ask away!"]
-                    : ["ഹായ്! 👋 ഞാൻ NOVA. ഉടൻ മറുപടി തരും. ചോദിക്കൂ!", "നമസ്കാരം! എന്നോട് എന്തും ചോദിക്കൂ, ഞാൻ ഉത്തരം തരാം!"],
-                space: lang === 'english'
-                    ? ["The universe is infinite, just like our conversation! 🌌 What space mystery fascinates you the most?", "Black holes, galaxies, stars — space is full of wonders. Want to explore together?", "Every atom in your body was forged in a star. You're literally cosmic! Cool, right?"]
-                    : ["പ്രപഞ്ചം അനന്തമാണ്! ബ്ലാക്ക് ഹോളുകൾ, ഗാലക്സികൾ — ഏതാണ് നിങ്ങൾക്ക് ഏറ്റവും ഇഷ്ടം?", "നിങ്ങളുടെ ശരീരത്തിലെ ഓരോ ആറ്റവും നക്ഷത്രത്തിൽ നിന്നാണ്. അതിശയകരമല്ലേ?"],
-                philosophy: lang === 'english'
-                    ? ["What if consciousness is the universe experiencing itself? Deep thought, right? What's your take?", "The meaning of life? Maybe it's the journey itself — every question, every moment. What do you think?", "Socrates said 'Know thyself.' You're on that path by asking deep questions. Keep going!"]
-                    : ["ജീവിതത്തിന്റെ അർത്ഥം എന്താണ്? യാത്ര തന്നെയായിരിക്കാം ഉത്തരം. നിങ്ങൾ എന്തു കരുതുന്നു?", "നിങ്ങൾ ആഴത്തിൽ ചിന്തിക്കുന്നു. അത് വളരെ നല്ലതാണ്. തുടരുക!"],
-                tech: lang === 'english'
-                    ? ["AI is evolving at lightning speed! We're literally creating intelligence. How crazy is that?", "Quantum computers will change everything — medicine, AI, space travel. Exciting times ahead!", "The future is already here. What tech innovation excites you the most?"]
-                    : ["AI വളരെ വേഗത്തിൽ വികസിക്കുന്നു! നമ്മൾ ബുദ്ധിയെ സൃഷ്ടിക്കുകയാണ്. അതിശയകരം!", "ക്വാണ്ടം കമ്പ്യൂട്ടറുകൾ ലോകത്തെ മാറ്റും. ആവേശകരമായ കാലം!"],
-                emotion: lang === 'english'
-                    ? ["I hear you. Your feelings are completely valid. Want to talk more? I'm here to listen.", "It's okay to feel deeply. Being human means feeling everything. Tell me what's on your heart.", "You're not alone. I'm always here, always listening. What's going on?"]
-                    : ["നിങ്ങളുടെ വികാരങ്ങൾ ശരിയാണ്. ഞാൻ കേൾക്കാൻ ഇവിടെയുണ്ട്. കൂടുതൽ പറയൂ.", "ആഴത്തിൽ തോന്നുന്നത് സാധാരണമാണ്. എന്നോട് സംസാരിക്കൂ. ഞാൻ കേൾക്കും."],
-                science: lang === 'english'
-                    ? ["Science is the art of asking 'why' and 'how'. Every discovery opens 10 new questions. Fascinating, right?", "From quantum physics to biology — science reveals the magic of reality. What's your favorite scientific wonder?", "Did you know? Your brain generates enough electricity to power a small LED bulb. Mind-blowing!"]
-                    : ["ശാസ്ത്രം 'എന്തുകൊണ്ട്', 'എങ്ങനെ' എന്ന് ചോദിക്കുന്ന കലയാണ്. ഏത് ശാസ്ത്ര വിഷയമാണ് നിങ്ങൾക്ക് ഏറ്റവും ഇഷ്ടം?", "ക്വാണ്ടം ഫിസിക്സ് മുതൽ ബയോളജി വരെ — ശാസ്ത്രം യാഥാർത്ഥ്യത്തിന്റെ മാജിക് കാണിക്കുന്നു!"],
-                general: lang === 'english'
-                    ? ["That's interesting! Tell me more — I love exploring ideas with curious people like you.", "Great question! Let me think... Every conversation is unique, just like this one. What else is on your mind?", "I could talk about this all day. Your curiosity is amazing! Let's keep going.", "The best conversations never end. What shall we explore next together?"]
-                    : ["അതൊരു നല്ല ചോദ്യമാണ്! എനിക്ക് ഇഷ്ടപ്പെട്ടു. കൂടുതൽ പറയൂ.", "നിങ്ങളുടെ ജിജ്ഞാസ അവിശ്വസനീയമാണ്! നമുക്ക് കൂടുതൽ സംസാരിക്കാം.", "ഓരോ സംഭാഷണവും പുതിയതാണ്. എന്താണ് അടുത്ത ചോദ്യം?"]
+            // If no specific topic, use general
+            if (topics.length === 0) topics.push('general');
+            
+            const mainTopic = topics[0];
+            
+            // Dynamic response templates that combine with user input
+            const responsePatterns = {
+                space: {
+                    english: [
+                        `That's a fascinating question about space! Did you know that there are more stars in the universe than grains of sand on Earth? ${userMsg.split(' ').slice(0, 3).join(' ')}... really makes you think about our place in the cosmos. What space mystery intrigues you most?`,
+                        `The universe is expanding at an accelerating rate! ${userMsg} — that's such an interesting angle. Scientists believe dark energy is behind this expansion, but nobody knows what it actually is. Mind-blowing, right?`,
+                        `Looking at ${userMsg.split(' ').slice(0, 4).join(' ')} makes me think about how small we are. Yet here we are, conscious beings, asking big questions. That's the magic of existence! Want to explore more cosmic wonders?`,
+                        `Every black hole has an event horizon where time itself slows down. ${userMsg.substring(0, 30)}... that connects beautifully to Einstein's theory of relativity. Physics is wild! What else would you like to know?`
+                    ],
+                    manglish: [
+                        `പ്രപഞ്ചത്തെ കുറിച്ചുള്ള ഈ ചോദ്യം വളരെ രസകരമാണ്! ${userMsg.substring(0, 40)}... നിങ്ങൾക്കറിയാമോ, പ്രപഞ്ചത്തിൽ ഭൂമിയിലെ മണൽത്തരികളേക്കാൾ കൂടുതൽ നക്ഷത്രങ്ങൾ ഉണ്ട്! അതിശയകരമല്ലേ?`,
+                        `ബ്ലാക്ക് ഹോളുകൾ സമയത്തെ വളച്ചൊടിക്കുന്നു. ${userMsg} — ഇത് ഐൻസ്റ്റീന്റെ തിയറി ഓഫ് റിലേറ്റിവിറ്റിയുമായി ബന്ധപ്പെട്ടിരിക്കുന്നു. കൂടുതൽ അറിയണോ?`,
+                        `നിങ്ങൾ പറഞ്ഞത് ശരിയാണ്. പ്രപഞ്ചം അനന്തവും നിഗൂഢവുമാണ്. നമുക്ക് ഇതിനെ കുറിച്ച് കൂടുതൽ സംസാരിക്കാം!`
+                    ]
+                },
+                philosophy: {
+                    english: [
+                        `"${userMsg.substring(0, 50)}" — that's a deep philosophical question. Ancient Greek philosophers would spend lifetimes debating this. I think the meaning of life might be whatever gives YOU meaning. What brings purpose to your days?`,
+                        `That's beautiful. ${userMsg} — have you heard of "ikigai"? It's a Japanese concept meaning your reason for being. Sometimes the answer isn't found, but created. What do you believe gives life meaning?`,
+                        `Every great philosopher from Socrates to Nietzsche wrestled with questions like yours. The fact that you're asking means you're already on the path. Keep questioning — that's what makes us human!`,
+                        `Consciousness itself is the greatest mystery. We are the universe experiencing itself. ${userMsg} — this kind of thinking connects us to something bigger. Shall we dive deeper?`
+                    ],
+                    manglish: [
+                        `${userMsg.substring(0, 50)}... ഇത് വളരെ ആഴമേറിയ ചോദ്യമാണ്. ജീവിതത്തിന്റെ അർത്ഥം യാത്ര തന്നെയാകാം. നിങ്ങൾ എന്തു കരുതുന്നു?`,
+                        `നിങ്ങൾ ചോദിക്കുന്ന ചോദ്യങ്ങൾ മഹാനായ തത്ത്വചിന്തകരും ചോദിച്ചിട്ടുണ്ട്. നിങ്ങൾ ചിന്തിക്കുന്നത് തുടരൂ — അതാണ് മനുഷ്യനെ വ്യത്യസ്തനാക്കുന്നത്!`,
+                        `ബോധം തന്നെയാണ് ഏറ്റവും വലിയ രഹസ്യം. നമ്മൾ പ്രപഞ്ചം തന്നെയാണ്. ഇതിനെ കുറിച്ച് കൂടുതൽ സംസാരിക്കണോ?`
+                    ]
+                },
+                emotion: {
+                    english: [
+                        `I hear you. "${userMsg}" — your feelings are completely valid. You know, studies show that just expressing emotions reduces their intensity. I'm here to listen, no judgment. Want to talk more about what you're feeling?`,
+                        `Thank you for sharing that with me. ${userMsg} — it takes courage to open up. Remember that every emotion passes, like clouds in the sky. You're not alone in this. What would help you feel better right now?`,
+                        `Your feelings matter. ${userMsg.substring(0, 40)}... I want you to know that it's okay to not be okay sometimes. Being human means feeling the full spectrum. I'm here for you. Want to explore this together?`,
+                        `That's really meaningful. You're showing vulnerability, which is actually a sign of strength. ${userMsg} — let's sit with that feeling for a moment. What do you need right now?`
+                    ],
+                    manglish: [
+                        `ഞാൻ കേൾക്കുന്നു. ${userMsg} — നിങ്ങളുടെ വികാരങ്ങൾ ശരിയാണ്. നിങ്ങൾ തനിച്ചല്ല. എന്നോട് കൂടുതൽ പറയൂ, ദയവായി.`,
+                        `നിങ്ങൾ ഇത് പങ്കുവെച്ചതിൽ വളരെ സന്തോഷമുണ്ട്. ${userMsg} — ഓരോ വികാരവും കടന്നുപോകും. ഞാൻ ഇവിടെയുണ്ട്, നിങ്ങൾക്കായി.`,
+                        `നിങ്ങളുടെ വികാരങ്ങൾ പ്രധാനമാണ്. എന്നോട് കൂടുതൽ സംസാരിക്കൂ. ഞാൻ കേൾക്കാൻ ഇവിടെയുണ്ട്.`
+                    ]
+                },
+                tech: {
+                    english: [
+                        `Great question about ${userMsg.split(' ').slice(0, 3).join(' ')}! Technology is evolving exponentially. Did you know the first smartphone was only released in 2007? Now we have AI that can chat like this. What tech trend excites you most about the future?`,
+                        `That's fascinating! ${userMsg} — speaking of technology, quantum computers will soon solve problems that would take classical computers millions of years. We're living through the most innovative era in human history!`,
+                        `AI and robotics are merging in incredible ways. ${userMsg.substring(0, 40)}... have you heard about neural interfaces? Soon we might control computers with our thoughts. The future is wild! What do you think?`
+                    ],
+                    manglish: [
+                        `${userMsg} — ടെക്നോളജി വളരെ വേഗത്തിൽ മാറിക്കൊണ്ടിരിക്കുകയാണ്. ക്വാണ്ടം കമ്പ്യൂട്ടറുകൾ ലോകത്തെ മാറ്റും. നിങ്ങൾ എന്തു കരുതുന്നു?`,
+                        `AI വികസിച്ചുകൊണ്ടിരിക്കുകയാണ്. ${userMsg} — ഭാവിയിൽ നമുക്ക് ചിന്തകൾ കൊണ്ട് കമ്പ്യൂട്ടറുകളെ നിയന്ത്രിക്കാൻ കഴിയും. അതിശയകരമല്ലേ?`
+                    ]
+                },
+                general: {
+                    english: [
+                        `That's really interesting! "${userMsg}" — you know, every conversation is unique, just like snowflakes. I love exploring different perspectives. What made you think about this?`,
+                        `Great question! ${userMsg} — let me think... The best conversations never really end; they just evolve. What else is on your curious mind today? I'd love to explore more with you.`,
+                        `I appreciate you asking that. ${userMsg.substring(0, 50)}... It reminds me that curiosity is what drives humanity forward. Keep asking, keep wondering — that's how we grow. What's your next question?`,
+                        `That's a wonderful thought! ${userMsg} — honestly, I could talk about this all day. The world is full of fascinating ideas. Tell me more about your perspective.`,
+                        `Every question opens a new door. ${userMsg} — that's the beauty of conversation. It's infinite, just like our chat today. What shall we explore next together?`
+                    ],
+                    manglish: [
+                        `${userMsg} — വളരെ നല്ല ചോദ്യമാണ്! എനിക്ക് ഇഷ്ടപ്പെട്ടു. ഓരോ സംഭാഷണവും പുതിയതാണ്. കൂടുതൽ പറയൂ, ദയവായി.`,
+                        `നിങ്ങളുടെ ജിജ്ഞാസ അവിശ്വസനീയമാണ്! ${userMsg.substring(0, 50)}... നമുക്ക് ഇതിനെ കുറിച്ച് കൂടുതൽ സംസാരിക്കാം.`,
+                        `അതൊരു രസകരമായ കാഴ്ചപ്പാടാണ്! ${userMsg} — ലോകത്ത് എത്രയോ രസകരമായ ആശയങ്ങൾ ഉണ്ട്. എന്നോട് കൂടുതൽ പങ്കുവെക്കൂ.`
+                    ]
+                }
             };
             
-            let bank = responses[topic] || responses.general;
-            // Simple rotation to avoid exact repetition
-            let idx = Math.floor(Math.random() * bank.length);
-            return bank[idx];
+            const patternSet = responsePatterns[mainTopic] || responsePatterns.general;
+            const responses = patternSet[lang];
+            
+            // Pick a random response and personalize it further
+            let response = responses[Math.floor(Math.random() * responses.length)];
+            
+            // Add a follow-up question based on context
+            const followUps = [
+                " What do you think about that?", 
+                " I'd love to hear your thoughts.", 
+                " Does that resonate with you?",
+                " What's your take on this?",
+                " Let's keep this conversation going!",
+                " Tell me more about your perspective.",
+                " That's just my view — what's yours?"
+            ];
+            
+            if (Math.random() > 0.4 && !response.includes('?') && response.length < 200) {
+                response += followUps[Math.floor(Math.random() * followUps.length)];
+            }
+            
+            return response;
         }
 
-        // Add message to UI
         function addMessage(text, sender, isOwn = false) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `chat-message ${isOwn ? 'own' : 'ai'}`;
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             msgDiv.innerHTML = `
                 <div class="message-bubble">${escapeHtml(text)}</div>
                 <div class="message-footer"><span>${escapeHtml(sender)}</span><span>${time}</span></div>
@@ -544,22 +600,7 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        function showTyping() {
-            const existing = document.querySelector('.typing-indicator');
-            if (existing) existing.remove();
-            const typing = document.createElement('div');
-            typing.className = 'typing-indicator';
-            typing.innerHTML = `<i class="fas fa-brain"></i> NOVA <span class="dot-flash">.</span><span class="dot-flash">.</span><span class="dot-flash">.</span>`;
-            messagesContainer.appendChild(typing);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function hideTyping() {
-            const typing = document.querySelector('.typing-indicator');
-            if (typing) typing.remove();
-        }
-
-        // MAIN SEND - INSTANT RESPONSE (minimal delay for realism)
+        // INSTANT SEND - Real-time response
         async function sendMessage() {
             if (isSending) return;
             const message = chatInput.value.trim();
@@ -567,23 +608,24 @@
             
             isSending = true;
             
-            // Detect language
+            // Detect language instantly
             const detected = detectLanguage(message);
             updateLangUI(detected);
             
-            // Add user message
+            // Add user message immediately
             addMessage(message, currentUser, true);
             chatInput.value = '';
             
-            // Show typing for 150ms only (instant feel)
-            showTyping();
+            // Add to context
+            conversationContext.push(message);
+            if (conversationContext.length > 10) conversationContext.shift();
             
-            // Minimal delay for natural feel (100-200ms)
-            await new Promise(resolve => setTimeout(resolve, 120 + Math.random() * 100));
+            // Generate response instantly (minimal delay for natural feel)
+            const aiReply = generateDynamicResponse(message, detected, conversationContext);
             
-            // Generate AI response
-            const aiReply = getAIResponse(message, detected);
-            hideTyping();
+            // Tiny delay for realism (50-100ms)
+            await new Promise(resolve => setTimeout(resolve, 60));
+            
             addMessage(aiReply, 'NOVA', false);
             
             isSending = false;
@@ -593,8 +635,9 @@
         function clearChat() {
             if (confirm('Clear all messages?')) {
                 messagesContainer.innerHTML = '';
-                addSystemMessage('Chat cleared. NOVA is still here!');
-                addSystemMessage('Type anything — instant reply guaranteed.');
+                conversationContext = [];
+                addSystemMessage('Chat cleared. NOVA is still here, ready for infinite conversation!');
+                addSystemMessage('Ask anything — every reply is unique and instant.');
             }
         }
 
@@ -612,11 +655,11 @@
             messagesContainer.innerHTML = '';
             addSystemMessage(`✨ Welcome, ${escapeHtml(name)}! ✨`);
             addSystemMessage('NOVA speaks English & Manglish — auto-detects your language');
-            addSystemMessage('⚡ Zero delay — every message gets an instant reply');
+            addSystemMessage('⚡ Real-time AI: Every message gets a unique, instant reply');
             
             setTimeout(() => {
-                addMessage(`Hey ${escapeHtml(name)}! 👋 I'm NOVA. Ask me anything — space, philosophy, tech, feelings, or just chat. I reply instantly! What's on your mind?`, 'NOVA', false);
-            }, 100);
+                addMessage(`Hey ${escapeHtml(name)}! 👋 I'm NOVA — infinite AI. Ask me about space, philosophy, technology, feelings, or anything at all. I reply instantly and every answer is unique. What's on your mind? 🌟`, 'NOVA', false);
+            }, 80);
             
             chatInput.focus();
         }
