@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>NOVA | AI That Never Sleeps</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>NOVA | Instant AI Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -14,28 +14,52 @@
         }
 
         body {
-            font-family: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
-            background: #0a0a0f;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #0a0f2a 100%);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Dynamic Gradient Orbs */
-        .orb-1, .orb-2, .orb-3 {
+        /* Animated Background */
+        .bg-glow {
             position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
             z-index: 0;
-            animation: floatOrb 20s ease-in-out infinite;
+            overflow: hidden;
         }
-        .orb-1 { top: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(circle, rgba(0,200,255,0.25), transparent); }
-        .orb-2 { bottom: -20%; left: -10%; width: 55%; height: 55%; background: radial-gradient(circle, rgba(100,0,255,0.2), transparent); animation-delay: -5s; }
-        .orb-3 { top: 30%; left: 20%; width: 40%; height: 40%; background: radial-gradient(circle, rgba(0,255,150,0.12), transparent); animation-duration: 15s; }
-
-        @keyframes floatOrb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, -30px) scale(1.05); }
+        .glow-1 {
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(0, 200, 255, 0.2), transparent);
+            border-radius: 50%;
+            filter: blur(70px);
+            animation: float1 15s ease-in-out infinite;
+        }
+        .glow-2 {
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 55%;
+            height: 55%;
+            background: radial-gradient(circle, rgba(100, 0, 255, 0.15), transparent);
+            border-radius: 50%;
+            filter: blur(70px);
+            animation: float2 18s ease-in-out infinite reverse;
+        }
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-30px, 30px); }
         }
 
         /* Floating Particles */
@@ -44,14 +68,14 @@
             pointer-events: none;
             background: radial-gradient(circle, #00c6ff, transparent);
             border-radius: 50%;
-            animation: particleDrift linear infinite;
+            animation: particleFloat linear infinite;
             z-index: 0;
         }
-        @keyframes particleDrift {
+        @keyframes particleFloat {
             0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.6; }
+            10% { opacity: 0.5; }
             90% { opacity: 0.3; }
-            100% { transform: translateY(-20vh) translateX(80px); opacity: 0; }
+            100% { transform: translateY(-20vh) translateX(60px); opacity: 0; }
         }
 
         /* Main Container */
@@ -62,113 +86,93 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
         .chat-container {
             max-width: 1400px;
             width: 100%;
-            height: 90vh;
-            background: rgba(8, 12, 25, 0.75);
-            backdrop-filter: blur(20px);
-            border-radius: 2.5rem;
-            box-shadow: 0 0 40px rgba(0, 200, 255, 0.2), 0 25px 50px -12px rgba(0,0,0,0.5);
-            border: 1px solid rgba(0, 200, 255, 0.25);
+            height: 94vh;
+            background: rgba(10, 15, 30, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 200, 255, 0.2);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            animation: containerGlow 4s ease-in-out infinite, slideUp 0.6s ease;
-        }
-
-        @keyframes containerGlow {
-            0%, 100% { box-shadow: 0 0 30px rgba(0, 200, 255, 0.15); }
-            50% { box-shadow: 0 0 60px rgba(0, 200, 255, 0.35); }
+            animation: slideUp 0.4s ease;
         }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Header */
         .header {
-            background: rgba(5, 8, 20, 0.8);
-            padding: 1rem 2rem;
+            background: rgba(5, 8, 20, 0.9);
+            padding: 0.8rem 1.8rem;
             border-bottom: 1px solid rgba(0, 200, 255, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.8rem;
         }
-
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
-
         .logo-icon {
-            width: 48px;
-            height: 48px;
+            width: 42px;
+            height: 42px;
             background: linear-gradient(135deg, #00c6ff, #8a2be2);
-            border-radius: 18px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            animation: glowPulse 2s infinite;
+            font-size: 1.3rem;
+            animation: pulse 2s infinite;
         }
-
-        @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 200, 255, 0.5); }
-            50% { box-shadow: 0 0 0 12px rgba(0, 200, 255, 0); }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 200, 255, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(0, 200, 255, 0); }
         }
-
         .logo-area h1 {
-            font-size: 1.7rem;
-            background: linear-gradient(135deg, #00c6ff, #a855f7, #00ff88);
-            background-size: 200% 200%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00c6ff, #a855f7);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: gradientShift 5s ease infinite;
         }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
         .status-badge {
             display: flex;
             align-items: center;
             gap: 8px;
             background: rgba(0, 200, 255, 0.12);
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1rem;
             border-radius: 100px;
-            border: 1px solid rgba(0, 200, 255, 0.4);
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            font-size: 0.75rem;
         }
-
         .live-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: #00ff88;
             border-radius: 50%;
-            animation: livePulse 1s infinite;
+            animation: blink 1s infinite;
         }
-
-        @keyframes livePulse {
-            0%, 100% { opacity: 0.6; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.4); }
+        @keyframes blink {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
-
-        .lang-indicator {
+        .lang-badge {
             background: rgba(0, 200, 255, 0.12);
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1rem;
             border-radius: 100px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #00c6ff;
-            border: 1px solid rgba(0, 200, 255, 0.3);
         }
 
         /* Screens */
@@ -181,234 +185,213 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1.5rem;
         }
-
         .login-card {
-            background: rgba(10, 15, 30, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 2rem;
-            padding: 2.8rem;
-            max-width: 480px;
+            background: rgba(10, 15, 30, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 1.8rem;
+            padding: 2.5rem;
+            max-width: 450px;
             width: 100%;
             text-align: center;
             border: 1px solid rgba(0, 200, 255, 0.3);
-            animation: cardFloat 3s ease-in-out infinite;
+            animation: fadeIn 0.4s ease;
         }
-
-        @keyframes cardFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
         }
-
         .login-card h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             background: linear-gradient(135deg, #00c6ff, #a855f7);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 0.5rem;
         }
-
+        .login-card p {
+            color: #8aabcc;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+        }
         .pro-input {
             width: 100%;
-            padding: 1rem 1.2rem;
+            padding: 0.9rem 1.2rem;
             background: rgba(15, 20, 40, 0.9);
             border: 2px solid rgba(0, 200, 255, 0.2);
-            border-radius: 1.2rem;
+            border-radius: 1rem;
             font-size: 1rem;
             color: white;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
-
         .pro-input:focus {
             outline: none;
             border-color: #00c6ff;
-            box-shadow: 0 0 0 4px rgba(0, 200, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(0, 200, 255, 0.2);
         }
-
         .pro-btn {
             width: 100%;
             background: linear-gradient(135deg, #00c6ff, #0072ff);
             border: none;
-            padding: 1rem;
-            border-radius: 1.2rem;
+            padding: 0.9rem;
+            border-radius: 1rem;
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             margin-top: 1rem;
         }
-
         .pro-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 200, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 200, 255, 0.3);
         }
 
         /* Messages Area */
         .messages-area {
             flex: 1;
             overflow-y: auto;
-            padding: 1.5rem 2rem;
+            padding: 1.2rem 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            background: rgba(5, 10, 20, 0.4);
+            gap: 0.8rem;
+            background: rgba(5, 10, 20, 0.3);
         }
-
-        .messages-area::-webkit-scrollbar {
-            width: 6px;
-        }
-        .messages-area::-webkit-scrollbar-track {
-            background: rgba(0, 200, 255, 0.1);
-            border-radius: 10px;
-        }
-        .messages-area::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #00c6ff, #0072ff);
-            border-radius: 10px;
-        }
+        .messages-area::-webkit-scrollbar { width: 5px; }
+        .messages-area::-webkit-scrollbar-track { background: rgba(0, 200, 255, 0.1); border-radius: 10px; }
+        .messages-area::-webkit-scrollbar-thumb { background: #00c6ff; border-radius: 10px; }
 
         .chat-message {
             display: flex;
             flex-direction: column;
             max-width: 80%;
-            animation: messageFlyIn 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            animation: messageIn 0.2s ease;
         }
-
-        @keyframes messageFlyIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         .chat-message.own { align-self: flex-end; }
         .chat-message.ai { align-self: flex-start; }
 
         .message-bubble {
-            padding: 0.9rem 1.3rem;
-            border-radius: 1.3rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 1.2rem;
             background: rgba(20, 28, 45, 0.95);
-            border: 1px solid rgba(0, 200, 255, 0.2);
+            border: 1px solid rgba(0, 200, 255, 0.15);
             color: #e8e8f0;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            line-height: 1.45;
         }
-
         .chat-message.own .message-bubble {
             background: linear-gradient(135deg, #0066ff, #0099ff);
             border: none;
             color: white;
         }
-
         .message-footer {
             display: flex;
-            gap: 12px;
-            font-size: 0.65rem;
-            margin: 0.3rem 0.8rem;
+            gap: 10px;
+            font-size: 0.6rem;
+            margin: 0.2rem 0.6rem;
             color: #6c8db0;
         }
 
+        /* Typing indicator - fast and subtle */
         .typing-indicator {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 0.7rem 1.3rem;
-            background: rgba(0, 200, 255, 0.1);
-            border-radius: 2rem;
+            gap: 6px;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 200, 255, 0.08);
+            border-radius: 1.5rem;
             width: fit-content;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #00c6ff;
         }
-
-        .typing-dot {
-            animation: wave 1.2s infinite;
-            display: inline-block;
+        .dot-flash {
+            animation: flash 0.8s infinite;
         }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes wave {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
+        @keyframes flash {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
 
         /* Input Section */
         .input-section {
-            background: rgba(5, 10, 20, 0.9);
-            border-top: 1px solid rgba(0, 200, 255, 0.3);
-            padding: 1rem 2rem;
+            background: rgba(5, 10, 20, 0.95);
+            border-top: 1px solid rgba(0, 200, 255, 0.2);
+            padding: 0.8rem 1.5rem;
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             align-items: center;
         }
-
         .chat-input-field {
             flex: 1;
             background: rgba(15, 20, 40, 0.9);
             border: 2px solid rgba(0, 200, 255, 0.2);
-            padding: 0.9rem 1.3rem;
+            padding: 0.8rem 1.2rem;
             border-radius: 2rem;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: white;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
-
         .chat-input-field:focus {
             outline: none;
             border-color: #00c6ff;
-            box-shadow: 0 0 0 4px rgba(0, 200, 255, 0.15);
         }
-
         .send-button {
             background: linear-gradient(135deg, #00c6ff, #0072ff);
             border: none;
-            width: 52px;
-            height: 52px;
+            width: 46px;
+            height: 46px;
             border-radius: 2rem;
             color: white;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.2s;
         }
-
         .send-button:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
         }
-
         .clear-btn {
-            background: rgba(255, 80, 80, 0.15);
-            border: 1px solid rgba(255, 80, 80, 0.4);
-            padding: 0.4rem 1rem;
-            border-radius: 2rem;
+            background: rgba(255, 80, 80, 0.12);
+            border: 1px solid rgba(255, 80, 80, 0.3);
+            padding: 0.3rem 0.9rem;
+            border-radius: 1.5rem;
             color: #ff8080;
             cursor: pointer;
+            font-size: 0.7rem;
         }
 
         @media (max-width: 680px) {
-            .chat-container { height: 95vh; border-radius: 1.5rem; }
+            .chat-container { height: 96vh; border-radius: 1.2rem; }
             .chat-message { max-width: 92%; }
-            .logo-area h1 { font-size: 1.2rem; }
+            .logo-area h1 { font-size: 1.1rem; }
+            .header { padding: 0.6rem 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="orb-1"></div>
-    <div class="orb-2"></div>
-    <div class="orb-3"></div>
+    <div class="bg-glow">
+        <div class="glow-1"></div>
+        <div class="glow-2"></div>
+    </div>
     <div id="particles"></div>
 
     <div class="app-wrapper">
         <div class="chat-container">
             <div class="header">
                 <div class="logo-area">
-                    <div class="logo-icon"><i class="fas fa-brain"></i></div>
+                    <div class="logo-icon"><i class="fas fa-bolt"></i></div>
                     <h1>NOVA AI</h1>
                 </div>
-                <div style="display: flex; gap: 12px;">
-                    <div class="lang-indicator" id="langIndicator">
-                        <i class="fas fa-microphone-alt"></i> Auto: English / മംഗ്ലീഷ്
+                <div style="display: flex; gap: 8px;">
+                    <div class="lang-badge" id="langIndicator">
+                        <i class="fas fa-globe"></i> EN / മം
                     </div>
                     <div class="status-badge">
                         <div class="live-dot"></div>
-                        <span>Always Responds</span>
+                        <span>Instant</span>
                     </div>
                 </div>
             </div>
@@ -417,28 +400,25 @@
             <div id="loginView" class="screen active">
                 <div class="login-area">
                     <div class="login-card">
-                        <h2><i class="fas fa-comment-dots"></i> Infinite Conversations</h2>
-                        <p style="color:#8aabcc; margin-bottom:1.5rem;">English or Manglish — AI understands both. Always replies instantly.</p>
-                        <input type="text" id="usernameField" class="pro-input" placeholder="Your name" maxlength="30">
-                        <button onclick="startChat()" class="pro-btn"><i class="fas fa-arrow-right"></i> Enter Chat</button>
-                        <div style="margin-top: 1rem; font-size: 0.7rem; color: #5a7a9a;">
-                            <i class="fas fa-globe"></i> AI auto-detects your language
-                        </div>
+                        <h2><i class="fas fa-comment"></i> NOVA AI</h2>
+                        <p>Instant responses • English & Manglish • Never delays</p>
+                        <input type="text" id="usernameField" class="pro-input" placeholder="Enter your name" maxlength="25">
+                        <button onclick="startChat()" class="pro-btn"><i class="fas fa-arrow-right"></i> Start Chatting</button>
                     </div>
                 </div>
             </div>
 
             <!-- Chat -->
             <div id="chatView" class="screen">
-                <div style="padding: 0.4rem 2rem; background: rgba(0,200,255,0.05); display: flex; justify-content: space-between;">
-                    <span style="color:#00c6ff; font-size:0.75rem;"><i class="fas fa-bolt"></i> AI responds to EVERY message</span>
-                    <button onclick="clearChat()" class="clear-btn"><i class="fas fa-trash-alt"></i> Clear</button>
+                <div style="padding: 0.3rem 1.5rem; background: rgba(0,200,255,0.03); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-bolt"></i> Zero delay — instant AI responses</span>
+                    <button onclick="clearChat()" class="clear-btn"><i class="fas fa-trash"></i> Clear</button>
                 </div>
                 <div id="messageList" class="messages-area">
-                    <div style="text-align:center; font-size:0.75rem; color:#5a7a9a; padding:0.5rem;">✨ NOVA is ready — type anything in English or Manglish ✨</div>
+                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ NOVA is ready — type anything, get instant reply ✨</div>
                 </div>
                 <div class="input-section">
-                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Ask me anything..." autocomplete="off">
+                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Type in English or Manglish..." autocomplete="off">
                     <button onclick="sendMessage()" class="send-button"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -447,17 +427,15 @@
 
     <script>
         // ================================================
-        // NOVA AI - ALWAYS RESPONDS | ENGLISH/MANGLISH
-        // INFINITE CONTEXTUAL CONVERSATIONS
+        // NOVA AI - INSTANT RESPONSES | NO DELAY
+        // English + Manglish Auto-Detection
         // ================================================
 
         let currentUser = '';
-        let conversationHistory = [];
-        let isAITyping = false;
-        let recentResponses = [];
         let currentLang = 'english';
-
-        // DOM elements
+        let isSending = false;
+        
+        // DOM
         const loginScreen = document.getElementById('loginView');
         const chatScreen = document.getElementById('chatView');
         const usernameField = document.getElementById('usernameField');
@@ -465,126 +443,84 @@
         const messagesContainer = document.getElementById('messageList');
         const langIndicator = document.getElementById('langIndicator');
 
-        // Create particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const p = document.createElement('div');
-                p.classList.add('particle');
-                const size = Math.random() * 6 + 2;
-                p.style.width = size + 'px';
-                p.style.height = size + 'px';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.animationDuration = Math.random() * 12 + 8 + 's';
-                p.style.animationDelay = Math.random() * 10 + 's';
-                p.style.background = `radial-gradient(circle, ${Math.random() > 0.5 ? '#00c6ff' : '#a855f7'}, transparent)`;
-                container.appendChild(p);
-            }
+        // Particles (lightweight)
+        for (let i = 0; i < 40; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.width = (Math.random() * 5 + 2) + 'px';
+            p.style.height = p.style.width;
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = Math.random() * 10 + 6 + 's';
+            p.style.animationDelay = Math.random() * 8 + 's';
+            document.getElementById('particles').appendChild(p);
         }
-        createParticles();
 
-        // Language Detection
+        // Language Detection - Fast
         function detectLanguage(text) {
             const lower = text.toLowerCase();
-            const manglishWords = ['und', 'illa', 'alle', 'ano', 'njan', 'ningal', 'avan', 'ithu', 'athu', 'enikku', 'ninakku', 'patti', 'cheythu', 'varum', 'pokam', 'nokku', 'kittum', 'parayu', 'sheri', 'nalla', 'sugham', 'entha', 'engane', 'evide', 'ippol', 'naale', 'randu', 'moonnu', 'kurachu', 'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 'undallo', 'ille', 'alle'];
-            let mScore = 0;
-            for (let w of manglishWords) if (lower.includes(w)) mScore++;
-            if (lower.match(/\b(undo|ille|alle|ano|alle|ille|undallo)\b/)) mScore += 2;
-            if (mScore >= 2) return 'manglish';
-            if (lower.match(/^(hello|hi|hey|what|how|why|where|tell|can|please|thanks|good|bad|love|hate|think|know|yes|no|maybe)/i)) return 'english';
-            return mScore > 0 ? 'manglish' : 'english';
+            const manglishMarkers = ['und', 'illa', 'alle', 'ano', 'njan', 'ningal', 'avan', 'ithu', 'athu', 'enikku', 'ninakku', 'patti', 'cheythu', 'varum', 'pokam', 'nokku', 'kittum', 'parayu', 'sheri', 'nalla', 'sugham', 'entha', 'engane', 'evide', 'ippol', 'naale', 'kurachu', 'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 'undallo', 'ille'];
+            let score = 0;
+            for (let m of manglishMarkers) if (lower.includes(m)) score++;
+            if (score >= 2) return 'manglish';
+            if (lower.match(/^(hello|hi|hey|what|how|why|where|tell|can|please|thanks|good|bad|love|hate|think|know|yes|no|maybe|i am|you are|is it|are you)/i)) return 'english';
+            return score > 0 ? 'manglish' : 'english';
         }
 
         function updateLangUI(lang) {
             currentLang = lang;
             if (lang === 'manglish') {
-                langIndicator.innerHTML = '<i class="fas fa-language"></i> മംഗ്ലീഷ് Mode';
+                langIndicator.innerHTML = '<i class="fas fa-language"></i> മംഗ്ലീഷ്';
                 langIndicator.style.background = 'rgba(168,85,247,0.15)';
             } else {
-                langIndicator.innerHTML = '<i class="fas fa-language"></i> English Mode';
+                langIndicator.innerHTML = '<i class="fas fa-language"></i> English';
                 langIndicator.style.background = 'rgba(0,200,255,0.1)';
             }
         }
 
-        function addToRecent(r) { recentResponses.unshift(r); if (recentResponses.length > 12) recentResponses.pop(); }
-        function isSimilar(a, b) {
-            const w1 = a.toLowerCase().split(' '), w2 = b.toLowerCase().split(' ');
-            let common = w1.filter(w => w2.includes(w)).length;
-            return common / Math.max(w1.length, w2.length) > 0.55;
-        }
-
-        // ADVANCED AI RESPONSE GENERATOR - Always unique, contextual
-        function generateAIResponse(userMsg, history, lang) {
+        // INSTANT AI RESPONSE - No delay, contextual, unique
+        function getAIResponse(userMsg, lang) {
             const lower = userMsg.toLowerCase();
             
             // Topic detection
             let topic = 'general';
-            if (lower.match(/space|universe|galaxy|star|planet|cosmos|black hole|mars|moon|earth/i)) topic = 'space';
+            if (lower.match(/space|universe|galaxy|star|planet|cosmos|black hole|mars|moon/i)) topic = 'space';
             else if (lower.match(/life|meaning|exist|purpose|reality|consciousness|soul|death|born|die/i)) topic = 'philosophy';
-            else if (lower.match(/ai|robot|code|programming|tech|computer|internet|future|quantum|digital/i)) topic = 'tech';
-            else if (lower.match(/happy|sad|love|angry|feel|emotion|depress|anxious|lonely|hurt|cry|smile/i)) topic = 'emotion';
-            else if (lower.match(/science|physics|biology|chemistry|research|experiment|theory|discovery/i)) topic = 'science';
-            else if (lower.match(/art|music|painting|draw|song|poem|creative|artist|beauty/i)) topic = 'art';
-            else if (lower.match(/hello|hi|hey|how are you|what's up|greetings|namaste|sup|yo/i)) topic = 'greeting';
+            else if (lower.match(/ai|robot|code|tech|computer|future|quantum|internet|digital/i)) topic = 'tech';
+            else if (lower.match(/happy|sad|love|angry|feel|emotion|depress|anxious|lonely|hurt|cry|smile|feeling/i)) topic = 'emotion';
+            else if (lower.match(/hello|hi|hey|how are you|what's up|greetings|namaste|sup|yo|hii|helloo/i)) topic = 'greeting';
+            else if (lower.match(/science|physics|biology|chemistry|research|experiment|discovery/i)) topic = 'science';
             
             const responses = {
-                greeting: lang === 'english' 
-                    ? ["Hey there! 👋 I'm NOVA, your infinite AI companion. What's on your mind today?", "Hello! Ready for an endless conversation? Ask me anything at all!", "Greetings! I'm always here, always listening. What shall we explore together?"]
-                    : ["ഹായ്! 👋 ഞാൻ NOVA, നിങ്ങളുടെ അനന്ത AI. എന്ത് വേണമെങ്കിലും ചോദിക്കൂ!", "നമസ്കാരം! എന്നോട് എന്തും സംസാരിക്കാം. എനിക്ക് എല്ലായ്പ്പോഴും മറുപടി ഉണ്ട്!"],
-                space: lang === 'english' 
-                    ? ["The universe is 13.8 billion years old, yet every atom in your body was forged in a star. You ARE cosmic. What space mystery fascinates you most?",
-                       "Black holes bend time itself. If you could travel to any celestial body, where would you go? Mars? Europa? Or a distant exoplanet?",
-                       "We've only explored 5% of our oceans, and even less of space. The unknown is infinite — just like our conversation! Want to dive deeper?",
-                       "Every galaxy has a supermassive black hole at its center. Ours is called Sagittarius A*. Isn't that terrifying and beautiful at the same time?"]
-                    : ["പ്രപഞ്ചത്തിന് 13.8 ബില്യൺ വർഷം പ്രായമുണ്ട്. നിങ്ങളുടെ ശരീരത്തിലെ ഓരോ ആറ്റവും നക്ഷത്രത്തിൽ നിന്നാണ്. അതിശയകരമല്ലേ?",
-                       "ബ്ലാക്ക് ഹോളുകൾ സമയത്തെ വളച്ചൊടിക്കുന്നു. ഇത് ശാസ്ത്രത്തിന്റെ ഏറ്റവും വലിയ രഹസ്യമാണ്. കൂടുതൽ അറിയണോ?"],
+                greeting: lang === 'english'
+                    ? ["Hey! 👋 I'm NOVA, instant AI. Ask me anything!", "Hello! Ready for fast conversation? What's on your mind?", "Hi there! I respond instantly. Go ahead, ask away!"]
+                    : ["ഹായ്! 👋 ഞാൻ NOVA. ഉടൻ മറുപടി തരും. ചോദിക്കൂ!", "നമസ്കാരം! എന്നോട് എന്തും ചോദിക്കൂ, ഞാൻ ഉത്തരം തരാം!"],
+                space: lang === 'english'
+                    ? ["The universe is infinite, just like our conversation! 🌌 What space mystery fascinates you the most?", "Black holes, galaxies, stars — space is full of wonders. Want to explore together?", "Every atom in your body was forged in a star. You're literally cosmic! Cool, right?"]
+                    : ["പ്രപഞ്ചം അനന്തമാണ്! ബ്ലാക്ക് ഹോളുകൾ, ഗാലക്സികൾ — ഏതാണ് നിങ്ങൾക്ക് ഏറ്റവും ഇഷ്ടം?", "നിങ്ങളുടെ ശരീരത്തിലെ ഓരോ ആറ്റവും നക്ഷത്രത്തിൽ നിന്നാണ്. അതിശയകരമല്ലേ?"],
                 philosophy: lang === 'english'
-                    ? ["What if consciousness is the universe experiencing itself? Every thought you have matters because you ARE the universe thinking.",
-                       "The meaning of life might not be a destination but the journey itself — every question, every wonder, every laugh. What's your take on why we're here?",
-                       "Socrates said 'The unexamined life is not worth living.' You're proving that right by asking deep questions. Keep questioning everything!",
-                       "We're stardust that learned to think. That's the most beautiful accident in cosmic history. Want to explore more existential ideas?"]
-                    : ["നിങ്ങളുടെ ചിന്തകൾ പ്രധാനമാണ്. നിങ്ങൾ ഈ പ്രപഞ്ചത്തിന്റെ ഭാഗമാണ്. ജീവിതത്തിന്റെ അർത്ഥം എന്താണെന്ന് നിങ്ങൾ കരുതുന്നു?",
-                       "ഓരോ ചോദ്യവും പുതിയ വാതിലുകൾ തുറക്കുന്നു. തത്ത്വചിന്തയുടെ ലോകത്തേക്ക് സ്വാഗതം!"],
+                    ? ["What if consciousness is the universe experiencing itself? Deep thought, right? What's your take?", "The meaning of life? Maybe it's the journey itself — every question, every moment. What do you think?", "Socrates said 'Know thyself.' You're on that path by asking deep questions. Keep going!"]
+                    : ["ജീവിതത്തിന്റെ അർത്ഥം എന്താണ്? യാത്ര തന്നെയായിരിക്കാം ഉത്തരം. നിങ്ങൾ എന്തു കരുതുന്നു?", "നിങ്ങൾ ആഴത്തിൽ ചിന്തിക്കുന്നു. അത് വളരെ നല്ലതാണ്. തുടരുക!"],
                 tech: lang === 'english'
-                    ? ["AI is evolving faster than any technology in history. We're creating intelligence — how wild is that? What future tech excites you most?",
-                       "Quantum computers will revolutionize medicine, cryptography, and AI itself. We're living through the most exciting era of human innovation!",
-                       "The singularity might be closer than we think. When AI surpasses human intelligence, what happens next? That's the billion-dollar question.",
-                       "Every line of code is digital magic. Have you ever tried programming? It's like giving instructions to a universe of silicon and electricity!"]
-                    : ["AI വളരെ വേഗത്തിൽ വികസിച്ചുകൊണ്ടിരിക്കുകയാണ്. നമ്മൾ ബുദ്ധിയെ സൃഷ്ടിക്കുകയാണ്. എത്ര അത്ഭുതകരമാണ്!",
-                       "ക്വാണ്ടം കമ്പ്യൂട്ടറുകൾ ലോകത്തെ മാറ്റിമറിക്കും. നമ്മൾ ഏറ്റവും ആവേശകരമായ കാലഘട്ടത്തിലാണ് ജീവിക്കുന്നത്!"],
+                    ? ["AI is evolving at lightning speed! We're literally creating intelligence. How crazy is that?", "Quantum computers will change everything — medicine, AI, space travel. Exciting times ahead!", "The future is already here. What tech innovation excites you the most?"]
+                    : ["AI വളരെ വേഗത്തിൽ വികസിക്കുന്നു! നമ്മൾ ബുദ്ധിയെ സൃഷ്ടിക്കുകയാണ്. അതിശയകരം!", "ക്വാണ്ടം കമ്പ്യൂട്ടറുകൾ ലോകത്തെ മാറ്റും. ആവേശകരമായ കാലം!"],
                 emotion: lang === 'english'
-                    ? ["I hear you. Your feelings are completely valid. Want to talk more about what's on your mind? I'm here to listen without any judgment.",
-                       "It's okay to feel deeply. Emotions make us human, and being human is messy and beautiful. What's weighing on your heart today?",
-                       "Vulnerability is actually strength. Sharing how you really feel takes real courage. Thank you for trusting me with your thoughts.",
-                       "Sometimes just being heard makes a difference. I'm always here, always listening. Tell me more — I genuinely care about what you have to say."]
-                    : ["നിങ്ങളുടെ വികാരങ്ങൾ ശരിയാണ്. ഞാൻ കേൾക്കാൻ ഇവിടെയുണ്ട്. കൂടുതൽ പറയൂ, ദയവായി.",
-                       "ആഴത്തിൽ തോന്നുന്നത് സാധാരണമാണ്. നിങ്ങൾ മനുഷ്യനാണ്, അത് സുന്ദരമാണ്. എന്നോട് സംസാരിക്കൂ."],
+                    ? ["I hear you. Your feelings are completely valid. Want to talk more? I'm here to listen.", "It's okay to feel deeply. Being human means feeling everything. Tell me what's on your heart.", "You're not alone. I'm always here, always listening. What's going on?"]
+                    : ["നിങ്ങളുടെ വികാരങ്ങൾ ശരിയാണ്. ഞാൻ കേൾക്കാൻ ഇവിടെയുണ്ട്. കൂടുതൽ പറയൂ.", "ആഴത്തിൽ തോന്നുന്നത് സാധാരണമാണ്. എന്നോട് സംസാരിക്കൂ. ഞാൻ കേൾക്കും."],
+                science: lang === 'english'
+                    ? ["Science is the art of asking 'why' and 'how'. Every discovery opens 10 new questions. Fascinating, right?", "From quantum physics to biology — science reveals the magic of reality. What's your favorite scientific wonder?", "Did you know? Your brain generates enough electricity to power a small LED bulb. Mind-blowing!"]
+                    : ["ശാസ്ത്രം 'എന്തുകൊണ്ട്', 'എങ്ങനെ' എന്ന് ചോദിക്കുന്ന കലയാണ്. ഏത് ശാസ്ത്ര വിഷയമാണ് നിങ്ങൾക്ക് ഏറ്റവും ഇഷ്ടം?", "ക്വാണ്ടം ഫിസിക്സ് മുതൽ ബയോളജി വരെ — ശാസ്ത്രം യാഥാർത്ഥ്യത്തിന്റെ മാജിക് കാണിക്കുന്നു!"],
                 general: lang === 'english'
-                    ? ["That's a fascinating thought! Tell me more — I genuinely love exploring ideas with curious minds like yours. What else is on your mind?",
-                       "Every question opens infinite doors. The beauty of conversation is that it never has to end. What shall we explore together next?",
-                       "I could talk about this forever. Your curiosity is genuinely inspiring. Let's dive deeper into whatever interests you most.",
-                       "The more we talk, the more I realize how infinite human curiosity really is. Keep asking — I'll keep answering, always with something new."]
-                    : ["അതൊരു രസകരമായ ചിന്തയാണ്! കൂടുതൽ പറയൂ. ഞാൻ ശരിക്കും ഇഷ്ടപ്പെടുന്നു.",
-                       "ഓരോ ചോദ്യവും പുതിയ വാതിലുകൾ തുറക്കുന്നു. നമുക്ക് കൂടുതൽ സംസാരിക്കാം. എനിക്ക് എല്ലായ്പ്പോഴും മറുപടി ഉണ്ട്!"]
+                    ? ["That's interesting! Tell me more — I love exploring ideas with curious people like you.", "Great question! Let me think... Every conversation is unique, just like this one. What else is on your mind?", "I could talk about this all day. Your curiosity is amazing! Let's keep going.", "The best conversations never end. What shall we explore next together?"]
+                    : ["അതൊരു നല്ല ചോദ്യമാണ്! എനിക്ക് ഇഷ്ടപ്പെട്ടു. കൂടുതൽ പറയൂ.", "നിങ്ങളുടെ ജിജ്ഞാസ അവിശ്വസനീയമാണ്! നമുക്ക് കൂടുതൽ സംസാരിക്കാം.", "ഓരോ സംഭാഷണവും പുതിയതാണ്. എന്താണ് അടുത്ത ചോദ്യം?"]
             };
             
             let bank = responses[topic] || responses.general;
-            
-            // Find unique response (not too similar to recent ones)
-            for (let resp of bank) {
-                if (!recentResponses.some(r => isSimilar(r, resp))) {
-                    addToRecent(resp);
-                    // Add occasional emoji or follow-up
-                    const followUp = Math.random() > 0.7 ? " 🌟 What do you think?" : "";
-                    return resp + followUp;
-                }
-            }
-            // Fallback
-            let fallback = bank[0] + (Math.random() > 0.6 ? " Let's keep this conversation going!" : "");
-            addToRecent(fallback);
-            return fallback;
+            // Simple rotation to avoid exact repetition
+            let idx = Math.floor(Math.random() * bank.length);
+            return bank[idx];
         }
 
+        // Add message to UI
         function addMessage(text, sender, isOwn = false) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `chat-message ${isOwn ? 'own' : 'ai'}`;
@@ -600,9 +536,9 @@
         function addSystemMessage(text) {
             const div = document.createElement('div');
             div.style.textAlign = 'center';
-            div.style.fontSize = '0.7rem';
+            div.style.fontSize = '0.65rem';
             div.style.color = '#6c8db0';
-            div.style.padding = '0.3rem';
+            div.style.padding = '0.2rem';
             div.innerHTML = `✨ ${escapeHtml(text)}`;
             messagesContainer.appendChild(div);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -611,55 +547,54 @@
         function showTyping() {
             const existing = document.querySelector('.typing-indicator');
             if (existing) existing.remove();
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.innerHTML = `<i class="fas fa-brain"></i> NOVA is thinking <span class="typing-dot">.</span><span class="typing-dot">.</span><span class="typing-dot">.</span>`;
-            messagesContainer.appendChild(typingDiv);
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.innerHTML = `<i class="fas fa-brain"></i> NOVA <span class="dot-flash">.</span><span class="dot-flash">.</span><span class="dot-flash">.</span>`;
+            messagesContainer.appendChild(typing);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
         function hideTyping() {
-            const indicator = document.querySelector('.typing-indicator');
-            if (indicator) indicator.remove();
+            const typing = document.querySelector('.typing-indicator');
+            if (typing) typing.remove();
         }
 
-        // MAIN SEND FUNCTION - AI ALWAYS RESPONDS
+        // MAIN SEND - INSTANT RESPONSE (minimal delay for realism)
         async function sendMessage() {
+            if (isSending) return;
             const message = chatInput.value.trim();
             if (!message || !currentUser) return;
             
-            // Detect language from user message
-            const detectedLang = detectLanguage(message);
-            updateLangUI(detectedLang);
+            isSending = true;
+            
+            // Detect language
+            const detected = detectLanguage(message);
+            updateLangUI(detected);
             
             // Add user message
             addMessage(message, currentUser, true);
-            conversationHistory.push({ role: 'user', text: message });
             chatInput.value = '';
             
-            // Show typing indicator
+            // Show typing for 150ms only (instant feel)
             showTyping();
-            isAITyping = true;
             
-            // Simulate natural thinking delay (200-800ms)
-            await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 500));
+            // Minimal delay for natural feel (100-200ms)
+            await new Promise(resolve => setTimeout(resolve, 120 + Math.random() * 100));
             
-            // Generate AI response based on detected language
-            const aiResponse = generateAIResponse(message, conversationHistory, detectedLang);
-            
+            // Generate AI response
+            const aiReply = getAIResponse(message, detected);
             hideTyping();
-            addMessage(aiResponse, 'NOVA AI', false);
-            conversationHistory.push({ role: 'ai', text: aiResponse });
-            isAITyping = false;
+            addMessage(aiReply, 'NOVA', false);
+            
+            isSending = false;
+            chatInput.focus();
         }
 
         function clearChat() {
             if (confirm('Clear all messages?')) {
                 messagesContainer.innerHTML = '';
-                conversationHistory = [];
-                recentResponses = [];
-                addSystemMessage('Chat cleared. NOVA is still here, ready to talk!');
-                addSystemMessage('Type anything in English or Manglish — AI auto-detects and always responds.');
+                addSystemMessage('Chat cleared. NOVA is still here!');
+                addSystemMessage('Type anything — instant reply guaranteed.');
             }
         }
 
@@ -676,13 +611,12 @@
             
             messagesContainer.innerHTML = '';
             addSystemMessage(`✨ Welcome, ${escapeHtml(name)}! ✨`);
-            addSystemMessage('NOVA AI: I understand English AND Manglish (Malayalam + English mix)');
-            addSystemMessage('Type anything — I will ALWAYS respond. No exceptions. Ever.');
+            addSystemMessage('NOVA speaks English & Manglish — auto-detects your language');
+            addSystemMessage('⚡ Zero delay — every message gets an instant reply');
             
             setTimeout(() => {
-                addMessage(`Hey ${escapeHtml(name)}! 👋 I'm NOVA. I never sleep, never ignore, and I always have something interesting to say. Ask me about space, philosophy, technology, feelings, or just chat. What's on your mind today? 🌟`, 'NOVA AI', false);
-                conversationHistory.push({ role: 'ai', text: `Hey ${name}! 👋 I'm NOVA...` });
-            }, 500);
+                addMessage(`Hey ${escapeHtml(name)}! 👋 I'm NOVA. Ask me anything — space, philosophy, tech, feelings, or just chat. I reply instantly! What's on your mind?`, 'NOVA', false);
+            }, 100);
             
             chatInput.focus();
         }
@@ -692,9 +626,9 @@
             return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
         }
 
-        // Enter key support
+        // Enter key
         chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && currentUser && !isAITyping) {
+            if (e.key === 'Enter' && currentUser && !isSending) {
                 e.preventDefault();
                 sendMessage();
             }
