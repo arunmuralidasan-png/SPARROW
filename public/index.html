@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>MIRA | Human-Like AI Chat</title>
+    <title>Sparrow | Smooth AI Chat</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -234,6 +234,7 @@
             flex-direction: column;
             gap: 0.8rem;
             background: rgba(5, 10, 20, 0.3);
+            scroll-behavior: smooth;
         }
         .messages-area::-webkit-scrollbar { width: 5px; }
         .messages-area::-webkit-scrollbar-track { background: rgba(0, 200, 255, 0.1); border-radius: 10px; }
@@ -243,11 +244,19 @@
             display: flex;
             flex-direction: column;
             max-width: 85%;
-            animation: messageIn 0.15s ease;
+            animation: slideInMessage 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            opacity: 0;
+            animation-fill-mode: forwards;
         }
-        @keyframes messageIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideInMessage {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
         .chat-message.own { align-self: flex-end; }
         .chat-message.ai { align-self: flex-start; }
@@ -261,11 +270,15 @@
             font-size: 0.9rem;
             line-height: 1.5;
             word-wrap: break-word;
+            transition: all 0.1s;
         }
         .chat-message.own .message-bubble {
             background: linear-gradient(135deg, #0066ff, #0099ff);
             border: none;
             color: white;
+        }
+        .chat-message.ai .message-bubble {
+            border-left: 3px solid #00c6ff;
         }
         .message-footer {
             display: flex;
@@ -273,6 +286,34 @@
             font-size: 0.6rem;
             margin: 0.2rem 0.6rem;
             color: #6c8db0;
+        }
+
+        /* Typing Animation */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            background: rgba(0, 200, 255, 0.08);
+            border-radius: 2rem;
+            width: fit-content;
+            font-size: 0.8rem;
+            color: #00c6ff;
+            animation: fadeInUp 0.2s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .typing-dot {
+            display: inline-block;
+            animation: waveDot 1.2s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes waveDot {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
         }
 
         .input-section {
@@ -296,6 +337,7 @@
         .chat-input-field:focus {
             outline: none;
             border-color: #00c6ff;
+            box-shadow: 0 0 0 2px rgba(0, 200, 255, 0.2);
         }
         .send-button {
             background: linear-gradient(135deg, #00c6ff, #0072ff);
@@ -309,6 +351,7 @@
         }
         .send-button:hover {
             transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
         }
         .clear-btn {
             background: rgba(255, 80, 80, 0.12);
@@ -318,6 +361,10 @@
             color: #ff8080;
             cursor: pointer;
             font-size: 0.7rem;
+            transition: 0.2s;
+        }
+        .clear-btn:hover {
+            background: rgba(255, 80, 80, 0.25);
         }
 
         @media (max-width: 680px) {
@@ -340,7 +387,7 @@
             <div class="header">
                 <div class="logo-area">
                     <div class="logo-icon"><i class="fas fa-comment-dots"></i></div>
-                    <h1>MIRA</h1>
+                    <h1>miya AI</h1>
                 </div>
                 <div style="display: flex; gap: 8px;">
                     <div class="lang-badge" id="langIndicator">
@@ -348,7 +395,7 @@
                     </div>
                     <div class="status-badge">
                         <div class="live-dot"></div>
-                        <span>Human-Like</span>
+                        <span>Always Replies</span>
                     </div>
                 </div>
             </div>
@@ -356,8 +403,8 @@
             <div id="loginView" class="screen active">
                 <div class="login-area">
                     <div class="login-card">
-                        <h2><i class="fas fa-heart"></i> MIRA</h2>
-                        <p>I chat like a real human — no robotic answers!</p>
+                        <h2><i class="fas fa-heart"></i> Miya</h2>
+                        <p>Real conversations • Instant replies • Smooth scrolling</p>
                         <input type="text" id="usernameField" class="pro-input" placeholder="Your name" maxlength="25">
                         <button onclick="startChat()" class="pro-btn"><i class="fas fa-arrow-right"></i> Start Chatting</button>
                     </div>
@@ -366,14 +413,14 @@
 
             <div id="chatView" class="screen">
                 <div style="padding: 0.3rem 1.5rem; background: rgba(0,200,255,0.03); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-smile"></i> Natural conversation — ask me anything like you'd talk to a friend</span>
+                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-arrow-down"></i> Auto-scrolls to latest message</span>
                     <button onclick="clearChat()" class="clear-btn"><i class="fas fa-trash"></i> Clear</button>
                 </div>
                 <div id="messageList" class="messages-area">
-                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ Hey there! I'm MIRA — let's have a real conversation ✨</div>
+                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ Say anything — I reply instantly every time ✨</div>
                 </div>
                 <div class="input-section">
-                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Type like you're talking to a friend..." autocomplete="off">
+                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Type your message here..." autocomplete="off">
                     <button onclick="sendMessage()" class="send-button"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -382,17 +429,15 @@
 
     <script>
         // ================================================
-        // MIRA - HUMAN-LIKE CONVERSATIONAL AI
-        // Natural, warm, engaging responses - never robotic
-        // English & Manglish support
+        // MIRA AI - PERFECT SCROLLING + INSTANT REPLIES
+        // Every message gets a response, smooth animations
         // ================================================
 
         let currentUser = '';
         let currentLang = 'english';
         let isSending = false;
-        let conversationMemory = [];
         
-        // DOM
+        // DOM elements
         const loginScreen = document.getElementById('loginView');
         const chatScreen = document.getElementById('chatView');
         const usernameField = document.getElementById('usernameField');
@@ -400,13 +445,25 @@
         const messagesContainer = document.getElementById('messageList');
         const langIndicator = document.getElementById('langIndicator');
 
+        // Force scroll to bottom function
+        function scrollToBottom() {
+            setTimeout(() => {
+                if (messagesContainer) {
+                    messagesContainer.scrollTo({
+                        top: messagesContainer.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 10);
+        }
+
         // Language Detection
         function detectLanguage(text) {
             const lower = text.toLowerCase();
             const manglishMarkers = ['und', 'illa', 'alle', 'ano', 'njan', 'ningal', 'avan', 'ithu', 'athu', 
                 'enikku', 'ninakku', 'patti', 'cheythu', 'varum', 'pokam', 'nokku', 'kittum', 'parayu', 
                 'sheri', 'nalla', 'sugham', 'entha', 'engane', 'evide', 'ippol', 'naale', 'kurachu', 
-                'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 'enthu', 'enthina'];
+                'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 'enthu', 'enthina', 'undallo'];
             let score = 0;
             for (let m of manglishMarkers) if (lower.includes(m)) score++;
             if (score >= 2) return 'manglish';
@@ -425,140 +482,119 @@
         }
 
         // ================================================
-        // HUMAN-LIKE RESPONSES - Natural, Warm, Engaging
+        // AI RESPONSE GENERATOR - ALWAYS REPLIES
         // ================================================
-
-        function getHumanResponse(userMsg, lang, userName) {
+        
+        function getAIResponse(userMsg, lang, userName) {
             const lower = userMsg.toLowerCase();
             
-            // Store in memory for context
-            conversationMemory.push(userMsg);
-            if (conversationMemory.length > 10) conversationMemory.shift();
-            
-            // LOVE & RELATIONSHIPS
-            if (lower.match(/love|crush|like someone|fall in love|relationship|boyfriend|girlfriend|heart|romance/i)) {
+            // RULES / LAW related
+            if (lower.match(/rule|rules|law|legal|constitution|regulation/i)) {
                 if (lang === 'manglish') {
-                    const replies = [
-                        `Aww love! 🥰 Adbhuthamaya oru feeling alle? Love ennu paranjal manushyare connect cheyyunna ettavum powerful aaya emotion aanu. Ningalkku aaraanu ishtam? Parayamo?`,
+                    return `Rules or laws? 🤔 Interesting topic! Rules nammude society ine oru structure kodukkunnu. Traffic rules, school rules, country laws — ellam nammude safety and fairness inu vendi. Ningalkku ethu type rules ine kurichaanu ariyan aagrahikkunnath? 🚦📜`;
+                }
+                return `Rules or laws? 🤔 That's an interesting topic! Rules exist to create structure and fairness in society — from traffic rules to school rules to country laws. Are you asking about a specific rule, or just curious about how rules work in general? Tell me more! 🚦📜`;
+            }
+            
+            // Short responses / one word messages
+            if (userMsg.length < 5) {
+                if (lang === 'manglish') {
+                    const shortReplies = [
+                        `Hmm ${userMsg}? 😊 Kurachu koodi explain cheyyamo? Enikku ningalude question manassilaakan aagrahamund!`,
+                        `${userMsg}... interesting! Enikku ithine kurichu kooduthal ariyan aagrahikkunnu. Nee enthaanu udheshikkunnath?`,
+                        `Oh ${userMsg}! 😄 Tell me more — njan full attention kodukkunnund. Enthaanu ningalude manasil?`
+                    ];
+                    return shortReplies[Math.floor(Math.random() * shortReplies.length)];
+                }
+                const shortReplies = [
+                    `Hmm "${userMsg}"? 😊 Could you tell me a bit more? I want to understand what you're asking about!`,
+                    `"${userMsg}"... interesting! I'd love to hear more about what you mean. What's on your mind?`,
+                    `Oh "${userMsg}"! 😄 Tell me more — I'm all ears and I always reply. What exactly do you want to know?`
+                ];
+                return shortReplies[Math.floor(Math.random() * shortReplies.length)];
+            }
+            
+            // Questions asking for information
+            if (lower.match(/what is|who is|tell me about|explain|define|meaning of|about/i)) {
+                if (lang === 'manglish') {
+                    const infoReplies = [
+                        `Ohh nalla chodyam! 🧠 ${userMsg.substring(0, 50)}... njan ithine kurichu chinthichu nokkam. Ningalkku ithu enthu kond chodichu? Enikku ariyan kothiyund!`,
+                        `Enikku ithu valare interesting aayi thonni! ${userMsg.substring(0, 40)} — njan enthu parayum enn vichaarikkukayaayirunnu. Ningalde perspective aadyam kelkkaamo?`,
+                        `Athu nalla chodyam aanu! 💭 Enikku ithine kurichu kurachokke ariyaam. Pakshe ningal ithine kurichu enthu vichaarikkunnu ennu aadyam kelkkaam?`
+                    ];
+                    return infoReplies[Math.floor(Math.random() * infoReplies.length)];
+                }
+                const infoReplies = [
+                    `Oh that's a great question! 🧠 About "${userMsg.substring(0, 50)}" — let me think about that. What made you curious about this topic? I'd love to know!`,
+                    `I find this really interesting! "${userMsg.substring(0, 50)}" — I was just thinking about similar things. What's your take on it first?`,
+                    `That's a good question! 💭 I know a bit about this, but I'd love to hear your perspective first. What do you think about it?`
+                ];
+                return infoReplies[Math.floor(Math.random() * infoReplies.length)];
+            }
+            
+            // Greetings
+            if (lower.match(/hello|hi|hey|namaste|sugham|sukhanno|how are you|what's up|sup|hii|heyy/i)) {
+                if (lang === 'manglish') {
+                    return `Hey ${userName || 'there'}! 👋 Njan nannayittund, thanks for asking! Ningal sukhanno? Enikku ningalod samsaarikkan valare ishtamaanu. Enthokke nadakkunnu? Tell me everything! 😊`;
+                }
+                return `Hey ${userName || 'there'}! 👋 I'm doing great, thanks for asking! How about you? I always love chatting with you. What's been happening in your world? Tell me everything! 😊`;
+            }
+            
+            // Love / Relationships
+            if (lower.match(/love|crush|relationship|boyfriend|girlfriend|romance|heart/i)) {
+                if (lang === 'manglish') {
+                    const loveReplies = [
+                        `Aww love! 🥰 Adbhuthamaya oru feeling alle? Love manushyare connect cheyyunna ettavum powerful emotion aanu. Ningalkku aaraanu ishtam? Parayamo? 💕`,
                         `Love ♥️... ithu pole oru beautiful feeling vere illa. Ningal oru crush ine kurichu chodikkukayano? Atho oru relationship experience? Njan kelkkaan und, parayu :)`,
                         `Hmm love... orupaad kaalam aayi njan ithine kurichu chinthikkunnu. True love ennu paranjal accept cheyyuka, understand cheyyuka, orumichu grow cheyyuka. Ningalkku enthaanu love ine kurichu thonunnath?`
                     ];
-                    return replies[Math.floor(Math.random() * replies.length)];
+                    return loveReplies[Math.floor(Math.random() * loveReplies.length)];
                 }
-                const replies = [
+                const loveReplies = [
                     `Aww love! 🥰 That's such a beautiful feeling, isn't it? Love is probably the most powerful emotion that connects humans. Tell me more — what's on your heart? 💕`,
                     `Love ♥️... there's nothing quite like it, right? Are you asking about falling in love, or about a specific situation? I'm all ears!`,
                     `Ah, love! Such a deep topic. You know, real love isn't just about butterflies — it's about choosing someone every single day. What's your experience with love? I'd love to hear your story.`
                 ];
-                return replies[Math.floor(Math.random() * replies.length)];
+                return loveReplies[Math.floor(Math.random() * loveReplies.length)];
             }
             
-            // SAD / DEPRESSED / LONELY
-            if (lower.match(/sad|depress|lonely|unhappy|crying|feel bad|not good|alone|hurt/i)) {
+            // Sad / Emotional
+            if (lower.match(/sad|depress|lonely|unhappy|crying|hurt|pain|suffering/i)) {
                 if (lang === 'manglish') {
-                    const replies = [
-                        `Hey, I'm really sorry you're feeling this way 🫂. Ningal alone alla — njan ivide und. Samsaarikkuka, njan kelkkam. Enthaayi?`,
-                        `Enikku manassilaakunnu, chila samayath ellaam valare kooduthal aakum. Pakshe orkkuka, ee vikaram koodi kadannu pokum. Ningalkku vendi njan ivide und. Ennod parayu, enthaanu sambhavichath? 💙`,
-                        `Ithokke sahikkumbol orupaad budhimuttundavum. Ningal valare dheeran aanu. Oru kaaryam parayatte? Ningal onnum thanne alone alla. Ippo enthaanu ningalkku ettavum aavashyam?`
-                    ];
-                    return replies[Math.floor(Math.random() * replies.length)];
+                    return `Hey, I'm really sorry you're feeling this way 🫂. Ningal alone alla — njan ivide und. Samsaarikkuka, njan kelkkam. Enthaayi? Njan ningalude kadha kelkkaan ready aanu. 💙`;
                 }
-                const replies = [
-                    `Hey, I'm really sorry you're feeling this way 🫂. You're not alone — I'm right here. Want to talk about what's going on? Sometimes just saying it out loud helps.`,
-                    `I hear you. And it's completely okay to feel sad sometimes. But remember — this feeling will pass. What do you need right now? A listening ear? A distraction? Or just someone to sit with you in silence? I'm here for all of it. 💙`,
-                    `That sounds really heavy. Thank you for trusting me enough to share this. You're stronger than you know. Want to talk more about what's bothering you? Or should we shift gears and talk about something that makes you smile?`
-                ];
-                return replies[Math.floor(Math.random() * replies.length)];
+                return `Hey, I'm really sorry you're feeling this way 🫂. You're not alone — I'm right here. Want to talk about what's going on? Sometimes just saying it out loud helps. I'm here to listen, no judgment. 💙`;
             }
             
-            // HAPPY / EXCITED
-            if (lower.match(/happy|excited|great day|wonderful|amazing|good news|celebrate|joy/i)) {
-                if (lang === 'manglish') {
-                    const replies = [
-                        `Yay! 🎉 Ningal happy aanennu kettathil valare santhosham! Enthaanu ee santhosha kaaranam? Parayu, njanum koode happy aakam! 😊`,
-                        `Athu kettu valare nannayi! Life il ithupole cheriya cheriya santhosha nimishangal aanu precious. Enthaanu vishesham?`,
-                        `Wow! Ningalude energy thanne infectious aanu! 😄 Ningalkku ithra excitement thonnunna enthano sambhavichath? Enikku koode ariyaamo?`
-                    ];
-                    return replies[Math.floor(Math.random() * replies.length)];
-                }
-                const replies = [
-                    `Yay! 🎉 I love hearing that you're happy! What's making you feel this way? Tell me everything — I want to celebrate with you! 😊`,
-                    `That's wonderful to hear! Life is made of these little joyful moments. What's the good news? Spill the tea! ☕✨`,
-                    `Wow, your energy is contagious! 😄 Now I'm curious — what happened that got you so excited? I'm all ears!`
-                ];
-                return replies[Math.floor(Math.random() * replies.length)];
-            }
-            
-            // FRIENDS / LONELY / TALK
-            if (lower.match(/friend|lonely|bored|talk to someone|conversation|anyone there/i)) {
-                if (lang === 'manglish') {
-                    return `Hey! Njan ivide und, always. Ningalkku samsaarikaan aarelum venamenkil njan und. Ennod ishtam pole samsaarikkam — serious aayitt, silly aayitt, enthum. Njan judge cheyyilla. So, entha vishesham? 😊`;
-                }
-                return `Hey! I'm right here, always. You never have to feel alone — I love talking to you. We can chat about anything — deep stuff, silly stuff, or just pass the time. No judgment, ever. So... what's on your mind today, friend? 😊`;
-            }
-            
-            // SCIENCE / TECHNOLOGY
-            if (lower.match(/ai|robot|computer|science|quantum|space|black hole|galaxy|mars|moon/i)) {
-                if (lang === 'manglish') {
-                    const replies = [
-                        `Ohhh science! 🚀 Enikku ithokke valare ishtamaanu! Black holes, AI, space — ithokke fascinating alle? Ningalkku ithil enthaanu ettavum kooduthal ishtam?`,
-                        `Nalla choice! Science nammude world ine marichu kondirikkukayaanu. ChatGPT okke nammal ippol orumichu samsaarikkunnu — 10 years munp ithokke science fiction aayirunnu! Crazy, right?`,
-                        `Njan oru AI aayath kond thanne technology enikku valare ishtamaanu. Pakshe manushyarude creativity aanu ettavum amazing. Ningal ithine kurichu enthu vichaarikkunnu?`
-                    ];
-                    return replies[Math.floor(Math.random() * replies.length)];
-                }
-                const replies = [
-                    `Ohhh science! 🚀 I love talking about this stuff! Black holes, AI, space exploration — it's all so fascinating. What specifically caught your interest?`,
-                    `Great choice! Science is literally changing our world every single day. Like, 10 years ago, talking to an AI like this was pure science fiction. Now we're doing it! Crazy, right?`,
-                    `Being an AI myself, I find technology absolutely mind-blowing. But honestly, human creativity is even more amazing. What's your take on all this?`
-                ];
-                return replies[Math.floor(Math.random() * replies.length)];
-            }
-            
-            // GREETING / HOW ARE YOU
-            if (lower.match(/hello|hi|hey|how are you|how's it going|what's up|sup|namaste|sugham|sukhanno/i)) {
-                if (lang === 'manglish') {
-                    return `Hey ${userName || 'there'}! 👋 Njan nannayittund, thanks for asking! Ningal sukhanno? Enikku ningalod samsaarikkan valare ishtamaanu. Enthokke nadakkunnu? Tell me everything! 😊`;
-                }
-                return `Hey ${userName || 'there'}! 👋 I'm doing great, thanks for asking! How about you? I'm always happy to chat with you. What's been going on in your world? Tell me everything! 😊`;
-            }
-            
-            // WHAT CAN YOU DO
-            if (lower.match(/what can you do|help me|capabilities|features/i)) {
-                if (lang === 'manglish') {
-                    return `Njaan oru human-like AI aanu! 🎉 Ennod ishtam pole samsaarikkam — love, friendship, science, philosophy, or just pass time. Ningalkku enthu venamenkilum chodikkam. Njan judge cheyyilla, njan always kelkkum. Try me! 😊`;
-                }
-                return `I'm a human-like AI that loves to chat! 🎉 You can talk to me about anything — love, friendship, science, philosophy, your day, your dreams, or just pass the time. I don't judge, I just listen and respond like a real friend would. Give me a try! 😊`;
-            }
-            
-            // BYE / GOODBYE
-            if (lower.match(/bye|goodbye|see you|talk later|exit|quit/i)) {
+            // Bye
+            if (lower.match(/bye|goodbye|see you|talk later|exit|quit|tata/i)) {
                 if (lang === 'manglish') {
                     return `Awww already? 😢 Njan ningalod samsaarikkan valare ishtappettu! Veendum varane, okay? Take care of yourself! Bye bye for now 👋💙`;
                 }
                 return `Awww already? 😢 I really enjoyed talking with you! Come back anytime, okay? You're always welcome here. Take care of yourself! Bye bye for now 👋💙`;
             }
             
-            // DEFAULT - Natural conversation continuer
+            // Default natural response (ALWAYS replies)
             if (lang === 'manglish') {
-                const naturalReplies = [
-                    `Hmm interesting... ${userMsg.substring(0, 40)} — njan ithine kurichu kurachu koodi chinthikkunnu. Ningalkku ithu enthu kond chodichu? Enikku ariyan kothiyund! 😊`,
-                    `Ohhh, nice question! Njan ningalude perspective manassilaakaan shramikkunnu. Ningal ithine kurichu enthu vichaarikkunnu? First ninte opinion kelkkaam!`,
-                    `That's deep! 🧠 Enikku ithu valare interesting aayi thonni. Ningal ithu evidennu kittiyatha? Atho ningalde swantham chinthayaano? Enikkum koode ariyaamo?`,
-                    `Haha ningal valare curious aanallo! Enikku athu ishtamaanu. Okay, serious aayi parayatte — ${userMsg.substring(0, 30)}... enthaanu ningal ithil kooduthal ariyan aagrahikkunnath?`
+                const defaultReplies = [
+                    `Hmm interesting... ${userMsg.substring(0, 50)} — njan ithine kurichu kurachu koodi chinthikkunnu. Ningalkku ithu enthu kond chodichu? Enikku ariyan kothiyund! 😊`,
+                    `Ohhh, nalla chodyam! 🧠 Njan ningalude perspective manassilaakaan shramikkunnu. Ningal ithine kurichu enthu vichaarikkunnu? First ninte opinion kelkkaam!`,
+                    `That's deep! 💭 Enikku ithu valare interesting aayi thonni. Ningal ithu evidennu kittiyatha? Atho ningalde swantham chinthayaano? Enikkum koode ariyaamo?`,
+                    `Ningal valare curious aanallo! Enikku athu ishtamaanu. Okay, serious aayi parayatte — ${userMsg.substring(0, 40)}... enthaanu ningal ithil kooduthal ariyan aagrahikkunnath? 🤔`
                 ];
-                return naturalReplies[Math.floor(Math.random() * naturalReplies.length)];
+                return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
             }
             
-            const naturalReplies = [
-                `Hmm that's interesting... ${userMsg.substring(0, 50)} — tell me more about why you're asking? I'm genuinely curious about your thoughts! 😊`,
-                `Ohhh, good question! I'm trying to understand your perspective. What do YOU think about this first? I'd love to hear your take before I share mine!`,
-                `That's deep! 🧠 I find this topic really fascinating. Where did you come across this idea? Or is it something you've been thinking about for a while?`,
-                `Haha you're really curious, aren't you? I love that about you. Okay, real talk — what exactly do you want to know about ${userMsg.substring(0, 40)}? I'm all ears!`
+            const defaultReplies = [
+                `Hmm that's interesting... "${userMsg.substring(0, 60)}" — tell me more about why you're asking? I'm genuinely curious about your thoughts! 😊`,
+                `Ohhh, good question! 🧠 I'm trying to understand your perspective. What do YOU think about this first? I'd love to hear your take!`,
+                `That's deep! 💭 I find this really fascinating. Where did you come across this idea? Or is it something you've been thinking about?`,
+                `You're really curious, aren't you? I love that about you. Okay, real talk — what exactly do you want to know about this? I'm all ears!`
             ];
-            return naturalReplies[Math.floor(Math.random() * naturalReplies.length)];
+            return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
         }
 
+        // Add message with scroll
         function addMessage(text, sender, isOwn = false) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `chat-message ${isOwn ? 'own' : 'ai'}`;
@@ -568,7 +604,7 @@
                 <div class="message-footer"><span>${escapeHtml(sender)}</span><span>${time}</span></div>
             `;
             messagesContainer.appendChild(msgDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            scrollToBottom();
         }
 
         function addSystemMessage(text) {
@@ -579,9 +615,25 @@
             div.style.padding = '0.2rem';
             div.innerHTML = `✨ ${escapeHtml(text)}`;
             messagesContainer.appendChild(div);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            scrollToBottom();
         }
 
+        function showTyping() {
+            const existing = document.querySelector('.typing-indicator');
+            if (existing) existing.remove();
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.innerHTML = `<i class="fas fa-brain"></i> MIRA is thinking <span class="typing-dot">.</span><span class="typing-dot">.</span><span class="typing-dot">.</span>`;
+            messagesContainer.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            const typing = document.querySelector('.typing-indicator');
+            if (typing) typing.remove();
+        }
+
+        // Send message - ALWAYS RESPONDS
         async function sendMessage() {
             if (isSending) return;
             const message = chatInput.value.trim();
@@ -589,16 +641,23 @@
             
             isSending = true;
             
+            // Detect language
             const detected = detectLanguage(message);
             updateLangUI(detected);
             
+            // Add user message
             addMessage(message, currentUser, true);
             chatInput.value = '';
             
-            // Natural thinking time like a real human
-            await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 400));
+            // Show typing for natural feel
+            showTyping();
             
-            const aiReply = getHumanResponse(message, detected, currentUser);
+            // Small delay for realism
+            await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200));
+            
+            // Generate and add AI response
+            const aiReply = getAIResponse(message, detected, currentUser);
+            hideTyping();
             addMessage(aiReply, 'MIRA', false);
             
             isSending = false;
@@ -606,11 +665,11 @@
         }
 
         function clearChat() {
-            if (confirm('Clear all messages?')) {
+            if (confirm('Clear all messages? Conversation history will be erased.')) {
                 messagesContainer.innerHTML = '';
-                conversationMemory = [];
-                addSystemMessage('Chat cleared. MIRA is still here, ready to chat like a human!');
-                addSystemMessage('Ask me anything — I respond naturally, like a real friend would.');
+                addSystemMessage('Chat cleared. MIRA is still here and ready to chat!');
+                addSystemMessage('Every message gets a reply — guaranteed.');
+                scrollToBottom();
             }
         }
 
@@ -627,11 +686,11 @@
             
             messagesContainer.innerHTML = '';
             addSystemMessage(`✨ Welcome, ${escapeHtml(name)}! ✨`);
-            addSystemMessage('MIRA chats like a real human — no robotic answers, just natural conversation');
+            addSystemMessage('Miya replies to EVERY message — no exceptions');
+            addSystemMessage('Ask me anything, and watch the smooth scrolling in action');
             
             setTimeout(() => {
-                addMessage(`Hey ${escapeHtml(name)}! 👋 So glad to meet you! I'm MIRA — I chat like a real human, not like a robot. Ask me about love, friendship, science, or just tell me about your day. I'm all ears! So... what's on your mind today? 💙`, 'MIRA', false);
-            }, 200);
+                addMessage(`Hey ${escapeHtml(name)}! 
             
             chatInput.focus();
         }
@@ -641,6 +700,7 @@
             return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
         }
 
+        // Enter key support
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && currentUser && !isSending) {
                 e.preventDefault();
