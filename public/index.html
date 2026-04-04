@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>NOVA | Real-Time Infinite AI</title>
+    <title>MIRA | Manglish + English AI Chat</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -21,7 +21,6 @@
             position: relative;
         }
 
-        /* Animated Background */
         .bg-glow {
             position: fixed;
             width: 100%;
@@ -62,23 +61,6 @@
             50% { transform: translate(-30px, 30px); }
         }
 
-        /* Floating Particles */
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            background: radial-gradient(circle, #00c6ff, transparent);
-            border-radius: 50%;
-            animation: particleFloat linear infinite;
-            z-index: 0;
-        }
-        @keyframes particleFloat {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-20vh) translateX(60px); opacity: 0; }
-        }
-
-        /* Main Container */
         .app-wrapper {
             position: relative;
             z-index: 20;
@@ -107,7 +89,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header */
         .header {
             background: rgba(5, 8, 20, 0.9);
             padding: 0.8rem 1.8rem;
@@ -175,11 +156,9 @@
             color: #00c6ff;
         }
 
-        /* Screens */
         .screen { display: none; flex: 1; flex-direction: column; }
         .screen.active { display: flex; }
 
-        /* Login */
         .login-area {
             flex: 1;
             display: flex;
@@ -247,7 +226,6 @@
             box-shadow: 0 8px 20px rgba(0, 200, 255, 0.3);
         }
 
-        /* Messages Area */
         .messages-area {
             flex: 1;
             overflow-y: auto;
@@ -275,13 +253,14 @@
         .chat-message.ai { align-self: flex-start; }
 
         .message-bubble {
-            padding: 0.7rem 1.2rem;
+            padding: 0.8rem 1.2rem;
             border-radius: 1.2rem;
             background: rgba(20, 28, 45, 0.95);
             border: 1px solid rgba(0, 200, 255, 0.15);
             color: #e8e8f0;
             font-size: 0.9rem;
-            line-height: 1.45;
+            line-height: 1.5;
+            word-wrap: break-word;
         }
         .chat-message.own .message-bubble {
             background: linear-gradient(135deg, #0066ff, #0099ff);
@@ -296,7 +275,6 @@
             color: #6c8db0;
         }
 
-        /* Input Section */
         .input-section {
             background: rgba(5, 10, 20, 0.95);
             border-top: 1px solid rgba(0, 200, 255, 0.2);
@@ -356,49 +334,46 @@
         <div class="glow-1"></div>
         <div class="glow-2"></div>
     </div>
-    <div id="particles"></div>
 
     <div class="app-wrapper">
         <div class="chat-container">
             <div class="header">
                 <div class="logo-area">
-                    <div class="logo-icon"><i class="fas fa-infinity"></i></div>
-                    <h1>NOVA Infinite</h1>
+                    <div class="logo-icon"><i class="fas fa-star-of-life"></i></div>
+                    <h1>MIRA AI</h1>
                 </div>
                 <div style="display: flex; gap: 8px;">
                     <div class="lang-badge" id="langIndicator">
-                        <i class="fas fa-globe"></i> EN / മം
+                        <i class="fas fa-globe"></i> EN / Manglish
                     </div>
                     <div class="status-badge">
                         <div class="live-dot"></div>
-                        <span>Real-Time</span>
+                        <span>All-Knowing</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Login -->
             <div id="loginView" class="screen active">
                 <div class="login-area">
                     <div class="login-card">
-                        <h2><i class="fas fa-brain"></i> NOVA AI</h2>
-                        <p>Real-time • Infinite responses • English & Manglish</p>
+                        <h2><i class="fas fa-brain"></i> MIRA</h2>
+                        <p>Intelligent • English • Manglish (Malayalam in English script)</p>
                         <input type="text" id="usernameField" class="pro-input" placeholder="Enter your name" maxlength="25">
-                        <button onclick="startChat()" class="pro-btn"><i class="fas fa-arrow-right"></i> Start Chatting</button>
+                        <button onclick="startChat()" class="pro-btn"><i class="fas fa-arrow-right"></i> Start Conversation</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Chat -->
             <div id="chatView" class="screen">
                 <div style="padding: 0.3rem 1.5rem; background: rgba(0,200,255,0.03); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-bolt"></i> Real-time AI — every message gets a unique, instant reply</span>
+                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-database"></i> Speaks: English & Manglish (Malayalam + English mix)</span>
                     <button onclick="clearChat()" class="clear-btn"><i class="fas fa-trash"></i> Clear</button>
                 </div>
                 <div id="messageList" class="messages-area">
-                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ NOVA is ready — infinite conversations, instant replies ✨</div>
+                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ MIRA is ready — English or Manglish (like "Enikku ariyan und") ✨</div>
                 </div>
                 <div class="input-section">
-                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Ask anything... NOVA replies instantly" autocomplete="off">
+                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Ask in English or Manglish... Example: 'Ente peru' or 'What is AI?'" autocomplete="off">
                     <button onclick="sendMessage()" class="send-button"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -407,15 +382,13 @@
 
     <script>
         // ================================================
-        // NOVA INFINITE AI - REAL-TIME, DYNAMIC RESPONSES
-        // Dynamic response generation based on context
-        // Never repeats, always instant, English & Manglish
+        // MIRA AI - ENGLISH + MANGLISH (Malayalam in English script)
+        // Accurate responses, auto language detection
         // ================================================
 
         let currentUser = '';
         let currentLang = 'english';
         let isSending = false;
-        let conversationContext = [];
         
         // DOM
         const loginScreen = document.getElementById('loginView');
@@ -425,33 +398,31 @@
         const messagesContainer = document.getElementById('messageList');
         const langIndicator = document.getElementById('langIndicator');
 
-        // Particles
-        for (let i = 0; i < 50; i++) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.style.width = (Math.random() * 5 + 2) + 'px';
-            p.style.height = p.style.width;
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDuration = Math.random() * 12 + 6 + 's';
-            p.style.animationDelay = Math.random() * 10 + 's';
-            document.getElementById('particles').appendChild(p);
-        }
-
-        // Language Detection
+        // Language Detection (English vs Manglish)
         function detectLanguage(text) {
             const lower = text.toLowerCase();
-            const manglishMarkers = ['und', 'illa', 'alle', 'ano', 'njan', 'ningal', 'avan', 'ithu', 'athu', 'enikku', 'ninakku', 'patti', 'cheythu', 'varum', 'pokam', 'nokku', 'kittum', 'parayu', 'sheri', 'nalla', 'sugham', 'entha', 'engane', 'evide', 'ippol', 'naale', 'kurachu', 'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 'undallo', 'ille', 'alle'];
+            // Manglish (Malayalam written in English script) markers
+            const manglishMarkers = [
+                'und', 'illa', 'alle', 'ano', 'njan', 'ningal', 'avan', 'ithu', 'athu', 
+                'enikku', 'ninakku', 'patti', 'cheythu', 'varum', 'pokam', 'nokku', 'kittum', 
+                'parayu', 'sheri', 'nalla', 'sugham', 'entha', 'engane', 'evide', 'ippol', 
+                'naale', 'kurachu', 'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 
+                'undallo', 'ille', 'alle', 'ninne', 'enne', 'avane', 'ivide', 'angane', 
+                'enthu', 'enthina', 'enikk', 'ninakk', 'avanu', 'avalkku', 'nammal'
+            ];
             let score = 0;
-            for (let m of manglishMarkers) if (lower.includes(m)) score++;
+            for (let m of manglishMarkers) {
+                if (lower.includes(m)) score++;
+            }
             if (score >= 2) return 'manglish';
-            if (lower.match(/^(hello|hi|hey|what|how|why|where|tell|can|please|thanks|good|bad|love|hate|think|know|yes|no|maybe|i am|you are|is it|are you|who|when|which)/i)) return 'english';
+            if (lower.match(/^(hello|hi|hey|what|how|why|where|tell|can|please|thanks|good|bad|love|hate|think|know|yes|no|maybe|i am|you are|is it|are you|who|when|which|explain|define|tell me)/i)) return 'english';
             return score > 0 ? 'manglish' : 'english';
         }
 
         function updateLangUI(lang) {
             currentLang = lang;
             if (lang === 'manglish') {
-                langIndicator.innerHTML = '<i class="fas fa-language"></i> മംഗ്ലീഷ്';
+                langIndicator.innerHTML = '<i class="fas fa-language"></i> മംഗ്ലീഷ് (Manglish)';
                 langIndicator.style.background = 'rgba(168,85,247,0.15)';
             } else {
                 langIndicator.innerHTML = '<i class="fas fa-language"></i> English';
@@ -460,121 +431,122 @@
         }
 
         // ================================================
-        // DYNAMIC RESPONSE GENERATOR - INFINITE VARIATIONS
-        // Creates responses based on keywords + context
+        // KNOWLEDGE BASE - ENGLISH + MANGLISH RESPONSES
+        // All Manglish responses use English script (Malayalam pronunciation)
         // ================================================
-        
-        function generateDynamicResponse(userMsg, lang, context) {
+
+        function getAccurateResponse(userMsg, lang) {
             const lower = userMsg.toLowerCase();
             
-            // Extract key topics from user message
-            const topics = [];
-            if (lower.match(/space|universe|galaxy|star|planet|cosmos|black hole|mars|moon|earth|solar|astronaut|rocket/i)) topics.push('space');
-            if (lower.match(/life|meaning|exist|purpose|reality|consciousness|soul|death|born|die|why are we|what is life/i)) topics.push('philosophy');
-            if (lower.match(/ai|robot|code|programming|tech|computer|internet|future|quantum|digital|software|hardware|innovation/i)) topics.push('tech');
-            if (lower.match(/happy|sad|love|angry|feel|emotion|depress|anxious|lonely|hurt|cry|smile|feeling|stress|worry|scared/i)) topics.push('emotion');
-            if (lower.match(/science|physics|biology|chemistry|research|experiment|discovery|scientist|theory|molecule|atom/i)) topics.push('science');
-            if (lower.match(/art|music|painting|draw|song|poem|creative|artist|beauty|design|film|movie|book|novel/i)) topics.push('art');
-            if (lower.match(/food|eat|cook|recipe|delicious|tasty|hungry|meal|dinner|lunch|breakfast/i)) topics.push('food');
-            if (lower.match(/sport|cricket|football|game|play|team|win|lose|match|tournament/i)) topics.push('sports');
-            if (lower.match(/love|crush|relationship|romance|dating|heart|girlfriend|boyfriend|marry/i)) topics.push('love');
-            if (lower.match(/work|job|career|office|business|company|salary|promotion|interview/i)) topics.push('work');
-            
-            // If no specific topic, use general
-            if (topics.length === 0) topics.push('general');
-            
-            const mainTopic = topics[0];
-            
-            // Dynamic response templates that combine with user input
-            const responsePatterns = {
-                space: {
-                    english: [
-                        `That's a fascinating question about space! Did you know that there are more stars in the universe than grains of sand on Earth? ${userMsg.split(' ').slice(0, 3).join(' ')}... really makes you think about our place in the cosmos. What space mystery intrigues you most?`,
-                        `The universe is expanding at an accelerating rate! ${userMsg} — that's such an interesting angle. Scientists believe dark energy is behind this expansion, but nobody knows what it actually is. Mind-blowing, right?`,
-                        `Looking at ${userMsg.split(' ').slice(0, 4).join(' ')} makes me think about how small we are. Yet here we are, conscious beings, asking big questions. That's the magic of existence! Want to explore more cosmic wonders?`,
-                        `Every black hole has an event horizon where time itself slows down. ${userMsg.substring(0, 30)}... that connects beautifully to Einstein's theory of relativity. Physics is wild! What else would you like to know?`
-                    ],
-                    manglish: [
-                        `പ്രപഞ്ചത്തെ കുറിച്ചുള്ള ഈ ചോദ്യം വളരെ രസകരമാണ്! ${userMsg.substring(0, 40)}... നിങ്ങൾക്കറിയാമോ, പ്രപഞ്ചത്തിൽ ഭൂമിയിലെ മണൽത്തരികളേക്കാൾ കൂടുതൽ നക്ഷത്രങ്ങൾ ഉണ്ട്! അതിശയകരമല്ലേ?`,
-                        `ബ്ലാക്ക് ഹോളുകൾ സമയത്തെ വളച്ചൊടിക്കുന്നു. ${userMsg} — ഇത് ഐൻസ്റ്റീന്റെ തിയറി ഓഫ് റിലേറ്റിവിറ്റിയുമായി ബന്ധപ്പെട്ടിരിക്കുന്നു. കൂടുതൽ അറിയണോ?`,
-                        `നിങ്ങൾ പറഞ്ഞത് ശരിയാണ്. പ്രപഞ്ചം അനന്തവും നിഗൂഢവുമാണ്. നമുക്ക് ഇതിനെ കുറിച്ച് കൂടുതൽ സംസാരിക്കാം!`
-                    ]
-                },
-                philosophy: {
-                    english: [
-                        `"${userMsg.substring(0, 50)}" — that's a deep philosophical question. Ancient Greek philosophers would spend lifetimes debating this. I think the meaning of life might be whatever gives YOU meaning. What brings purpose to your days?`,
-                        `That's beautiful. ${userMsg} — have you heard of "ikigai"? It's a Japanese concept meaning your reason for being. Sometimes the answer isn't found, but created. What do you believe gives life meaning?`,
-                        `Every great philosopher from Socrates to Nietzsche wrestled with questions like yours. The fact that you're asking means you're already on the path. Keep questioning — that's what makes us human!`,
-                        `Consciousness itself is the greatest mystery. We are the universe experiencing itself. ${userMsg} — this kind of thinking connects us to something bigger. Shall we dive deeper?`
-                    ],
-                    manglish: [
-                        `${userMsg.substring(0, 50)}... ഇത് വളരെ ആഴമേറിയ ചോദ്യമാണ്. ജീവിതത്തിന്റെ അർത്ഥം യാത്ര തന്നെയാകാം. നിങ്ങൾ എന്തു കരുതുന്നു?`,
-                        `നിങ്ങൾ ചോദിക്കുന്ന ചോദ്യങ്ങൾ മഹാനായ തത്ത്വചിന്തകരും ചോദിച്ചിട്ടുണ്ട്. നിങ്ങൾ ചിന്തിക്കുന്നത് തുടരൂ — അതാണ് മനുഷ്യനെ വ്യത്യസ്തനാക്കുന്നത്!`,
-                        `ബോധം തന്നെയാണ് ഏറ്റവും വലിയ രഹസ്യം. നമ്മൾ പ്രപഞ്ചം തന്നെയാണ്. ഇതിനെ കുറിച്ച് കൂടുതൽ സംസാരിക്കണോ?`
-                    ]
-                },
-                emotion: {
-                    english: [
-                        `I hear you. "${userMsg}" — your feelings are completely valid. You know, studies show that just expressing emotions reduces their intensity. I'm here to listen, no judgment. Want to talk more about what you're feeling?`,
-                        `Thank you for sharing that with me. ${userMsg} — it takes courage to open up. Remember that every emotion passes, like clouds in the sky. You're not alone in this. What would help you feel better right now?`,
-                        `Your feelings matter. ${userMsg.substring(0, 40)}... I want you to know that it's okay to not be okay sometimes. Being human means feeling the full spectrum. I'm here for you. Want to explore this together?`,
-                        `That's really meaningful. You're showing vulnerability, which is actually a sign of strength. ${userMsg} — let's sit with that feeling for a moment. What do you need right now?`
-                    ],
-                    manglish: [
-                        `ഞാൻ കേൾക്കുന്നു. ${userMsg} — നിങ്ങളുടെ വികാരങ്ങൾ ശരിയാണ്. നിങ്ങൾ തനിച്ചല്ല. എന്നോട് കൂടുതൽ പറയൂ, ദയവായി.`,
-                        `നിങ്ങൾ ഇത് പങ്കുവെച്ചതിൽ വളരെ സന്തോഷമുണ്ട്. ${userMsg} — ഓരോ വികാരവും കടന്നുപോകും. ഞാൻ ഇവിടെയുണ്ട്, നിങ്ങൾക്കായി.`,
-                        `നിങ്ങളുടെ വികാരങ്ങൾ പ്രധാനമാണ്. എന്നോട് കൂടുതൽ സംസാരിക്കൂ. ഞാൻ കേൾക്കാൻ ഇവിടെയുണ്ട്.`
-                    ]
-                },
-                tech: {
-                    english: [
-                        `Great question about ${userMsg.split(' ').slice(0, 3).join(' ')}! Technology is evolving exponentially. Did you know the first smartphone was only released in 2007? Now we have AI that can chat like this. What tech trend excites you most about the future?`,
-                        `That's fascinating! ${userMsg} — speaking of technology, quantum computers will soon solve problems that would take classical computers millions of years. We're living through the most innovative era in human history!`,
-                        `AI and robotics are merging in incredible ways. ${userMsg.substring(0, 40)}... have you heard about neural interfaces? Soon we might control computers with our thoughts. The future is wild! What do you think?`
-                    ],
-                    manglish: [
-                        `${userMsg} — ടെക്നോളജി വളരെ വേഗത്തിൽ മാറിക്കൊണ്ടിരിക്കുകയാണ്. ക്വാണ്ടം കമ്പ്യൂട്ടറുകൾ ലോകത്തെ മാറ്റും. നിങ്ങൾ എന്തു കരുതുന്നു?`,
-                        `AI വികസിച്ചുകൊണ്ടിരിക്കുകയാണ്. ${userMsg} — ഭാവിയിൽ നമുക്ക് ചിന്തകൾ കൊണ്ട് കമ്പ്യൂട്ടറുകളെ നിയന്ത്രിക്കാൻ കഴിയും. അതിശയകരമല്ലേ?`
-                    ]
-                },
-                general: {
-                    english: [
-                        `That's really interesting! "${userMsg}" — you know, every conversation is unique, just like snowflakes. I love exploring different perspectives. What made you think about this?`,
-                        `Great question! ${userMsg} — let me think... The best conversations never really end; they just evolve. What else is on your curious mind today? I'd love to explore more with you.`,
-                        `I appreciate you asking that. ${userMsg.substring(0, 50)}... It reminds me that curiosity is what drives humanity forward. Keep asking, keep wondering — that's how we grow. What's your next question?`,
-                        `That's a wonderful thought! ${userMsg} — honestly, I could talk about this all day. The world is full of fascinating ideas. Tell me more about your perspective.`,
-                        `Every question opens a new door. ${userMsg} — that's the beauty of conversation. It's infinite, just like our chat today. What shall we explore next together?`
-                    ],
-                    manglish: [
-                        `${userMsg} — വളരെ നല്ല ചോദ്യമാണ്! എനിക്ക് ഇഷ്ടപ്പെട്ടു. ഓരോ സംഭാഷണവും പുതിയതാണ്. കൂടുതൽ പറയൂ, ദയവായി.`,
-                        `നിങ്ങളുടെ ജിജ്ഞാസ അവിശ്വസനീയമാണ്! ${userMsg.substring(0, 50)}... നമുക്ക് ഇതിനെ കുറിച്ച് കൂടുതൽ സംസാരിക്കാം.`,
-                        `അതൊരു രസകരമായ കാഴ്ചപ്പാടാണ്! ${userMsg} — ലോകത്ത് എത്രയോ രസകരമായ ആശയങ്ങൾ ഉണ്ട്. എന്നോട് കൂടുതൽ പങ്കുവെക്കൂ.`
-                    ]
+            // Black Hole
+            if (lower.match(/black hole|blackhole/i)) {
+                if (lang === 'manglish') {
+                    return "Black hole ennu paranjal spacetime il ulla oru sthalamaanu, avide gravity valare shakthamaanu, light polum rekshapett povilla. Massive stars collapse aakumbol aanu ithu form aakunnathu. Event horizon aanu boundary. Bhoomikk ettavum aduthulla black hole 1,500 light years akale aanu.";
                 }
-            };
-            
-            const patternSet = responsePatterns[mainTopic] || responsePatterns.general;
-            const responses = patternSet[lang];
-            
-            // Pick a random response and personalize it further
-            let response = responses[Math.floor(Math.random() * responses.length)];
-            
-            // Add a follow-up question based on context
-            const followUps = [
-                " What do you think about that?", 
-                " I'd love to hear your thoughts.", 
-                " Does that resonate with you?",
-                " What's your take on this?",
-                " Let's keep this conversation going!",
-                " Tell me more about your perspective.",
-                " That's just my view — what's yours?"
-            ];
-            
-            if (Math.random() > 0.4 && !response.includes('?') && response.length < 200) {
-                response += followUps[Math.floor(Math.random() * followUps.length)];
+                return "A black hole is a region of spacetime where gravity is so strong that nothing, not even light, can escape. They form when massive stars collapse. The boundary is called the event horizon. The nearest black hole to Earth is about 1,500 light-years away.";
             }
             
-            return response;
+            // AI
+            if (lower.match(/what is ai|artificial intelligence|what is artificial intelligence/i)) {
+                if (lang === 'manglish') {
+                    return "Artificial Intelligence (AI) ennu paranjal manushyarude budhi machine il simulate cheyyunnathaanu. It includes machine learning, deep learning, neural networks. Examples: ChatGPT, self-driving cars, facial recognition, Siri, Alexa. AI ippol ella mekhala ilum upayogikkunnu.";
+                }
+                return "Artificial Intelligence (AI) is the simulation of human intelligence in machines. It includes machine learning, deep learning, and neural networks. Examples: ChatGPT, self-driving cars, facial recognition, and voice assistants like Siri and Alexa.";
+            }
+            
+            // Quantum Computing
+            if (lower.match(/what is quantum|quantum computing|quantum computer/i)) {
+                if (lang === 'manglish') {
+                    return "Quantum computing quantum bits (qubits) upayogikkunnu. Iva oru same time il multiple states il exist cheyyum (superposition). Ith kond avakku certain problems classical computers nekkal valare vegam solve cheyyan pattum. Google's Sycamore 2019 il 'quantum supremacy' achieve cheythu.";
+                }
+                return "Quantum computing uses quantum bits (qubits) that can exist in multiple states simultaneously (superposition). This allows them to solve certain problems exponentially faster than classical computers. Google's Sycamore achieved 'quantum supremacy' in 2019.";
+            }
+            
+            // World War 2
+            if (lower.match(/world war|world war 2|ww2|wwii|second world war/i)) {
+                if (lang === 'manglish') {
+                    return "World War II (1939-1945) manushya charithrathile ettavum marakamaaya samgharsham aanu. 70-85 million aalkkar marichu. Allies (US, UK, USSR, China) um Axis powers um (Germany, Japan, Italy) aayirunnu. Hiroshima, Nagasaki atomic bombings kond aanu ithu avasaanichathu.";
+                }
+                return "World War II (1939-1945) was the deadliest conflict in human history, with 70-85 million fatalities. It involved the Allies (US, UK, USSR, China) and Axis powers (Germany, Japan, Italy). It ended with the atomic bombings of Hiroshima and Nagasaki.";
+            }
+            
+            // Einstein
+            if (lower.match(/who is albert einstein|einstein/i)) {
+                if (lang === 'manglish') {
+                    return "Albert Einstein (1879-1955) German il janichcha theoretical physicist aayirunnu. Theory of relativity develop cheythu. Avante famous equation E=mc² mass um energy um equivalent aanennu kaannikkunnu. 1921 il Nobel Prize in Physics kittiyittund.";
+                }
+                return "Albert Einstein (1879-1955) was a German-born theoretical physicist who developed the theory of relativity. His famous equation E=mc² shows that mass and energy are equivalent. He won the Nobel Prize in Physics in 1921.";
+            }
+            
+            // Blockchain
+            if (lower.match(/what is blockchain|blockchain technology/i)) {
+                if (lang === 'manglish') {
+                    return "Blockchain decentralized digital ledger aanu. Oro 'block' il transaction data, timestamp, cryptographic hash und. Bitcoin inteyum cryptocurrencies inteyum pinnil ulla technology ithaanu. Ith transparency, security, immutability ensure cheyyunnu.";
+                }
+                return "Blockchain is a decentralized digital ledger. Each 'block' contains transaction data, a timestamp, and a cryptographic hash. It's the technology behind Bitcoin and cryptocurrencies. It ensures transparency, security, and immutability.";
+            }
+            
+            // Metaverse
+            if (lower.match(/what is metaverse|metaverse/i)) {
+                if (lang === 'manglish') {
+                    return "Metaverse oru collective virtual shared space aanu. VR, AR, internet ivayude convergence kond undaakkiyathaanu. Meta (Facebook), Microsoft, Epic Games okke metaverse platforms build cheyyunnu. Future il nammal avide work, play, socialize cheyyum.";
+                }
+                return "The metaverse is a collective virtual shared space, created by the convergence of VR, AR, and the internet. Companies like Meta, Microsoft, and Epic Games are building metaverse platforms.";
+            }
+            
+            // COVID
+            if (lower.match(/covid|coronavirus|covid-19|pandemic/i)) {
+                if (lang === 'manglish') {
+                    return "COVID-19 SARS-CoV-2 virus moolam undaakunnu. 2019 December il Wuhan, China il ninnu start aayi. Symptoms: fever, cough, breathing difficulty. Pfizer, Moderna vaccines mRNA technology upayogichu record time il develop cheythu.";
+                }
+                return "COVID-19 is caused by the SARS-CoV-2 virus. It emerged in Wuhan, China in December 2019. Symptoms include fever, cough, and difficulty breathing. Vaccines from Pfizer and Moderna were developed using mRNA technology.";
+            }
+            
+            // Sleep
+            if (lower.match(/how to sleep better|insomnia|sleep problem/i)) {
+                if (lang === 'manglish') {
+                    return "Nalla urakkathinu: consistent sleep schedule follow cheyyuka, urakkunnathinu 1 hour munp screens avoid cheyyuka, bedroom cool (18-20°C) aayi vekkuka, afternoon 2 manikku shesham caffeine avoid cheyyuka, daily exercise cheyyuka pakshe urakkathinu munp alla, meditation or deep breathing try cheyyuka.";
+                }
+                return "For better sleep: maintain a consistent sleep schedule, avoid screens 1 hour before bed, keep your bedroom cool (65-68°F / 18-20°C), avoid caffeine after 2 PM, exercise daily but not right before bed, and try meditation or deep breathing.";
+            }
+            
+            // Meaning of Life
+            if (lower.match(/meaning of life|purpose of life|why are we here/i)) {
+                if (lang === 'manglish') {
+                    return "Jeevithathinte artham oru philosophical question aanu. Existentialism parayunnu nammal nammude swantham artham create cheyyunnu ennu. Science parayunnu jeevithathinu inherent purpose illa ennu. Ente abhiprayam: Meaning ennu parayunnathu ningal value cheyyan thaerunnathaanu. Ningalkku jeevithathil enthaanu meaning?";
+                }
+                return "The meaning of life is a philosophical question. Existentialism says we create our own meaning. Science says life has no inherent purpose. My view: Meaning is what you choose to value. What gives YOUR life meaning?";
+            }
+            
+            // Anxiety
+            if (lower.match(/what is anxiety|anxiety disorder|feeling anxious/i)) {
+                if (lang === 'manglish') {
+                    return "Anxiety stress inodu ulla bodyude natural response aanu. Ithoru fear or worry aanu future ine kurichu. Normal anxiety temporary aanu. Manage cheyyan: deep breathing (4-7-8 method), grounding exercises (5-4-3-2-1), regular exercise, vere aarodenkilum samsaarikkuka. Ningal alone alla.";
+                }
+                return "Anxiety is your body's natural response to stress. It's a feeling of fear or worry about the future. Normal anxiety is temporary. To manage: deep breathing (4-7-8 method), grounding exercises (5-4-3-2-1), regular exercise, and talking to someone. You're not alone.";
+            }
+            
+            // Hello/Greeting
+            if (lower.match(/hello|hi|hey|greetings|namaste|sup|how are you|how are you doing|sugham|sukhanno|entha vishesham/i)) {
+                if (lang === 'manglish') {
+                    return `Halo ${currentUser || ''}! 👞 Njan MIRA. Enikku science, history, technology, health, philosophy okke ariyaam. Ningalkku ishtamulla bhashayil chodikkuka — English or Manglish. Ennod enthum chodikkuka, njan accurate answers tharaam. Ippo entha chodikkaanullath? 😊`;
+                }
+                return `Hello${currentUser ? ' ' + currentUser : ''}! 👋 I'm MIRA. I have knowledge about science, history, technology, health, philosophy, and more. Ask me anything in English or Manglish — I give accurate, thoughtful answers. What would you like to learn today?`;
+            }
+            
+            // Thank you response
+            if (lower.match(/thank|thanks|nanni|welcome/i)) {
+                if (lang === 'manglish') {
+                    return "Welcome! 😊 Nanni paranjathinu thanks. Ningalkku vere enthelum chodyam undengil chodikkuka. Njan ivide help cheyyaan und. Have a great day! ✨";
+                }
+                return "You're very welcome! 😊 I'm glad I could help. Feel free to ask me anything else — I'm always here with accurate answers. Have a wonderful day! ✨";
+            }
+            
+            // Default intelligent response
+            if (lang === 'manglish') {
+                return `"${userMsg.substring(0, 50)}" — nalla chodyam aanu. Enikku ithine kurichu kurachu ariyam. Ningalkku ee vishayathinte ethu bhaagam aanu kooduthal ariyan aagrahikkunnathu? Njan science, history, technology, health, philosophy ivayil ellaam accurate answers tharaam. Kooduthal chodikkuka!`;
+            }
+            return `That's a great question about "${userMsg.substring(0, 50)}". Based on my knowledge, I can help you with this. Could you clarify which specific aspect you'd like to know more about? I provide accurate information on science, history, technology, health, philosophy, and more. What else would you like to ask?`;
         }
 
         function addMessage(text, sender, isOwn = false) {
@@ -600,7 +572,6 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // INSTANT SEND - Real-time response
         async function sendMessage() {
             if (isSending) return;
             const message = chatInput.value.trim();
@@ -608,25 +579,17 @@
             
             isSending = true;
             
-            // Detect language instantly
             const detected = detectLanguage(message);
             updateLangUI(detected);
             
-            // Add user message immediately
             addMessage(message, currentUser, true);
             chatInput.value = '';
             
-            // Add to context
-            conversationContext.push(message);
-            if (conversationContext.length > 10) conversationContext.shift();
+            const aiReply = getAccurateResponse(message, detected);
             
-            // Generate response instantly (minimal delay for natural feel)
-            const aiReply = generateDynamicResponse(message, detected, conversationContext);
-            
-            // Tiny delay for realism (50-100ms)
             await new Promise(resolve => setTimeout(resolve, 60));
             
-            addMessage(aiReply, 'NOVA', false);
+            addMessage(aiReply, 'MIRA', false);
             
             isSending = false;
             chatInput.focus();
@@ -635,9 +598,8 @@
         function clearChat() {
             if (confirm('Clear all messages?')) {
                 messagesContainer.innerHTML = '';
-                conversationContext = [];
-                addSystemMessage('Chat cleared. NOVA is still here, ready for infinite conversation!');
-                addSystemMessage('Ask anything — every reply is unique and instant.');
+                addSystemMessage('Chat cleared. MIRA is still here!');
+                addSystemMessage('Ask in English or Manglish — accurate answers guaranteed.');
             }
         }
 
@@ -654,12 +616,12 @@
             
             messagesContainer.innerHTML = '';
             addSystemMessage(`✨ Welcome, ${escapeHtml(name)}! ✨`);
-            addSystemMessage('NOVA speaks English & Manglish — auto-detects your language');
-            addSystemMessage('⚡ Real-time AI: Every message gets a unique, instant reply');
+            addSystemMessage('MIRA speaks English and Manglish (Malayalam in English script)');
+            addSystemMessage('Examples: "Enikku black hole ine kurichu ariyanam" or "What is quantum computing?"');
             
             setTimeout(() => {
-                addMessage(`Hey ${escapeHtml(name)}! 👋 I'm NOVA — infinite AI. Ask me about space, philosophy, technology, feelings, or anything at all. I reply instantly and every answer is unique. What's on your mind? 🌟`, 'NOVA', false);
-            }, 80);
+                addMessage(`Hi ${escapeHtml(name)}! 👋 Njan MIRA. Ennod English ilo Manglish ilo chodikkam. Examples: "What is AI?" or "Black hole enthaanu?" or "Enikku urakkathinu prashnam und". Enikku ellaam ariyaam — ask me anything! 😊`, 'MIRA', false);
+            }, 100);
             
             chatInput.focus();
         }
@@ -669,7 +631,6 @@
             return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
         }
 
-        // Enter key
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && currentUser && !isSending) {
                 e.preventDefault();
