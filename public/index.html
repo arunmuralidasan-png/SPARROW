@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SparrowChat 🐦 - Fast Chat Room</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-container">
+            <div id="login-screen" class="screen active">
+                <h1> SparrowChat</h1>
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="Enter username" maxlength="20">
+                    <button onclick="joinChat()">Join Chat</button>
+                </div>
+            </div>
+
+            <div id="chat-screen" class="screen">
+                <div class="header">
+                    <h2>SparrowChat <span id="user-count">0</span></h2>
+                    <button id="leave-btn" onclick="leaveChat()">Leave</button>
+                </div>
+                <div id="messages" class="messages"></div>
+                <div class="message-input">
+                    <input type="text" id="messageInput" placeholder="Type message..." maxlength="500">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
