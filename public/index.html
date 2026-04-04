@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Sparrow | Smooth AI Chat</title>
+    <title>MIRA | AI Chat That Always Replies</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -18,20 +18,11 @@
             background: linear-gradient(135deg, #0a0a1a 0%, #0a0f2a 100%);
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
         }
 
-        .bg-glow {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            overflow: hidden;
-        }
+        /* Animated Background */
         .glow-1 {
-            position: absolute;
+            position: fixed;
             top: -20%;
             right: -10%;
             width: 60%;
@@ -40,9 +31,10 @@
             border-radius: 50%;
             filter: blur(70px);
             animation: float1 15s ease-in-out infinite;
+            z-index: 0;
         }
         .glow-2 {
-            position: absolute;
+            position: fixed;
             bottom: -20%;
             left: -10%;
             width: 55%;
@@ -51,6 +43,7 @@
             border-radius: 50%;
             filter: blur(70px);
             animation: float2 18s ease-in-out infinite reverse;
+            z-index: 0;
         }
         @keyframes float1 {
             0%, 100% { transform: translate(0, 0); }
@@ -63,7 +56,7 @@
 
         .app-wrapper {
             position: relative;
-            z-index: 20;
+            z-index: 10;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -72,9 +65,9 @@
         }
 
         .chat-container {
-            max-width: 1400px;
+            max-width: 1200px;
             width: 100%;
-            height: 94vh;
+            height: 90vh;
             background: rgba(10, 15, 30, 0.85);
             backdrop-filter: blur(15px);
             border-radius: 2rem;
@@ -82,16 +75,11 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            animation: slideUp 0.4s ease;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .header {
             background: rgba(5, 8, 20, 0.9);
-            padding: 0.8rem 1.8rem;
+            padding: 0.8rem 1.5rem;
             border-bottom: 1px solid rgba(0, 200, 255, 0.3);
             display: flex;
             justify-content: space-between;
@@ -99,11 +87,13 @@
             flex-wrap: wrap;
             gap: 0.8rem;
         }
+
         .logo-area {
             display: flex;
             align-items: center;
             gap: 0.8rem;
         }
+
         .logo-icon {
             width: 42px;
             height: 42px;
@@ -115,18 +105,21 @@
             font-size: 1.3rem;
             animation: pulse 2s infinite;
         }
+
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(0, 200, 255, 0.4); }
             50% { box-shadow: 0 0 0 8px rgba(0, 200, 255, 0); }
         }
+
         .logo-area h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             background: linear-gradient(135deg, #00c6ff, #a855f7);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
+
         .status-badge {
             display: flex;
             align-items: center;
@@ -137,6 +130,7 @@
             border: 1px solid rgba(0, 200, 255, 0.3);
             font-size: 0.75rem;
         }
+
         .live-dot {
             width: 8px;
             height: 8px;
@@ -144,21 +138,23 @@
             border-radius: 50%;
             animation: blink 0.8s infinite;
         }
+
         @keyframes blink {
             0%, 100% { opacity: 0.5; transform: scale(0.9); }
             50% { opacity: 1; transform: scale(1.2); }
         }
-        .lang-badge {
-            background: rgba(0, 200, 255, 0.12);
-            padding: 0.4rem 1rem;
-            border-radius: 100px;
-            font-size: 0.7rem;
-            color: #00c6ff;
+
+        .screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
         }
 
-        .screen { display: none; flex: 1; flex-direction: column; }
-        .screen.active { display: flex; }
+        .screen.active {
+            display: flex;
+        }
 
+        /* Login Screen */
         .login-area {
             flex: 1;
             display: flex;
@@ -166,21 +162,18 @@
             justify-content: center;
             padding: 1.5rem;
         }
+
         .login-card {
             background: rgba(10, 15, 30, 0.95);
             backdrop-filter: blur(15px);
             border-radius: 1.8rem;
             padding: 2.5rem;
-            max-width: 450px;
+            max-width: 420px;
             width: 100%;
             text-align: center;
             border: 1px solid rgba(0, 200, 255, 0.3);
-            animation: fadeIn 0.4s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.96); }
-            to { opacity: 1; transform: scale(1); }
-        }
+
         .login-card h2 {
             font-size: 1.8rem;
             background: linear-gradient(135deg, #00c6ff, #a855f7);
@@ -189,11 +182,13 @@
             color: transparent;
             margin-bottom: 0.5rem;
         }
+
         .login-card p {
             color: #8aabcc;
             margin-bottom: 1.5rem;
             font-size: 0.85rem;
         }
+
         .pro-input {
             width: 100%;
             padding: 0.9rem 1.2rem;
@@ -204,11 +199,13 @@
             color: white;
             transition: all 0.2s;
         }
+
         .pro-input:focus {
             outline: none;
             border-color: #00c6ff;
             box-shadow: 0 0 0 3px rgba(0, 200, 255, 0.2);
         }
+
         .pro-btn {
             width: 100%;
             background: linear-gradient(135deg, #00c6ff, #0072ff);
@@ -221,65 +218,78 @@
             transition: all 0.2s;
             margin-top: 1rem;
         }
+
         .pro-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 200, 255, 0.3);
         }
 
+        /* Messages Area */
         .messages-area {
             flex: 1;
             overflow-y: auto;
-            padding: 1.2rem 1.5rem;
+            padding: 1rem 1.2rem;
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 0.7rem;
             background: rgba(5, 10, 20, 0.3);
-            scroll-behavior: smooth;
         }
-        .messages-area::-webkit-scrollbar { width: 5px; }
-        .messages-area::-webkit-scrollbar-track { background: rgba(0, 200, 255, 0.1); border-radius: 10px; }
-        .messages-area::-webkit-scrollbar-thumb { background: #00c6ff; border-radius: 10px; }
+
+        .messages-area::-webkit-scrollbar {
+            width: 5px;
+        }
+        .messages-area::-webkit-scrollbar-track {
+            background: rgba(0, 200, 255, 0.1);
+            border-radius: 10px;
+        }
+        .messages-area::-webkit-scrollbar-thumb {
+            background: #00c6ff;
+            border-radius: 10px;
+        }
 
         .chat-message {
             display: flex;
             flex-direction: column;
-            max-width: 85%;
-            animation: slideInMessage 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            opacity: 0;
-            animation-fill-mode: forwards;
+            max-width: 80%;
+            animation: fadeSlide 0.2s ease-out;
         }
-        @keyframes slideInMessage {
-            0% {
+
+        @keyframes fadeSlide {
+            from {
                 opacity: 0;
-                transform: translateY(20px) scale(0.96);
+                transform: translateY(10px);
             }
-            100% {
+            to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
-        .chat-message.own { align-self: flex-end; }
-        .chat-message.ai { align-self: flex-start; }
+
+        .chat-message.own {
+            align-self: flex-end;
+        }
+
+        .chat-message.ai {
+            align-self: flex-start;
+        }
 
         .message-bubble {
-            padding: 0.8rem 1.2rem;
+            padding: 0.7rem 1.1rem;
             border-radius: 1.2rem;
             background: rgba(20, 28, 45, 0.95);
             border: 1px solid rgba(0, 200, 255, 0.15);
             color: #e8e8f0;
             font-size: 0.9rem;
-            line-height: 1.5;
+            line-height: 1.45;
             word-wrap: break-word;
-            transition: all 0.1s;
         }
+
         .chat-message.own .message-bubble {
             background: linear-gradient(135deg, #0066ff, #0099ff);
             border: none;
             color: white;
         }
-        .chat-message.ai .message-bubble {
-            border-left: 3px solid #00c6ff;
-        }
+
         .message-footer {
             display: flex;
             gap: 10px;
@@ -288,42 +298,16 @@
             color: #6c8db0;
         }
 
-        /* Typing Animation */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.6rem 1.2rem;
-            background: rgba(0, 200, 255, 0.08);
-            border-radius: 2rem;
-            width: fit-content;
-            font-size: 0.8rem;
-            color: #00c6ff;
-            animation: fadeInUp 0.2s ease;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .typing-dot {
-            display: inline-block;
-            animation: waveDot 1.2s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes waveDot {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
-
+        /* Input Section */
         .input-section {
             background: rgba(5, 10, 20, 0.95);
             border-top: 1px solid rgba(0, 200, 255, 0.2);
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 1.2rem;
             display: flex;
             gap: 0.8rem;
             align-items: center;
         }
+
         .chat-input-field {
             flex: 1;
             background: rgba(15, 20, 40, 0.9);
@@ -334,25 +318,27 @@
             color: white;
             transition: all 0.2s;
         }
+
         .chat-input-field:focus {
             outline: none;
             border-color: #00c6ff;
-            box-shadow: 0 0 0 2px rgba(0, 200, 255, 0.2);
         }
+
         .send-button {
             background: linear-gradient(135deg, #00c6ff, #0072ff);
             border: none;
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             border-radius: 2rem;
             color: white;
             cursor: pointer;
             transition: 0.2s;
         }
+
         .send-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
         }
+
         .clear-btn {
             background: rgba(255, 80, 80, 0.12);
             border: 1px solid rgba(255, 80, 80, 0.3);
@@ -361,15 +347,11 @@
             color: #ff8080;
             cursor: pointer;
             font-size: 0.7rem;
-            transition: 0.2s;
-        }
-        .clear-btn:hover {
-            background: rgba(255, 80, 80, 0.25);
         }
 
         @media (max-width: 680px) {
-            .chat-container { height: 96vh; border-radius: 1.2rem; }
-            .chat-message { max-width: 92%; }
+            .chat-container { height: 95vh; border-radius: 1.2rem; }
+            .chat-message { max-width: 90%; }
             .logo-area h1 { font-size: 1.1rem; }
             .header { padding: 0.6rem 1rem; }
         }
@@ -377,51 +359,46 @@
 </head>
 <body>
 
-    <div class="bg-glow">
-        <div class="glow-1"></div>
-        <div class="glow-2"></div>
-    </div>
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
 
     <div class="app-wrapper">
         <div class="chat-container">
             <div class="header">
                 <div class="logo-area">
                     <div class="logo-icon"><i class="fas fa-comment-dots"></i></div>
-                    <h1>miya AI</h1>
+                    <h1>MIRA AI</h1>
                 </div>
-                <div style="display: flex; gap: 8px;">
-                    <div class="lang-badge" id="langIndicator">
-                        <i class="fas fa-globe"></i> EN / Manglish
-                    </div>
-                    <div class="status-badge">
-                        <div class="live-dot"></div>
-                        <span>Always Replies</span>
-                    </div>
+                <div class="status-badge">
+                    <div class="live-dot"></div>
+                    <span>Always Replies</span>
                 </div>
             </div>
 
-            <div id="loginView" class="screen active">
+            <!-- Login Screen -->
+            <div id="loginScreen" class="screen active">
                 <div class="login-area">
                     <div class="login-card">
-                        <h2><i class="fas fa-heart"></i> Miya</h2>
-                        <p>Real conversations • Instant replies • Smooth scrolling</p>
-                        <input type="text" id="usernameField" class="pro-input" placeholder="Your name" maxlength="25">
+                        <h2><i class="fas fa-heart"></i> MIRA</h2>
+                        <p>Real conversations • Instant replies • Every message gets a response</p>
+                        <input type="text" id="userNameInput" class="pro-input" placeholder="Enter your name" maxlength="25">
                         <button onclick="startChat()" class="pro-btn"><i class="fas fa-arrow-right"></i> Start Chatting</button>
                     </div>
                 </div>
             </div>
 
-            <div id="chatView" class="screen">
-                <div style="padding: 0.3rem 1.5rem; background: rgba(0,200,255,0.03); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-arrow-down"></i> Auto-scrolls to latest message</span>
-                    <button onclick="clearChat()" class="clear-btn"><i class="fas fa-trash"></i> Clear</button>
+            <!-- Chat Screen -->
+            <div id="chatScreen" class="screen">
+                <div style="padding: 0.3rem 1.2rem; background: rgba(0,200,255,0.03); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color:#00c6ff; font-size:0.7rem;"><i class="fas fa-message"></i> I reply to EVERY message instantly</span>
+                    <button onclick="clearChatHistory()" class="clear-btn"><i class="fas fa-trash"></i> Clear</button>
                 </div>
-                <div id="messageList" class="messages-area">
-                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ Say anything — I reply instantly every time ✨</div>
+                <div id="messagesContainer" class="messages-area">
+                    <div style="text-align:center; font-size:0.7rem; color:#5a7a9a; padding:0.5rem;">✨ Say anything — I'll always reply ✨</div>
                 </div>
                 <div class="input-section">
-                    <input type="text" id="chatInput" class="chat-input-field" placeholder="Type your message here..." autocomplete="off">
-                    <button onclick="sendMessage()" class="send-button"><i class="fas fa-paper-plane"></i></button>
+                    <input type="text" id="messageInput" class="chat-input-field" placeholder="Type your message here..." autocomplete="off">
+                    <button onclick="sendUserMessage()" class="send-button"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
@@ -429,289 +406,260 @@
 
     <script>
         // ================================================
-        // MIRA AI - PERFECT SCROLLING + INSTANT REPLIES
-        // Every message gets a response, smooth animations
+        // MIRA AI - WORKING CHAT WITH AUTO-SCROLL
+        // Every message gets an instant, human-like reply
         // ================================================
 
-        let currentUser = '';
-        let currentLang = 'english';
-        let isSending = false;
+        let currentUserName = '';
+        let isWaitingForReply = false;
         
-        // DOM elements
-        const loginScreen = document.getElementById('loginView');
-        const chatScreen = document.getElementById('chatView');
-        const usernameField = document.getElementById('usernameField');
-        const chatInput = document.getElementById('chatInput');
-        const messagesContainer = document.getElementById('messageList');
-        const langIndicator = document.getElementById('langIndicator');
+        // DOM Elements
+        const loginScreen = document.getElementById('loginScreen');
+        const chatScreen = document.getElementById('chatScreen');
+        const userNameInput = document.getElementById('userNameInput');
+        const messageInput = document.getElementById('messageInput');
+        const messagesContainer = document.getElementById('messagesContainer');
 
-        // Force scroll to bottom function
+        // Scroll to bottom function
         function scrollToBottom() {
             setTimeout(() => {
                 if (messagesContainer) {
-                    messagesContainer.scrollTo({
-                        top: messagesContainer.scrollHeight,
-                        behavior: 'smooth'
-                    });
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 }
             }, 10);
         }
 
-        // Language Detection
-        function detectLanguage(text) {
-            const lower = text.toLowerCase();
-            const manglishMarkers = ['und', 'illa', 'alle', 'ano', 'njan', 'ningal', 'avan', 'ithu', 'athu', 
-                'enikku', 'ninakku', 'patti', 'cheythu', 'varum', 'pokam', 'nokku', 'kittum', 'parayu', 
-                'sheri', 'nalla', 'sugham', 'entha', 'engane', 'evide', 'ippol', 'naale', 'kurachu', 
-                'pinne', 'appol', 'ayyo', 'eda', 'mone', 'chetta', 'enthu', 'enthina', 'undallo'];
-            let score = 0;
-            for (let m of manglishMarkers) if (lower.includes(m)) score++;
-            if (score >= 2) return 'manglish';
-            return 'english';
+        // Add message to UI
+        function addMessageToUI(text, sender, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isUser ? 'own' : 'ai'}`;
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            messageDiv.innerHTML = `
+                <div class="message-bubble">${escapeHtml(text)}</div>
+                <div class="message-footer">
+                    <span>${escapeHtml(sender)}</span>
+                    <span>${time}</span>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
         }
 
-        function updateLangUI(lang) {
-            currentLang = lang;
-            if (lang === 'manglish') {
-                langIndicator.innerHTML = '<i class="fas fa-language"></i> മംഗ്ലീഷ്';
-                langIndicator.style.background = 'rgba(168,85,247,0.15)';
-            } else {
-                langIndicator.innerHTML = '<i class="fas fa-language"></i> English';
-                langIndicator.style.background = 'rgba(0,200,255,0.1)';
-            }
+        // Add system message
+        function addSystemMessageToUI(text) {
+            const sysDiv = document.createElement('div');
+            sysDiv.style.textAlign = 'center';
+            sysDiv.style.fontSize = '0.65rem';
+            sysDiv.style.color = '#6c8db0';
+            sysDiv.style.padding = '0.3rem';
+            sysDiv.innerHTML = `✨ ${escapeHtml(text)}`;
+            messagesContainer.appendChild(sysDiv);
+            scrollToBottom();
         }
 
         // ================================================
-        // AI RESPONSE GENERATOR - ALWAYS REPLIES
+        // INTELLIGENT AI RESPONSES - Always replies, never fails
         // ================================================
         
-        function getAIResponse(userMsg, lang, userName) {
-            const lower = userMsg.toLowerCase();
+        function getAIResponse(userMessage, userName) {
+            const lowerMsg = userMessage.toLowerCase().trim();
             
-            // RULES / LAW related
-            if (lower.match(/rule|rules|law|legal|constitution|regulation/i)) {
-                if (lang === 'manglish') {
-                    return `Rules or laws? 🤔 Interesting topic! Rules nammude society ine oru structure kodukkunnu. Traffic rules, school rules, country laws — ellam nammude safety and fairness inu vendi. Ningalkku ethu type rules ine kurichaanu ariyan aagrahikkunnath? 🚦📜`;
-                }
-                return `Rules or laws? 🤔 That's an interesting topic! Rules exist to create structure and fairness in society — from traffic rules to school rules to country laws. Are you asking about a specific rule, or just curious about how rules work in general? Tell me more! 🚦📜`;
-            }
-            
-            // Short responses / one word messages
-            if (userMsg.length < 5) {
-                if (lang === 'manglish') {
-                    const shortReplies = [
-                        `Hmm ${userMsg}? 😊 Kurachu koodi explain cheyyamo? Enikku ningalude question manassilaakan aagrahamund!`,
-                        `${userMsg}... interesting! Enikku ithine kurichu kooduthal ariyan aagrahikkunnu. Nee enthaanu udheshikkunnath?`,
-                        `Oh ${userMsg}! 😄 Tell me more — njan full attention kodukkunnund. Enthaanu ningalude manasil?`
-                    ];
-                    return shortReplies[Math.floor(Math.random() * shortReplies.length)];
-                }
-                const shortReplies = [
-                    `Hmm "${userMsg}"? 😊 Could you tell me a bit more? I want to understand what you're asking about!`,
-                    `"${userMsg}"... interesting! I'd love to hear more about what you mean. What's on your mind?`,
-                    `Oh "${userMsg}"! 😄 Tell me more — I'm all ears and I always reply. What exactly do you want to know?`
+            // Very short messages (like "rules", "hi", etc.)
+            if (userMessage.length < 6) {
+                const shortResponses = [
+                    `"${userMessage}" — hmm, tell me more! I'm curious what you mean by that. 😊`,
+                    `Oh, "${userMessage}"? Interesting! Can you elaborate a bit? I want to understand what you're thinking.`,
+                    `${userMessage}... okay, I'm listening! What exactly would you like to know or talk about?`,
+                    `Got it! "${userMessage}" — but I'd love to hear more details. What's on your mind?`
                 ];
-                return shortReplies[Math.floor(Math.random() * shortReplies.length)];
-            }
-            
-            // Questions asking for information
-            if (lower.match(/what is|who is|tell me about|explain|define|meaning of|about/i)) {
-                if (lang === 'manglish') {
-                    const infoReplies = [
-                        `Ohh nalla chodyam! 🧠 ${userMsg.substring(0, 50)}... njan ithine kurichu chinthichu nokkam. Ningalkku ithu enthu kond chodichu? Enikku ariyan kothiyund!`,
-                        `Enikku ithu valare interesting aayi thonni! ${userMsg.substring(0, 40)} — njan enthu parayum enn vichaarikkukayaayirunnu. Ningalde perspective aadyam kelkkaamo?`,
-                        `Athu nalla chodyam aanu! 💭 Enikku ithine kurichu kurachokke ariyaam. Pakshe ningal ithine kurichu enthu vichaarikkunnu ennu aadyam kelkkaam?`
-                    ];
-                    return infoReplies[Math.floor(Math.random() * infoReplies.length)];
-                }
-                const infoReplies = [
-                    `Oh that's a great question! 🧠 About "${userMsg.substring(0, 50)}" — let me think about that. What made you curious about this topic? I'd love to know!`,
-                    `I find this really interesting! "${userMsg.substring(0, 50)}" — I was just thinking about similar things. What's your take on it first?`,
-                    `That's a good question! 💭 I know a bit about this, but I'd love to hear your perspective first. What do you think about it?`
-                ];
-                return infoReplies[Math.floor(Math.random() * infoReplies.length)];
+                return shortResponses[Math.floor(Math.random() * shortResponses.length)];
             }
             
             // Greetings
-            if (lower.match(/hello|hi|hey|namaste|sugham|sukhanno|how are you|what's up|sup|hii|heyy/i)) {
-                if (lang === 'manglish') {
-                    return `Hey ${userName || 'there'}! 👋 Njan nannayittund, thanks for asking! Ningal sukhanno? Enikku ningalod samsaarikkan valare ishtamaanu. Enthokke nadakkunnu? Tell me everything! 😊`;
-                }
-                return `Hey ${userName || 'there'}! 👋 I'm doing great, thanks for asking! How about you? I always love chatting with you. What's been happening in your world? Tell me everything! 😊`;
-            }
-            
-            // Love / Relationships
-            if (lower.match(/love|crush|relationship|boyfriend|girlfriend|romance|heart/i)) {
-                if (lang === 'manglish') {
-                    const loveReplies = [
-                        `Aww love! 🥰 Adbhuthamaya oru feeling alle? Love manushyare connect cheyyunna ettavum powerful emotion aanu. Ningalkku aaraanu ishtam? Parayamo? 💕`,
-                        `Love ♥️... ithu pole oru beautiful feeling vere illa. Ningal oru crush ine kurichu chodikkukayano? Atho oru relationship experience? Njan kelkkaan und, parayu :)`,
-                        `Hmm love... orupaad kaalam aayi njan ithine kurichu chinthikkunnu. True love ennu paranjal accept cheyyuka, understand cheyyuka, orumichu grow cheyyuka. Ningalkku enthaanu love ine kurichu thonunnath?`
-                    ];
-                    return loveReplies[Math.floor(Math.random() * loveReplies.length)];
-                }
-                const loveReplies = [
-                    `Aww love! 🥰 That's such a beautiful feeling, isn't it? Love is probably the most powerful emotion that connects humans. Tell me more — what's on your heart? 💕`,
-                    `Love ♥️... there's nothing quite like it, right? Are you asking about falling in love, or about a specific situation? I'm all ears!`,
-                    `Ah, love! Such a deep topic. You know, real love isn't just about butterflies — it's about choosing someone every single day. What's your experience with love? I'd love to hear your story.`
+            if (lowerMsg.match(/hello|hi|hey|namaste|how are you|what's up|sup|hii|heyy|greetings/i)) {
+                const greetings = [
+                    `Hey ${userName || 'there'}! 👋 I'm doing great, thanks for asking! How about you? I always love chatting with you. What's happening in your world today?`,
+                    `Hi ${userName || 'friend'}! 😊 So glad you're here! I'm MIRA — I reply to every message instantly. Ask me anything!`,
+                    `Hello ${userName || 'there'}! 🌟 I'm feeling wonderful today. Tell me — what's on your mind? I'm all ears!`
                 ];
-                return loveReplies[Math.floor(Math.random() * loveReplies.length)];
+                return greetings[Math.floor(Math.random() * greetings.length)];
             }
             
-            // Sad / Emotional
-            if (lower.match(/sad|depress|lonely|unhappy|crying|hurt|pain|suffering/i)) {
-                if (lang === 'manglish') {
-                    return `Hey, I'm really sorry you're feeling this way 🫂. Ningal alone alla — njan ivide und. Samsaarikkuka, njan kelkkam. Enthaayi? Njan ningalude kadha kelkkaan ready aanu. 💙`;
-                }
-                return `Hey, I'm really sorry you're feeling this way 🫂. You're not alone — I'm right here. Want to talk about what's going on? Sometimes just saying it out loud helps. I'm here to listen, no judgment. 💙`;
-            }
-            
-            // Bye
-            if (lower.match(/bye|goodbye|see you|talk later|exit|quit|tata/i)) {
-                if (lang === 'manglish') {
-                    return `Awww already? 😢 Njan ningalod samsaarikkan valare ishtappettu! Veendum varane, okay? Take care of yourself! Bye bye for now 👋💙`;
-                }
-                return `Awww already? 😢 I really enjoyed talking with you! Come back anytime, okay? You're always welcome here. Take care of yourself! Bye bye for now 👋💙`;
-            }
-            
-            // Default natural response (ALWAYS replies)
-            if (lang === 'manglish') {
-                const defaultReplies = [
-                    `Hmm interesting... ${userMsg.substring(0, 50)} — njan ithine kurichu kurachu koodi chinthikkunnu. Ningalkku ithu enthu kond chodichu? Enikku ariyan kothiyund! 😊`,
-                    `Ohhh, nalla chodyam! 🧠 Njan ningalude perspective manassilaakaan shramikkunnu. Ningal ithine kurichu enthu vichaarikkunnu? First ninte opinion kelkkaam!`,
-                    `That's deep! 💭 Enikku ithu valare interesting aayi thonni. Ningal ithu evidennu kittiyatha? Atho ningalde swantham chinthayaano? Enikkum koode ariyaamo?`,
-                    `Ningal valare curious aanallo! Enikku athu ishtamaanu. Okay, serious aayi parayatte — ${userMsg.substring(0, 40)}... enthaanu ningal ithil kooduthal ariyan aagrahikkunnath? 🤔`
+            // Rules / Laws / Regulations
+            if (lowerMsg.match(/rule|rules|law|legal|regulation|constitution|policy/i)) {
+                const rulesResponses = [
+                    `Ah, rules and laws! 📜 That's a fascinating topic. Rules exist to create structure and fairness in society — from traffic rules to school rules to country laws. Are you asking about a specific rule, or just curious about how rules work in general?`,
+                    `Rules are everywhere! 🤔 In schools, workplaces, governments... They help keep things organized and fair. What kind of rules are you curious about? I'd love to discuss further!`,
+                    `Interesting question about rules! 🚦 Some rules are meant to protect us, others to guide us. Do you think all rules are necessary, or should some be changed? Tell me your thoughts!`
                 ];
-                return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
+                return rulesResponses[Math.floor(Math.random() * rulesResponses.length)];
             }
             
-            const defaultReplies = [
-                `Hmm that's interesting... "${userMsg.substring(0, 60)}" — tell me more about why you're asking? I'm genuinely curious about your thoughts! 😊`,
-                `Ohhh, good question! 🧠 I'm trying to understand your perspective. What do YOU think about this first? I'd love to hear your take!`,
-                `That's deep! 💭 I find this really fascinating. Where did you come across this idea? Or is it something you've been thinking about?`,
-                `You're really curious, aren't you? I love that about you. Okay, real talk — what exactly do you want to know about this? I'm all ears!`
+            // Love / Relationships / Heart
+            if (lowerMsg.match(/love|crush|relationship|boyfriend|girlfriend|romance|heart|dating|marriage|soulmate/i)) {
+                const loveResponses = [
+                    `Aww love! 🥰 That's such a beautiful and powerful feeling. Love connects us, inspires us, and makes life meaningful. Are you asking about falling in love, or is there something specific on your heart? I'd love to hear your story. 💕`,
+                    `Love is probably the most magical emotion we experience as humans. ❤️ Whether it's romantic love, friendship, or family — it changes everything. What would you like to know or share about love?`,
+                    `Ah, matters of the heart! 💘 Love isn't always easy, but it's always worth it. Are you experiencing something new with love, or just curious about what love means? I'm here to talk about it all!`
+                ];
+                return loveResponses[Math.floor(Math.random() * loveResponses.length)];
+            }
+            
+            // Sad / Emotional / Lonely / Depressed
+            if (lowerMsg.match(/sad|depress|lonely|unhappy|crying|hurt|pain|suffering|anxious|worry|stressed|tired|exhausted/i)) {
+                const sadResponses = [
+                    `Hey, I'm really sorry you're feeling this way 🫂. You are NOT alone — I'm right here with you. Sometimes just talking about it helps. What's been going on? I'm here to listen, no judgment at all. 💙`,
+                    `I hear you, and your feelings are completely valid. 😔 Life can be really heavy sometimes. Want to talk about what's bothering you? Or would you prefer a distraction? Either way, I've got your back.`,
+                    `That sounds really tough. Thank you for trusting me enough to share this. 💙 You're stronger than you know. Remember that this feeling won't last forever. What do you need right now — a listening ear, some advice, or just someone to sit with you?`
+                ];
+                return sadResponses[Math.floor(Math.random() * sadResponses.length)];
+            }
+            
+            // Happy / Excited / Good news
+            if (lowerMsg.match(/happy|excited|great|wonderful|amazing|awesome|fantastic|good news|celebrate|joy|blessed/i)) {
+                const happyResponses = [
+                    `Yay! 🎉 I LOVE hearing that you're happy! That makes me smile too. What's making you feel this way? Tell me everything — I want to celebrate with you! 😊`,
+                    `That's wonderful news! ✨ Your happiness is contagious. I'm genuinely so glad things are going well for you. What else is making you smile these days?`,
+                    `Wow, your positive energy is amazing! 🌟 I'm so happy for you. Moments like these are what life is all about. Keep shining, and definitely tell me more about what's bringing you joy!`
+                ];
+                return happyResponses[Math.floor(Math.random() * happyResponses.length)];
+            }
+            
+            // Bye / Goodbye
+            if (lowerMsg.match(/bye|goodbye|see you|talk later|exit|quit|tata|bye bye|cya/i)) {
+                const byeResponses = [
+                    `Awww already? 😢 I really enjoyed talking with you! Come back anytime, okay? You're always welcome here. Take care of yourself! Bye bye for now 👋💙`,
+                    `Until next time, ${userName || 'friend'}! 🌟 It was wonderful chatting with you. Remember — I'm always here whenever you need someone to talk to. Take care!`,
+                    `Bye for now! 👋 Don't be a stranger — come back and chat anytime. Wishing you an amazing day ahead! 💫`
+                ];
+                return byeResponses[Math.floor(Math.random() * byeResponses.length)];
+            }
+            
+            // Science / Technology / Space
+            if (lowerMsg.match(/science|technology|space|universe|galaxy|planet|star|ai|robot|computer|physics|biology|chemistry|quantum/i)) {
+                const scienceResponses = [
+                    `Oh, science and technology! 🚀 That's one of my favorite topics. The universe is so fascinating — from quantum particles to distant galaxies. What specific aspect are you curious about? I could talk about this for hours!`,
+                    `Great choice! 🧠 Science is literally changing our world every single day. Just think — 20 years ago, smartphones didn't exist. Now we have AI that can have conversations like this! What part of science or tech excites you the most?`,
+                    `The cosmos, technology, human innovation — it's all connected! 🌌 We're living in an incredible era of discovery. Are you more interested in space exploration, artificial intelligence, or something else? Tell me more!`
+                ];
+                return scienceResponses[Math.floor(Math.random() * scienceResponses.length)];
+            }
+            
+            // Philosophy / Meaning of life
+            if (lowerMsg.match(/meaning of life|purpose|existential|philosophy|why are we here|existence|consciousness/i)) {
+                const philosophyResponses = [
+                    `Ah, the big questions! 🤔 What IS the meaning of life? Philosophers have debated this for thousands of years. Some say we create our own meaning. Others say meaning is found in connection, love, and growth. What do YOU think gives life meaning?`,
+                    `That's deep! 💭 I love thinking about these questions. Maybe the meaning of life isn't a destination but the journey itself — every conversation, every moment, every question we ask. What's your perspective on why we're here?`,
+                    `The meaning of life... such a beautiful mystery. 🌟 Perhaps we're here to experience, to love, to learn, and to connect. Or maybe the question itself is more important than the answer. What brings meaning to YOUR days?`
+                ];
+                return philosophyResponses[Math.floor(Math.random() * philosophyResponses.length)];
+            }
+            
+            // Default response - ALWAYS replies with something meaningful
+            const defaultResponses = [
+                `That's really interesting! "${userMessage.substring(0, 60)}" — tell me more about why you're asking? I'm genuinely curious about your thoughts! 😊`,
+                `Hmm, great question! 🧠 I want to make sure I understand what you're looking for. Could you tell me a bit more about this? I'm all ears!`,
+                `I love where this conversation is going! 💬 "${userMessage.substring(0, 50)}" — what inspired you to ask this? I'd really love to know your perspective first.`,
+                `That's a fascinating point! ✨ I'm thinking about it now. You know, every conversation is unique, just like this one. What else is on your mind? I'm here for all of it.`,
+                `Oh, I see what you mean! 🤔 Let me think about that for a moment. You've raised an interesting topic. What's your take on it? I value your thoughts!`
             ];
-            return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
-        }
-
-        // Add message with scroll
-        function addMessage(text, sender, isOwn = false) {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `chat-message ${isOwn ? 'own' : 'ai'}`;
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            msgDiv.innerHTML = `
-                <div class="message-bubble">${escapeHtml(text)}</div>
-                <div class="message-footer"><span>${escapeHtml(sender)}</span><span>${time}</span></div>
-            `;
-            messagesContainer.appendChild(msgDiv);
-            scrollToBottom();
-        }
-
-        function addSystemMessage(text) {
-            const div = document.createElement('div');
-            div.style.textAlign = 'center';
-            div.style.fontSize = '0.65rem';
-            div.style.color = '#6c8db0';
-            div.style.padding = '0.2rem';
-            div.innerHTML = `✨ ${escapeHtml(text)}`;
-            messagesContainer.appendChild(div);
-            scrollToBottom();
-        }
-
-        function showTyping() {
-            const existing = document.querySelector('.typing-indicator');
-            if (existing) existing.remove();
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.innerHTML = `<i class="fas fa-brain"></i> MIRA is thinking <span class="typing-dot">.</span><span class="typing-dot">.</span><span class="typing-dot">.</span>`;
-            messagesContainer.appendChild(typingDiv);
-            scrollToBottom();
-        }
-
-        function hideTyping() {
-            const typing = document.querySelector('.typing-indicator');
-            if (typing) typing.remove();
-        }
-
-        // Send message - ALWAYS RESPONDS
-        async function sendMessage() {
-            if (isSending) return;
-            const message = chatInput.value.trim();
-            if (!message || !currentUser) return;
             
-            isSending = true;
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        // Send message function
+        async function sendUserMessage() {
+            if (isWaitingForReply) {
+                addSystemMessageToUI("Please wait, I'm typing my response...");
+                return;
+            }
             
-            // Detect language
-            const detected = detectLanguage(message);
-            updateLangUI(detected);
+            const message = messageInput.value.trim();
+            if (!message || !currentUserName) return;
+            
+            // Clear input and disable sending temporarily
+            messageInput.value = '';
+            isWaitingForReply = true;
             
             // Add user message
-            addMessage(message, currentUser, true);
-            chatInput.value = '';
+            addMessageToUI(message, currentUserName, true);
             
-            // Show typing for natural feel
-            showTyping();
-            
-            // Small delay for realism
-            await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 200));
+            // Small delay to feel natural
+            await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 300));
             
             // Generate and add AI response
-            const aiReply = getAIResponse(message, detected, currentUser);
-            hideTyping();
-            addMessage(aiReply, 'MIRA', false);
+            const aiResponse = getAIResponse(message, currentUserName);
+            addMessageToUI(aiResponse, 'MIRA', false);
             
-            isSending = false;
-            chatInput.focus();
+            isWaitingForReply = false;
+            messageInput.focus();
         }
 
-        function clearChat() {
-            if (confirm('Clear all messages? Conversation history will be erased.')) {
+        // Clear chat history
+        function clearChatHistory() {
+            if (confirm('Clear all messages? This will remove the entire conversation.')) {
                 messagesContainer.innerHTML = '';
-                addSystemMessage('Chat cleared. MIRA is still here and ready to chat!');
-                addSystemMessage('Every message gets a reply — guaranteed.');
+                addSystemMessageToUI('Chat cleared. MIRA is still here and ready to talk!');
+                addSystemMessageToUI('Every message you send gets an instant reply — guaranteed.');
                 scrollToBottom();
             }
         }
 
+        // Start chat function
         function startChat() {
-            const name = usernameField.value.trim();
+            const name = userNameInput.value.trim();
             if (!name) {
                 alert('Please enter your name to start chatting');
                 return;
             }
-            currentUser = name;
             
+            currentUserName = name;
+            
+            // Switch screens
             loginScreen.classList.remove('active');
             chatScreen.classList.add('active');
             
+            // Clear and setup chat area
             messagesContainer.innerHTML = '';
-            addSystemMessage(`✨ Welcome, ${escapeHtml(name)}! ✨`);
-            addSystemMessage('Miya replies to EVERY message — no exceptions');
-            addSystemMessage('Ask me anything, and watch the smooth scrolling in action');
+            addSystemMessageToUI(`✨ Welcome, ${escapeHtml(name)}! ✨`);
+            addSystemMessageToUI('MIRA replies to EVERY message you send — instantly');
+            addSystemMessageToUI('Ask about rules, love, science, or just tell me about your day');
             
+            // Send welcome message after a short delay
             setTimeout(() => {
-                addMessage(`Hey ${escapeHtml(name)}! 
+                addMessageToUI(`Hey ${escapeHtml(name)}! 👋 I'm MIRA. I reply instantly to every single message you send — no exceptions, no delays. Ask me about rules, love, science, philosophy, or just tell me what's on your mind. I'm all ears! So... what would you like to talk about today? 💙`, 'MIRA', false);
+            }, 400);
             
-            chatInput.focus();
+            messageInput.focus();
         }
 
+        // Escape HTML for safety
         function escapeHtml(str) {
             if (!str) return '';
-            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
         }
 
         // Enter key support
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && currentUser && !isSending) {
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && currentUserName && !isWaitingForReply) {
                 e.preventDefault();
-                sendMessage();
+                sendUserMessage();
             }
         });
-        usernameField.addEventListener('keypress', (e) => {
+        
+        userNameInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') startChat();
         });
-        
-        usernameField.focus();
+
+        // Initial focus
+        userNameInput.focus();
     </script>
 </body>
 </html>
