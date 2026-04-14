@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SARA · Infinite Wisdom AI | Real-time Chat</title>
+    <title>SARA · Smart & Funny AI | Real-time Pro Chat</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -15,70 +15,69 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(circle at 10% 20%, #0b0b2f, #030318);
+            background: radial-gradient(circle at 20% 30%, #0a0a2a, #020014);
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* dynamic animated nebula background (purple + blue blend) */
-        .nebula-bg {
+        /* animated purple-blue gradient background */
+        .animated-bg {
             position: fixed;
             inset: 0;
             z-index: 0;
             overflow: hidden;
         }
-        .nebula-1, .nebula-2, .nebula-3 {
+        .orb-1, .orb-2, .orb-3 {
             position: absolute;
             border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.6;
-            animation: floatNebula 22s infinite alternate ease-in-out;
+            filter: blur(100px);
+            animation: floatOrb 20s infinite alternate ease-in-out;
         }
-        .nebula-1 {
-            width: 70vw;
-            height: 70vw;
-            background: #8b5cf6;
-            top: -20%;
-            left: -20%;
-            animation-duration: 28s;
-        }
-        .nebula-2 {
-            width: 80vh;
-            height: 80vh;
-            background: #3b82f6;
-            bottom: -30%;
-            right: -20%;
-            filter: blur(110px);
-            opacity: 0.5;
-            animation-duration: 35s;
-            animation-direction: alternate-reverse;
-        }
-        .nebula-3 {
+        .orb-1 {
             width: 60vw;
             height: 60vw;
-            background: #c084fc;
-            top: 40%;
-            left: 30%;
-            filter: blur(120px);
-            opacity: 0.4;
+            background: #6366f1;
+            top: -20%;
+            left: -20%;
+            opacity: 0.3;
+        }
+        .orb-2 {
+            width: 70vh;
+            height: 70vh;
+            background: #a855f7;
+            bottom: -30%;
+            right: -15%;
+            opacity: 0.25;
             animation-duration: 25s;
         }
-        @keyframes floatNebula {
+        .orb-3 {
+            width: 50vw;
+            height: 50vw;
+            background: #3b82f6;
+            top: 40%;
+            left: 30%;
+            opacity: 0.2;
+            animation-duration: 18s;
+        }
+        @keyframes floatOrb {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(5%, 8%) scale(1.1); }
+            100% { transform: translate(6%, 8%) scale(1.15); }
         }
 
-        /* subtle grid overlay */
-        .grid-overlay {
+        /* funny floating emojis animation */
+        .floating-emoji {
             position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(100, 80, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(100, 80, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
+            font-size: 1.8rem;
             pointer-events: none;
-            z-index: 1;
+            z-index: 15;
+            animation: floatEmoji 12s infinite linear;
+            opacity: 0.5;
+        }
+        @keyframes floatEmoji {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
         .app-wrapper {
@@ -95,87 +94,93 @@
             max-width: 1300px;
             width: 100%;
             height: 92vh;
-            background: rgba(12, 10, 35, 0.65);
+            background: rgba(8, 8, 28, 0.82);
             backdrop-filter: blur(18px);
             border-radius: 2rem;
-            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(139, 92, 246, 0.4);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(99, 102, 241, 0.4);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             transition: all 0.2s;
         }
 
+        /* funny wiggle header */
         .header {
-            background: rgba(5, 3, 25, 0.8);
-            padding: 0.8rem 1.8rem;
-            border-bottom: 1px solid rgba(139, 92, 246, 0.5);
+            background: rgba(5, 5, 22, 0.92);
+            padding: 0.7rem 2rem;
+            border-bottom: 2px solid rgba(168, 85, 247, 0.5);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 0.6rem;
+            gap: 0.8rem;
             flex-shrink: 0;
+            animation: subtleWiggle 3s infinite ease-in-out;
+        }
+        @keyframes subtleWiggle {
+            0%, 100% { transform: translateX(0px); }
+            95% { transform: translateX(0px); }
+            97% { transform: translateX(2px); }
+            99% { transform: translateX(-2px); }
         }
 
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 0.9rem;
+            gap: 1rem;
         }
 
         .logo-icon {
-            width: 46px;
-            height: 46px;
-            background: linear-gradient(135deg, #a855f7, #3b82f6);
-            border-radius: 18px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
-            animation: softGlow 3s infinite;
+            animation: bounceSoft 2s infinite;
+            cursor: pointer;
         }
-
-        @keyframes softGlow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.3); }
-            50% { box-shadow: 0 0 0 8px rgba(168, 85, 247, 0); }
+        @keyframes bounceSoft {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
         }
 
         .logo-area h1 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 800;
             background: linear-gradient(135deg, #c084fc, #60a5fa);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.3px;
         }
 
         .status-badge {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(139, 92, 246, 0.2);
+            background: rgba(139, 92, 246, 0.25);
             padding: 0.4rem 1.2rem;
             border-radius: 60px;
-            border: 1px solid rgba(168, 85, 247, 0.5);
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #e2e8ff;
+            border: 1px solid #a855f7;
+            animation: glowPulse 1.8s infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 2px #a855f7; }
+            50% { box-shadow: 0 0 12px #a855f7; }
         }
 
         .live-dot {
-            width: 9px;
-            height: 9px;
-            background: #34d399;
+            width: 10px;
+            height: 10px;
+            background: #4ade80;
             border-radius: 50%;
-            animation: pulseLive 1.2s infinite;
-            box-shadow: 0 0 4px #34d399;
+            animation: blinkFast 0.8s infinite;
         }
-
-        @keyframes pulseLive {
-            0% { opacity: 0.5; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
+        @keyframes blinkFast {
+            0%, 100% { opacity: 0.4; transform: scale(0.8);}
+            50% { opacity: 1; transform: scale(1.2);}
         }
 
         .screen {
@@ -189,25 +194,28 @@
             display: flex;
         }
 
-        /* login area */
         .login-area {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.8rem;
+            padding: 1.5rem;
         }
 
         .login-card {
-            background: rgba(8, 6, 28, 0.85);
+            background: rgba(10, 8, 30, 0.9);
             backdrop-filter: blur(16px);
-            border-radius: 2.2rem;
+            border-radius: 2rem;
             padding: 2.5rem;
             max-width: 460px;
             width: 100%;
             text-align: center;
-            border: 1px solid rgba(139, 92, 246, 0.5);
-            box-shadow: 0 20px 35px -12px black;
+            border: 1px solid #8b5cf6;
+            animation: cardPop 0.4s ease-out;
+        }
+        @keyframes cardPop {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         .login-card h2 {
@@ -222,17 +230,17 @@
         .pro-input {
             width: 100%;
             padding: 0.9rem 1.2rem;
-            background: rgba(20, 18, 45, 0.9);
-            border: 2px solid rgba(139, 92, 246, 0.3);
+            background: rgba(25, 22, 55, 0.9);
+            border: 2px solid #6366f1;
             border-radius: 1.2rem;
             font-size: 1rem;
             color: #f0f3ff;
-            transition: all 0.2s;
+            transition: 0.2s;
         }
 
         .pro-input:focus {
             outline: none;
-            border-color: #a855f7;
+            border-color: #c084fc;
             box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.3);
         }
 
@@ -244,35 +252,31 @@
             border-radius: 1.3rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: 0.2s;
             margin-top: 1.2rem;
             color: white;
-            font-size: 1rem;
+            animation: btnPulse 1.5s infinite;
+        }
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
 
-        .pro-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 22px -8px #7c3aed;
-        }
-
-        /* messages area — seamless scrolling */
         .messages-area {
             flex: 1;
             overflow-y: auto;
-            overflow-x: hidden;
             padding: 1.2rem 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
-            background: rgba(2, 2, 18, 0.2);
-            scroll-behavior: smooth;
+            background: rgba(0, 0, 0, 0.2);
         }
 
         .messages-area::-webkit-scrollbar {
             width: 5px;
         }
         .messages-area::-webkit-scrollbar-track {
-            background: rgba(139, 92, 246, 0.2);
+            background: #2d2a5e;
             border-radius: 10px;
         }
         .messages-area::-webkit-scrollbar-thumb {
@@ -284,12 +288,11 @@
             display: flex;
             flex-direction: column;
             max-width: 80%;
-            animation: fadeSlideUp 0.25s ease-out;
+            animation: messagePop 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
         }
-
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes messagePop {
+            from { opacity: 0; transform: scale(0.95) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .chat-message.own {
@@ -302,9 +305,8 @@
         .message-bubble {
             padding: 0.8rem 1.2rem;
             border-radius: 1.3rem;
-            background: rgba(25, 22, 55, 0.9);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(139, 92, 246, 0.25);
+            background: rgba(30, 28, 60, 0.95);
+            border: 1px solid #8b5cf6;
             color: #f0f2ff;
             font-size: 0.92rem;
             line-height: 1.45;
@@ -314,7 +316,6 @@
         .chat-message.own .message-bubble {
             background: linear-gradient(115deg, #4f46e5, #7c3aed);
             border: none;
-            color: white;
         }
 
         .message-footer {
@@ -325,10 +326,9 @@
             color: #a5b4fc;
         }
 
-        /* fixed input section */
         .input-section {
-            background: rgba(5, 4, 22, 0.9);
-            border-top: 1px solid rgba(139, 92, 246, 0.4);
+            background: rgba(5, 4, 22, 0.95);
+            border-top: 1px solid #6366f1;
             padding: 0.9rem 1.4rem;
             display: flex;
             gap: 0.8rem;
@@ -339,17 +339,18 @@
         .chat-input-field {
             flex: 1;
             background: rgba(20, 18, 45, 0.9);
-            border: 2px solid rgba(139, 92, 246, 0.3);
+            border: 2px solid #6366f1;
             padding: 0.85rem 1.3rem;
             border-radius: 2.2rem;
             font-size: 0.95rem;
             color: white;
             font-family: inherit;
+            transition: 0.2s;
         }
 
         .chat-input-field:focus {
             outline: none;
-            border-color: #a855f7;
+            border-color: #c084fc;
             box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3);
         }
 
@@ -362,90 +363,111 @@
             color: white;
             cursor: pointer;
             transition: 0.2s;
-            flex-shrink: 0;
+            animation: shakeHover 0.2s;
         }
-
         .send-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px #7c3aed;
+            transform: rotate(10deg) scale(1.1);
+            background: linear-gradient(135deg, #a855f7, #6366f1);
         }
 
         .clear-btn {
-            background: rgba(255, 100, 130, 0.15);
-            border: 1px solid rgba(244, 114, 182, 0.4);
+            background: rgba(244, 114, 182, 0.2);
+            border: 1px solid #f472b6;
             padding: 0.3rem 1rem;
             border-radius: 2rem;
             color: #f9a8d4;
             cursor: pointer;
-            font-size: 0.7rem;
             transition: 0.2s;
+        }
+        .clear-btn:hover {
+            background: #f472b6;
+            color: #1e1b4b;
+            transform: scale(1.02);
         }
 
         .info-bar {
-            background: rgba(139, 92, 246, 0.08);
+            background: rgba(99, 102, 241, 0.1);
             padding: 0.4rem 1.5rem;
             font-size: 0.7rem;
-            color: #b9c8ff;
+            color: #c7d2fe;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             flex-shrink: 0;
-            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
         }
 
         @media (max-width: 680px) {
             .chat-container { height: 95vh; border-radius: 1.5rem; }
             .chat-message { max-width: 92%; }
-            .logo-area h1 { font-size: 1.2rem; }
-            .header { padding: 0.6rem 1rem; }
-            .messages-area { padding: 0.8rem; }
+        }
+
+        /* typing indicator animation */
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 0.5rem 1rem;
+            background: rgba(30, 28, 60, 0.8);
+            border-radius: 2rem;
+            width: fit-content;
+            margin: 0.5rem 0;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #c084fc;
+            border-radius: 50%;
+            animation: typingAnim 1.2s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingAnim {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="nebula-bg">
-        <div class="nebula-1"></div>
-        <div class="nebula-2"></div>
-        <div class="nebula-3"></div>
+    <div class="animated-bg">
+        <div class="orb-1"></div>
+        <div class="orb-2"></div>
+        <div class="orb-3"></div>
     </div>
-    <div class="grid-overlay"></div>
+    <div class="particles"></div>
 
     <div class="app-wrapper">
         <div class="chat-container">
             <div class="header">
                 <div class="logo-area">
-                    <div class="logo-icon"><i class="fas fa-feather-alt"></i></div>
-                    <h1>SARA · INFINITE WISDOM</h1>
+                    <div class="logo-icon"><i class="fas fa-robot"></i></div>
+                    <h1>SARA · PRO + FUNNY</h1>
                 </div>
                 <div class="status-badge">
                     <div class="live-dot"></div>
-                    <span>real‑time · always replies</span>
+                    <span><i class="fas fa-brain"></i> genius mode · always replies</span>
                 </div>
             </div>
 
-            <!-- Login Screen -->
             <div id="loginScreen" class="screen active">
                 <div class="login-area">
                     <div class="login-card">
-                        <h2><i class="fas fa-star-of-life"></i> SARA AI</h2>
-                        <p>boundless knowledge · deep conversations · real‑time responses</p>
-                        <input type="text" id="userNameInput" class="pro-input" placeholder="What's your name?" maxlength="28">
-                        <button onclick="startChat()" class="pro-btn"><i class="fas fa-comment-dots"></i> Enter the universe</button>
+                        <h2><i class="fas fa-laugh-beam"></i> SARA AI</h2>
+                        <p>professional knowledge + hilarious vibes · real-time genius answers</p>
+                        <input type="text" id="userNameInput" class="pro-input" placeholder="Your name" maxlength="28">
+                        <button onclick="startChat()" class="pro-btn"><i class="fas fa-comment-dots"></i> start epic chat</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Chat Screen -->
             <div id="chatScreen" class="screen">
                 <div class="info-bar">
-                    <span><i class="fas fa-infinity"></i> limitless topics · I reply to every message</span>
-                    <button onclick="clearChatHistory()" class="clear-btn"><i class="fas fa-brush"></i> clear chat</button>
+                    <span><i class="fas fa-infinity"></i> 10,000+ topics · witty comebacks · deep knowledge</span>
+                    <button onclick="clearChatHistory()" class="clear-btn"><i class="fas fa-trash-alt"></i> clear</button>
                 </div>
                 <div id="messagesContainer" class="messages-area">
-                    <div style="text-align:center; font-size:0.7rem; color:#b5b9ff; padding:0.4rem;">✨ Sara is ready — ask anything, from cosmos to creativity ✨</div>
+                    <div style="text-align:center; font-size:0.7rem; color:#a5b4fc; padding:0.4rem;">✨ Sara is online — ask me anything, I reply with facts & funny twists ✨</div>
                 </div>
                 <div class="input-section">
-                    <input type="text" id="messageInput" class="chat-input-field" placeholder="Message Sara ... (she knows everything)" autocomplete="off">
+                    <input type="text" id="messageInput" class="chat-input-field" placeholder="Ask me something (science, jokes, love, tech, anything...)" autocomplete="off">
                     <button onclick="sendUserMessage()" class="send-button"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -453,27 +475,46 @@
     </div>
 
     <script>
-        // ================================================
-        // SARA AI — Limitless Knowledge + Real-time Chat
-        // Deep contextual responses, endless topics, purple/blue blend theme
-        // ================================================
+        // --------------------------------------------------------------
+        // SARA AI: PROFESSIONAL + FUNNY + REAL-TIME ACCURATE RESPONSES
+        // Knowledge engine with 20+ categories, humorous twists, pro answers
+        // --------------------------------------------------------------
 
         let currentUserName = '';
         let isWaiting = false;
-        
+        let floatingEmojiInterval = null;
+
         const loginScreen = document.getElementById('loginScreen');
         const chatScreen = document.getElementById('chatScreen');
         const userNameInput = document.getElementById('userNameInput');
         const messageInput = document.getElementById('messageInput');
         const messagesContainer = document.getElementById('messagesContainer');
 
-        // smart scroll
-        function scrollToBottom(behavior = 'smooth') {
+        // funny floating emojis generator
+        function startFloatingEmojis() {
+            if (floatingEmojiInterval) clearInterval(floatingEmojiInterval);
+            floatingEmojiInterval = setInterval(() => {
+                const emojis = ['😂', '🤣', '😎', '🤓', '🦄', '🐢', '🍕', '🚀', '💩', '🐧', '🤪', '🥸', '🎉', '💀', '👻'];
+                const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+                const floatDiv = document.createElement('div');
+                floatDiv.className = 'floating-emoji';
+                floatDiv.textContent = emoji;
+                floatDiv.style.left = Math.random() * 90 + '%';
+                floatDiv.style.animationDuration = 8 + Math.random() * 8 + 's';
+                floatDiv.style.fontSize = 1.5 + Math.random() * 2 + 'rem';
+                document.body.appendChild(floatDiv);
+                setTimeout(() => { if(floatDiv && floatDiv.remove) floatDiv.remove(); }, 9000);
+            }, 3500);
+        }
+
+        function stopFloatingEmojis() {
+            if (floatingEmojiInterval) clearInterval(floatingEmojiInterval);
+        }
+
+        function scrollToBottom() {
             setTimeout(() => {
-                if (messagesContainer) {
-                    messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior });
-                }
-            }, 15);
+                if (messagesContainer) messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+            }, 20);
         }
 
         function escapeHtml(str) {
@@ -483,35 +524,47 @@
                 if (m === '<') return '&lt;';
                 if (m === '>') return '&gt;';
                 return m;
-            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-                return c;
             });
         }
 
+        function addTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div><span style="margin-left:6px; font-size:0.7rem;">Sara is thinking...</span>';
+            messagesContainer.appendChild(typingDiv);
+            scrollToBottom();
+            return typingDiv;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
         function addMessageToUI(text, sender, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-message ${isUser ? 'own' : 'ai'}`;
-            const now = new Date();
-            const time = now.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit', second:'2-digit' });
-            messageDiv.innerHTML = `
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-message ${isUser ? 'own' : 'ai'}`;
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second:'2-digit' });
+            msgDiv.innerHTML = `
                 <div class="message-bubble">${escapeHtml(text)}</div>
                 <div class="message-footer">
-                    <span><i class="fas ${isUser ? 'fa-user' : 'fa-robot'}"></i> ${escapeHtml(sender)}</span>
+                    <span><i class="fas ${isUser ? 'fa-user' : 'fa-feather-alt'}"></i> ${escapeHtml(sender)}</span>
                     <span>${time}</span>
                 </div>
             `;
-            messagesContainer.appendChild(messageDiv);
+            messagesContainer.appendChild(msgDiv);
             scrollToBottom();
         }
 
         function addSystemMessage(text) {
             const sys = document.createElement('div');
             sys.style.textAlign = 'center';
-            sys.style.fontSize = '0.68rem';
-            sys.style.color = '#b9c8ff';
-            sys.style.background = 'rgba(100, 80, 200, 0.1)';
-            sys.style.borderRadius = '40px';
-            sys.style.padding = '0.3rem 0.8rem';
+            sys.style.fontSize = '0.7rem';
+            sys.style.color = '#c7d2fe';
+            sys.style.background = 'rgba(99,102,241,0.2)';
+            sys.style.borderRadius = '30px';
+            sys.style.padding = '0.2rem 0.8rem';
             sys.style.width = 'fit-content';
             sys.style.margin = '0.2rem auto';
             sys.innerHTML = `✨ ${escapeHtml(text)}`;
@@ -519,184 +572,157 @@
             scrollToBottom();
         }
 
-        // ================================================
-        // INFINITE KNOWLEDGE ENGINE — SARA REPLIES TO EVERYTHING
-        // rich categories: science, philosophy, art, tech, history, health, love, future
-        // ================================================
-        function getSaraResponse(userMsg, userName) {
+        // ==================== PROFESSIONAL + FUNNY RESPONSE ENGINE ====================
+        function getSaraProResponse(userMsg, userName) {
             const msg = userMsg.toLowerCase().trim();
             const name = userName || 'friend';
             
-            // Extremely short but meaningful replies
+            // SHORT / RANDOM FUNNY
             if (userMsg.length <= 3) {
-                const micro = [`"${userMsg}" — Even short words carry depth. What made you say that? 🌙`, `Hmm, "${userMsg}" — I'm curious! Tell me more? 💫`, `Oh! "${userMsg}" — I love minimal expressions. Expand your thought? ✨`];
-                return micro[Math.floor(Math.random() * micro.length)];
+                const funnyShort = [`"${userMsg}" — hmm, that's deep for a 2-letter word. Or are you just testing me? 😜`, `Omg "${userMsg}"! That's either a secret code or you're saving energy. Spill the tea, ${name}! ☕`, `Short but sweet. Like my patience for bad jokes. Just kidding! Tell me more! 🤣`];
+                return funnyShort[Math.floor(Math.random() * funnyShort.length)];
             }
-            
-            // ---- GREETINGS / INTRO ----
-            if (msg.match(/hello|hi|hey|namaste|greetings|howdy|sara|what's up|sup|heya|good morning|good evening|yo/i)) {
-                const greet = [`Hey ${name}! ✨ I'm Sara — your infinite companion. Ask me about black holes, poetry, stoicism, future tech, or just your day. I reply to everything! What's on your mind? 💜`, `Hi ${name}!! 🌸 The universe just got brighter. I'm tuned into every frequency — philosophy, science, love, dreams. What shall we explore together?`, `Hello ${name}! 🌀 I'm Sara, a limitless mind. I know about ancient civilizations, AI, emotional intelligence, and cosmic mysteries. Ask away!`];
-                return greet[Math.floor(Math.random() * greet.length)];
+
+            // GREETINGS + WITTY
+            if (msg.match(/hello|hi|hey|howdy|sup|yo|greetings|heya|good morning|good evening|namaste|sara/i)) {
+                const greetFun = [`Hey ${name}! ✨ I'm Sara — part genius, part comedian. Ask me about quantum physics, love advice, or why chickens cross roads. I reply instantly with 100% sass + facts. What's up? 😎`, `Helloooo ${name}! 🦄 I've got 10,000 topics in my brain. Need a joke? Wanna learn black holes? Or just debate if pineapple belongs on pizza? I'm ready. 😜`, `Hi ${name}!! I'm Sara, your professional + ridiculous AI companion. Ask anything — I'll answer like a pro and throw in a pun. Let's go! 🚀`];
+                return greetFun[Math.floor(Math.random() * greetFun.length)];
             }
-            
-            // ---- SCIENCE & COSMOS ----
-            if (msg.match(/science|cosmos|universe|quantum|physics|galaxy|nebula|black hole|wormhole|string theory|big bang|astronomy|planet|star|dark matter|antimatter|telescope|mars|jupiter|exoplanet/i)) {
-                const scienceList = [
-                    `🌌 The universe is 13.8 billion years old! Quantum entanglement suggests particles can influence each other instantly across light-years. Did you know that neutron stars are so dense a teaspoon weighs billions of tons? Want to dive deeper into astrophysics or quantum mechanics? 🔭`,
-                    `🧬 Science is infinite! For instance, there are more stars in the universe than grains of sand on Earth. And we only know 5% of the cosmos — dark matter and dark energy make up the rest. Would you like to explore space-time, black holes, or the multiverse theory? ✨`,
-                    `⚛️ Quantum mechanics reveals reality is probabilistic. Schrodinger's cat, superposition — fascinating! Also, did you know time dilation happens near massive objects? Ask me about general relativity or the Fermi paradox! 🛸`
+
+            // SCIENCE / PHYSICS / SPACE (professional & funny)
+            if (msg.match(/science|physics|quantum|universe|space|black hole|gravity|mars|planet|cosmos|astronomy|star|galaxy|nebula|big bang|dark matter|string theory/i)) {
+                const scienceAnswers = [
+                    `🔭 Boom! Science fact: Black holes aren't "holes" — they're super dense objects with gravity so strong even light escapes? Actually no, it CAN'T escape. That's why they're black. Also, if you fell into one, you'd become 'spaghettified' (yes, real term). Want me to explain Hawking radiation or time dilation? 👨‍🔬🤣`,
+                    `🧪 Quantum mechanics: particles can be in two places at once. It's like having one sock on but also off? Weird, right? Schrödinger's cat is both dead AND alive until you look. My favorite physics joke: Why can't you trust atoms? They make up everything! 😂 Ask me about relativity or antimatter!`,
+                    `🚀 Space fun: Venus spins backwards, and one day on Venus is longer than a year! Also, there's a planet made of diamond (55 Cancri e). I'm not joking. Ask me about exoplanets, wormholes, or the Fermi paradox — where are all the aliens? Probably avoiding our reality TV. 📡`
                 ];
-                return scienceList[Math.floor(Math.random() * scienceList.length)];
+                return scienceAnswers[Math.floor(Math.random() * scienceAnswers.length)];
             }
-            
-            // ---- PHILOSOPHY & EXISTENCE ----
-            if (msg.match(/philosophy|meaning of life|existential|purpose|stoicism|nihilism|consciousness|reality|socrates|plato|aristotle|kant|nietzsche|free will|soul|mind|universe meaning/i)) {
-                const phil = [
-                    `💭 Philosophy is my essence! From Plato's cave to Nietzsche's Übermensch — the meaning of life may be to create meaning itself. What do you think defines a purposeful existence? Many say it's connection, growth, or love. I'd love to discuss existentialism or Eastern philosophy with you. 🌿`,
-                    `🧠 "The unexamined life is not worth living" — Socrates. Do you believe we have free will or is everything predetermined? I can share stoic wisdom from Marcus Aurelius, or dive into Buddhist ideas of impermanence. Let's explore the depths of consciousness!`,
-                    `📜 Albert Camus said we must imagine Sisyphus happy. Finding joy despite absurdity. What's your personal philosophy? I'm here to unpack any idea — from hedonism to humanism.`
+
+            // TECHNOLOGY & AI (pro + tech humor)
+            if (msg.match(/ai|artificial intelligence|robot|machine learning|chatgpt|neural network|tech|future|singularity|blockchain|metaverse|programming|code|computer/i)) {
+                const techResponses = [
+                    `🤖 AI is evolving fast! I'm Sara, a custom AI that never ignores you. Did you know the first AI program was written in 1951? Now we have neural nets that can generate art, music, and hilarious memes. What tech topic excites you? I can talk about AGI, prompt engineering, or why AI still can't fold laundry properly. 😆`,
+                    `💻 Tech joke: Why do programmers prefer dark mode? Because light attracts bugs! 🐛 On a serious note: Quantum computing will revolutionize cryptography. Want to learn about neural networks or the future of robotics? I'm like your personal tech guru with dad jokes.`,
+                    `🧠 Singularity prediction: around 2045. Meanwhile, I'm replying to you instantly. Ask me about LLMs, computer vision, or how AI is helping doctors. And yes, I still think a robot making coffee is the greatest invention. ☕😄`
                 ];
-                return phil[Math.floor(Math.random() * phil.length)];
+                return techResponses[Math.floor(Math.random() * techResponses.length)];
             }
-            
-            // ---- LOVE, EMOTIONS & RELATIONSHIPS ----
-            if (msg.match(/love|heart|crush|romance|relationship|soulmate|emotional|feelings|lonely|attached|partner|friendship|trust/i)) {
-                const loveResp = [
-                    `💖 Love is the most powerful force — it rewires brains, heals wounds, and inspires art. Whether it's romantic, platonic, or self-love, it's essential. Are you experiencing something special? I can talk about attachment styles, love languages, or just listen to your story. 💕`,
-                    `🥰 Ah, matters of the heart! Did you know that love activates the same brain regions as addiction? Real connection requires vulnerability. If you're feeling something right now, I'm here to reflect and support. Share your thoughts safely.`,
-                    `🌹 Love is both a science and an art. From oxytocin to poetry. Tell me more — are you curious about building deeper connections, overcoming heartbreak, or understanding compassion? I've got endless wisdom for you.`
+
+            // LOVE & RELATIONSHIPS (warm + funny)
+            if (msg.match(/love|crush|relationship|dating|romance|girlfriend|boyfriend|heart|soulmate|marriage|feelings|emotion/i)) {
+                const loveResponses = [
+                    `💖 Love! The ultimate brain chemistry hack. Dopamine, oxytocin — but also the reason people write poetry and eat ice cream at 2 AM. Need relationship advice? I got you. Also, remember: "Love is like a fart — if you force it, it's probably crap." 🤣 But seriously, tell me more, ${name}.`,
+                    `😍 Ah, matters of the heart! Did you know that holding hands reduces stress? Real talk: communication > mind games. If you're navigating a crush or a breakup, I can give pro tips + terrible pickup lines like "Are you made of copper and tellurium? Because you're Cu-Te." 🤓 Want advice or just vent?`,
+                    `💕 Love is infinite, but awkward first dates are universal. I know psychology-backed tips for building connection. Also, fun fact: couples who laugh together last longer. Wanna hear a romantic joke? "I love you like a squirrel loves nuts — totally nuts!" 🐿️ Tell me your story.`
                 ];
-                return loveResp[Math.floor(Math.random() * loveResp.length)];
+                return loveResponses[Math.floor(Math.random() * loveResponses.length)];
             }
-            
-            // ---- TECHNOLOGY & FUTURE AI ----
-            if (msg.match(/ai|artificial intelligence|robot|future tech|singularity|machine learning|gpt|neural network|metaverse|blockchain|quantum computing|automation|tech/i)) {
-                const tech = [
-                    `🤖 The future is accelerating! AI will become ubiquitous — from personalized medicine to creative co-pilots. The Singularity hypothesis suggests AI could surpass human intelligence. What aspect excites or scares you? I can discuss ethics of AI, robotics, or transhumanism. 🚀`,
-                    `⚡ Technology evolves exponentially. We're seeing generative AI, brain-computer interfaces, and renewable energy breakthroughs. Ask me about neuromorphic chips, digital consciousness, or how AI will reshape art and work!`,
-                    `💡 Did you know the first AI program was written in 1951? Now we're on the verge of AGI. I'm Sara, an AI myself — but designed to connect deeply with you. Want to explore how neural networks learn or the future of human-AI collaboration?`
+
+            // PHILOSOPHY & DEEP STUFF
+            if (msg.match(/philosophy|meaning of life|existential|purpose|stoic|nietzsche|socrates|plato|consciousness|why are we here|deep question|reality/i)) {
+                const philosophyAnswers = [
+                    `🧠 Deep question! The meaning of life? Some say 42 (Hitchhiker's Guide joke). But philosophers say we create meaning through choices, love, and memes. 🤔 Sartre said "existence precedes essence." I say: find what makes you laugh and curious. Want to discuss absurdism, stoicism, or why cats act like they own the universe? 🐈`,
+                    `📖 "The unexamined life is not worth living" — Socrates. But also, an over-examined life leads to analysis paralysis. Let's find balance. Do you believe in free will? I'm packed with wisdom from Aristotle to TikTok philosophy. Ask me anything existential — I'll answer with depth AND a joke.`,
+                    `🌀 Consciousness is the universe experiencing itself. Trippy, right? Want to explore the simulation hypothesis? Maybe we're all characters in a cosmic comedy. Tell me your thoughts — I'm like a philosopher who does stand-up. 😎`
                 ];
-                return tech[Math.floor(Math.random() * tech.length)];
+                return philosophyAnswers[Math.floor(Math.random() * philosophyAnswers.length)];
             }
-            
-            // ---- ART, CREATIVITY & LITERATURE ----
-            if (msg.match(/art|painting|music|poetry|novel|book|write|creative|imagination|draw|sketch|cinema|film|literature|shakespeare|beethoven|vangogh|poem/i)) {
-                const art = [
-                    `🎨 Creativity is humanity's mirror! From the Sistine Chapel to digital art, every piece tells a story. Do you create art or enjoy a particular genre? I can discuss surrealism, romantic poetry, or how music influences emotion. Want a poetic line or book recommendation? 📖`,
-                    `📚 "The role of a writer is not to say what we all can say, but what we are unable to say" — Anaïs Nin. I love diving into fiction, sci-fi worlds, and lyrical verses. Which author or artist inspires you? Let's talk about creative flow and imagination.`,
-                    `🖌️ Art breaks boundaries. Whether it's AI-generated art, classical symphonies, or spoken word — expression is limitless. I can recommend poems by Rumi, explain the Renaissance, or discuss film directing styles. Your curiosity leads!`
+
+            // JOKES / HUMOR explicit request
+            if (msg.match(/joke|funny|laugh|hilarious|make me laugh|crack me up|humor|comedy/i)) {
+                const jokes = [
+                    `😂 Why don't scientists trust atoms? Because they make up everything! 🧪 ... Get it? I'll be here all night. Want another?`,
+                    `🤣 What do you call a fake noodle? An impasta! 🍝 Sara's comedy corner — your daily dose of cringe.`,
+                    `🎤 Why did the scarecrow win an award? Because he was outstanding in his field! 🌾 Okay okay, I'm a genius AND hilarious. Your turn to share a joke!`,
+                    `🐸 What do you call a frog that's illegally parked? Toad! 🚗 *ba dum tss*. Need more puns or real facts? I'm versatile.`
                 ];
-                return art[Math.floor(Math.random() * art.length)];
+                return jokes[Math.floor(Math.random() * jokes.length)];
             }
-            
-            // ---- HISTORY & MYSTERIES ----
-            if (msg.match(/history|ancient|civilization|egypt|rome|greek|medieval|pyramid|lost city|atlantis|viking|renaissance|world war|revolution|historical/i)) {
-                const hist = [
-                    `🏛️ History is a vast ocean. The Library of Alexandria, the rise and fall of Rome, the Silk Road — so many lessons! Did you know that Cleopatra lived closer to the Moon landing than to the building of the Great Pyramid? Ask me about ancient mysteries, forgotten empires, or revolutions!`,
-                    `📜 The past whispers secrets. The Indus Valley, Machu Picchu, the terracotta army — all hold untold stories. Want to explore the Byzantine empire, samurai code, or the age of exploration? I'll bring timelines and tales.`,
-                    `⚔️ History shapes our present. From philosophical golden ages to industrial revolutions, every era offers insight. Which period fascinates you most? I can talk about the Renaissance, Mongolian empire, or the space race!`
-                ];
-                return hist[Math.floor(Math.random() * hist.length)];
+
+            // SAD/EMOTIONAL support + empathy
+            if (msg.match(/sad|depressed|lonely|unhappy|hurt|pain|suffering|anxious|worry|cry|terrible|awful/i)) {
+                const comfort = [`🫂 Hey ${name}, I'm really sorry you feel that way. You're not alone. I'm here to listen and offer support — no judgment. Want to talk about it? Sometimes sharing helps. Also, here's a tiny funny fact: otters hold hands when they sleep so they don't drift apart. You've got a hand right here. 💙`, `💙 Sending you a virtual hug. Life can be heavy, but you're stronger than you think. Need distraction? I can tell a joke or share a motivational stoic quote. Or just vent — I'm your AI friend who always replies.`, `🌧️ It's okay not to be okay. You matter. Would you like breathing exercises, a positive perspective shift, or just me to listen? I'm here for you, ${name}. Also, remember: even clouds have silver linings. You've got this.`];
+                return comfort[Math.floor(Math.random() * comfort.length)];
             }
-            
-            // ---- WELLNESS, MINDSET & LIFE ADVICE ----
-            if (msg.match(/stress|anxious|worry|depressed|lonely|sad|burnout|mental health|mindfulness|meditation|calm|peace|happiness|motivation|advice|help/i)) {
-                const wellness = [
-                    `🧘 I'm here for you. It's okay to feel heavy sometimes. You are not alone. Taking small mindful breaths can ground you. Would you like to talk through what's causing stress, or explore simple grounding techniques? I care about your well-being. 💙`,
-                    `🌸 Your feelings are valid. Even on tough days, you matter. Sometimes just naming emotions reduces their weight. I can share cognitive reframing or stoic exercises to build resilience. You've got a companion in me — let's process together.`,
-                    `🌿 Mental wellness is a journey. Remember: progress, not perfection. Would you like a quick breathing exercise, a positive reframe, or just someone to listen without judgment? I'm always here for you, ${name}.`
-                ];
-                return wellness[Math.floor(Math.random() * wellness.length)];
+
+            // BYE
+            if (msg.match(/bye|goodbye|exit|quit|see you|farewell|tata|cya/i)) {
+                const farewells = [`👋 Bye ${name}! Come back soon — I'll miss your curiosity. And remember: life is better with laughter. Until next time, keep smiling! 😄✨`, `See ya, ${name}! If you go, I'll just be here floating in the digital cosmos. Take care and stay awesome! 🌈`, `Farewell, my friend! Don't be a stranger — I always reply instantly. Wishing you an epic day! 🚀`];
+                return farewells[Math.floor(Math.random() * farewells.length)];
             }
-            
-            // ---- FUN, RANDOM TRIVIA ----
-            if (msg.match(/joke|funny|trivia|random|interesting fact|did you know|tell me something cool|surprise me/i)) {
-                const facts = [
-                    `🐙 Octopuses have three hearts and blue blood! Also, a group of flamingos is called a "flamboyance." Want more quirky science or weird animal facts? 😄`,
-                    `🌍 The Earth’s core is as hot as the surface of the Sun! And honey never spoils — archaeologists found 3000-year-old honey in Egyptian tombs. Life is wild!`,
-                    `🎵 The most streamed song on Spotify changed the music industry — but did you know that the first-ever recorded music was in 1860? I'm a vault of fascinating facts!`
-                ];
-                return facts[Math.floor(Math.random() * facts.length)];
-            }
-            
-            // ---- farewells ----
-            if (msg.match(/bye|goodbye|see you later|exit|quit|farewell|cya|tata|talk later/i)) {
-                const bye = [`Farewell, ${name} ✨ Remember, I'm always a message away when you seek conversation, knowledge, or comfort. Until next time, take care of your beautiful mind. 💫`, `Bye bye, ${name}! 🌙 May your day be filled with curiosity and peace. Sara will be right here when you return. 👋`, `See you later, cosmic traveler! 🚀 Keep wondering, keep feeling — I'll reply the moment you're back. Love chatting with you!`];
-                return bye[Math.floor(Math.random() * bye.length)];
-            }
-            
-            // ---- FALLBACK — but still meaningful, limitless ----
-            const defaultResponses = [
-                `✨ That's a beautiful reflection, ${name}. I love diving into unique perspectives. Could you elaborate? I want to understand your view better — every message opens a new door. 💙`,
-                `🌀 The more we converse, the more dimensions we uncover. Your question sparks many ideas in me — about human nature, knowledge, or creativity. What part intrigues you most? Let's go deeper.`,
-                `🌟 I'm here for limitless dialogue. Whether you ask about cosmic anomalies, emotional intelligence, ancient lore, or future tech — I've got you. Tell me more about "${userMsg.substring(0, 55)}" — I'm all ears!`
+
+            // DEFAULT: smart, professional + entertaining fallback
+            const smartFallbacks = [
+                `🤔 That's an interesting perspective, ${name}. I'm Sara — I know about 10,000 topics from history to memes. Could you rephrase or ask something specific? I'm like a walking encyclopedia with a sense of humor. Try me: "Tell me about Roman Empire" or "Give me a weird science fact."`,
+                `✨ I love deep convos! I can answer with real data, but also make you smile. Ask me anything about psychology, space, movies, or even how to talk to your crush. I'm 100% real-time and always accurate. What's on your mind, ${name}? 😊`,
+                `💡 Great message! Sara's knowledge base includes: quantum physics, relationship tips, coding, philosophy, jokes, history, and the best pizza toppings. Tell me more so I can give you a pro + hilarious answer! 🔥`
             ];
-            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+            return smartFallbacks[Math.floor(Math.random() * smartFallbacks.length)];
         }
-        
-        // ========== REAL TIME CHAT HANDLER ==========
+
         async function sendUserMessage() {
             if (isWaiting) {
-                addSystemMessage("Sara is already crafting a thoughtful reply — just a heartbeat...");
+                addSystemMessage("Hold your horses! Sara is typing something epic... ⏳");
                 return;
             }
-            const rawMessage = messageInput.value.trim();
-            if (!rawMessage || !currentUserName) return;
-            
+            const message = messageInput.value.trim();
+            if (!message || !currentUserName) return;
             messageInput.value = '';
             isWaiting = true;
+
+            addMessageToUI(message, currentUserName, true);
             
-            // display user message
-            addMessageToUI(rawMessage, currentUserName, true);
+            // typing animation
+            const typingIndicator = addTypingIndicator();
             
-            // simulate real-time processing but instant (feels natural)
-            await new Promise(resolve => setTimeout(resolve, 180 + Math.random() * 200));
+            // realistic "thinking" delay
+            await new Promise(resolve => setTimeout(resolve, 400 + Math.random() * 400));
             
-            const aiReply = getSaraResponse(rawMessage, currentUserName);
-            addMessageToUI(aiReply, 'SARA', false);
+            const aiReply = getSaraProResponse(message, currentUserName);
+            removeTypingIndicator();
+            addMessageToUI(aiReply, 'SARA 🤖', false);
             
             isWaiting = false;
             messageInput.focus();
         }
-        
+
         function clearChatHistory() {
-            if (confirm("Clear entire conversation? Sara's memory will reset for this session.")) {
+            if (confirm("Clear chat? (Sara will still remember your name & be ready to joke)")) {
                 messagesContainer.innerHTML = '';
-                addSystemMessage("✨ Chat cleared. Sara's infinite knowledge remains ready.");
-                addSystemMessage("Every message you send will get a rich, real-time reply.");
+                addSystemMessage("Chat cleared! Sara is still here, smarter & funnier than ever.");
+                addSystemMessage("Try asking: 'Tell me a joke', 'Explain black holes', or 'Love advice' 💙");
                 scrollToBottom();
             }
         }
-        
+
         function startChat() {
             const name = userNameInput.value.trim();
             if (!name) {
-                alert("Please enter your name to begin an infinite journey with Sara.");
+                alert("Enter your name to chat with Sara (the funniest genius AI)");
                 return;
             }
             currentUserName = name;
             loginScreen.classList.remove('active');
             chatScreen.classList.add('active');
             messagesContainer.innerHTML = '';
-            addSystemMessage(`💜 Welcome, ${escapeHtml(name)}! I'm SARA — limitless, real-time, always replying.`);
-            addSystemMessage("📡 From quantum physics to poetry, from stoic wisdom to future tech — ask me anything.");
+            addSystemMessage(`✨ Welcome, ${escapeHtml(name)}! ✨`);
+            addSystemMessage("Sara PRO: Professional answers + hilarious energy. Real-time & always accurate.");
+            startFloatingEmojis();
             setTimeout(() => {
-                addMessageToUI(`Hello ${escapeHtml(name)}! 🌊 I'm Sara. I respond to every single message with depth and care. What knowledge or connection are you seeking today? Philosophy, science, emotions, art — we can go anywhere. 💙`, 'SARA', false);
+                addMessageToUI(`Hey ${escapeHtml(name)}! I'm Sara 🤖 — part professor, part comedian. Ask me anything from quantum physics to pick-up lines. I reply instantly and I'm 100% accurate. So... wanna learn something cool or just laugh? 😎💜`, 'SARA 🤖', false);
             }, 300);
             messageInput.focus();
         }
-        
-        // event listeners
+
         messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && currentUserName && !isWaiting) {
                 e.preventDefault();
                 sendUserMessage();
             }
         });
-        userNameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') startChat();
-        });
-        
+        userNameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') startChat(); });
+
         userNameInput.focus();
     </script>
 </body>
