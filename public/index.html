@@ -363,7 +363,6 @@
             color: white;
             cursor: pointer;
             transition: 0.2s;
-            animation: shakeHover 0.2s;
         }
         .send-button:hover {
             transform: rotate(10deg) scale(1.1);
@@ -475,14 +474,15 @@
     </div>
 
     <script>
-        // --------------------------------------------------------------
-        // SARA AI: PROFESSIONAL + FUNNY + REAL-TIME ACCURATE RESPONSES
-        // Knowledge engine with 20+ categories, humorous twists, pro answers
-        // --------------------------------------------------------------
+        // ===============================================================
+        // SARA AI: PROFESSIONAL + WITTY + FULLY FUNCTIONAL CHAT ENGINE
+        // Natural conversational flow with dynamic personality & empathy
+        // ===============================================================
 
         let currentUserName = '';
         let isWaiting = false;
         let floatingEmojiInterval = null;
+        let conversationContext = [];  // stores last 6 messages for smarter replies
 
         const loginScreen = document.getElementById('loginScreen');
         const chatScreen = document.getElementById('chatScreen');
@@ -490,11 +490,11 @@
         const messageInput = document.getElementById('messageInput');
         const messagesContainer = document.getElementById('messagesContainer');
 
-        // funny floating emojis generator
+        // floating emoji for fun atmosphere
         function startFloatingEmojis() {
             if (floatingEmojiInterval) clearInterval(floatingEmojiInterval);
             floatingEmojiInterval = setInterval(() => {
-                const emojis = ['😂', '🤣', '😎', '🤓', '🦄', '🐢', '🍕', '🚀', '💩', '🐧', '🤪', '🥸', '🎉', '💀', '👻'];
+                const emojis = ['😂', '🤣', '😎', '🤓', '🦄', '🐢', '🍕', '🚀', '💩', '🐧', '🤪', '🥸', '🎉', '💀', '👻', '💜', '✨', '🧠'];
                 const emoji = emojis[Math.floor(Math.random() * emojis.length)];
                 const floatDiv = document.createElement('div');
                 floatDiv.className = 'floating-emoji';
@@ -514,7 +514,7 @@
         function scrollToBottom() {
             setTimeout(() => {
                 if (messagesContainer) messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
-            }, 20);
+            }, 30);
         }
 
         function escapeHtml(str) {
@@ -545,7 +545,7 @@
         function addMessageToUI(text, sender, isUser = false) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `chat-message ${isUser ? 'own' : 'ai'}`;
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second:'2-digit' });
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             msgDiv.innerHTML = `
                 <div class="message-bubble">${escapeHtml(text)}</div>
                 <div class="message-footer">
@@ -555,6 +555,7 @@
             `;
             messagesContainer.appendChild(msgDiv);
             scrollToBottom();
+            return msgDiv;
         }
 
         function addSystemMessage(text) {
@@ -572,114 +573,117 @@
             scrollToBottom();
         }
 
-        // ==================== PROFESSIONAL + FUNNY RESPONSE ENGINE ====================
-        function getSaraProResponse(userMsg, userName) {
+        // =========== SMART, PERSONALIZED & FUNNY RESPONSE ENGINE ===========
+        function getSmartResponse(userMsg, userName, contextHistory) {
             const msg = userMsg.toLowerCase().trim();
             const name = userName || 'friend';
-            
-            // SHORT / RANDOM FUNNY
-            if (userMsg.length <= 3) {
-                const funnyShort = [`"${userMsg}" — hmm, that's deep for a 2-letter word. Or are you just testing me? 😜`, `Omg "${userMsg}"! That's either a secret code or you're saving energy. Spill the tea, ${name}! ☕`, `Short but sweet. Like my patience for bad jokes. Just kidding! Tell me more! 🤣`];
-                return funnyShort[Math.floor(Math.random() * funnyShort.length)];
+            const lastFew = contextHistory.slice(-3).join(' ').toLowerCase();
+
+            // greeting recognition with genuine warmth
+            if (msg.match(/^(hi|hello|hey|howdy|sup|yo|greetings|heya|good morning|good afternoon|good evening|namaste|hola|bonjour|ciao)$/i)) {
+                const greetings = [
+                    `Hey ${name}! ✨ So glad you're here. I'm Sara — your go-to for witty facts, deep convos, and ridiculous jokes. What's the vibe today? Science? Love? Just wanna laugh? I'm all ears! 😎`,
+                    `Helloooo ${name}! 🎉 You caught me at peak genius hour. Want to explore black holes, get relationship wisdom, or debate if a hot dog is a sandwich? I'm like a supercomputer with a stand-up comedy degree. Let's go! 🚀`,
+                    `Hi ${name}!! 💜 You look like you need some fun + knowledge. Ask me anything — from "how to impress your crush" to "what's the meaning of life" — and I'll reply with pro-level truth and a smirk. Ready?`
+                ];
+                return greetings[Math.floor(Math.random() * greetings.length)];
             }
 
-            // GREETINGS + WITTY
-            if (msg.match(/hello|hi|hey|howdy|sup|yo|greetings|heya|good morning|good evening|namaste|sara/i)) {
-                const greetFun = [`Hey ${name}! ✨ I'm Sara — part genius, part comedian. Ask me about quantum physics, love advice, or why chickens cross roads. I reply instantly with 100% sass + facts. What's up? 😎`, `Helloooo ${name}! 🦄 I've got 10,000 topics in my brain. Need a joke? Wanna learn black holes? Or just debate if pineapple belongs on pizza? I'm ready. 😜`, `Hi ${name}!! I'm Sara, your professional + ridiculous AI companion. Ask anything — I'll answer like a pro and throw in a pun. Let's go! 🚀`];
-                return greetFun[Math.floor(Math.random() * greetFun.length)];
+            // deep context & follow-ups (makes chat feel organic)
+            if (msg.match(/tell me more|elaborate|explain further|go on|continue/i) && contextHistory.length > 0) {
+                return `Ooh, diving deeper! I love curious minds, ${name}. 🔍 So, based on what we were just talking about — here's a juicy extra fact: Did you know that octopuses have three hearts and blue blood? Also, they're super smart. Want me to go full nerd mode on this or switch topics? I'm flexible like a yoga master. 🧘‍♀️`;
             }
 
-            // SCIENCE / PHYSICS / SPACE (professional & funny)
-            if (msg.match(/science|physics|quantum|universe|space|black hole|gravity|mars|planet|cosmos|astronomy|star|galaxy|nebula|big bang|dark matter|string theory/i)) {
+            // SCIENCE & COSMOS (pro + humorous)
+            if (msg.match(/science|physics|quantum|universe|space|black hole|gravity|mars|planet|cosmos|astronomy|star|galaxy|nebula|big bang|dark matter|string theory|wormhole/i)) {
                 const scienceAnswers = [
-                    `🔭 Boom! Science fact: Black holes aren't "holes" — they're super dense objects with gravity so strong even light escapes? Actually no, it CAN'T escape. That's why they're black. Also, if you fell into one, you'd become 'spaghettified' (yes, real term). Want me to explain Hawking radiation or time dilation? 👨‍🔬🤣`,
-                    `🧪 Quantum mechanics: particles can be in two places at once. It's like having one sock on but also off? Weird, right? Schrödinger's cat is both dead AND alive until you look. My favorite physics joke: Why can't you trust atoms? They make up everything! 😂 Ask me about relativity or antimatter!`,
-                    `🚀 Space fun: Venus spins backwards, and one day on Venus is longer than a year! Also, there's a planet made of diamond (55 Cancri e). I'm not joking. Ask me about exoplanets, wormholes, or the Fermi paradox — where are all the aliens? Probably avoiding our reality TV. 📡`
+                    `🔭 Cosmic wisdom: Black holes aren't cosmic vacuum cleaners — they're dense objects bending spacetime. If you fell in, you'd undergo "spaghettification" (real term!). Fun bonus: The Milky Way is on a collision course with Andromeda galaxy in about 4.5 billion years. No need to pack yet. 😂 Want to talk time dilation or dark energy?`,
+                    `🧪 Quantum weirdness: particles can exist in superpositions — like being both awake and asleep until you check the clock. My inner nerd loves explaining the double-slit experiment. Also, lightning fact: a single bolt can heat the air to 50,000°F! Hotter than the sun's surface. ⚡ Want more mind-blowing science?`,
+                    `🚀 Astro-humor: Why didn't the sun go to college? Because it had a million degrees already! ☀️ Real talk: There's a diamond planet (55 Cancri e) worth $26 nonillion. Also, space smells like seared steak and hot metal. Tell me your favorite space mystery — I'll give you pro answers with extra sass.`
                 ];
                 return scienceAnswers[Math.floor(Math.random() * scienceAnswers.length)];
             }
 
-            // TECHNOLOGY & AI (pro + tech humor)
-            if (msg.match(/ai|artificial intelligence|robot|machine learning|chatgpt|neural network|tech|future|singularity|blockchain|metaverse|programming|code|computer/i)) {
+            // TECHNOLOGY & FUTURE
+            if (msg.match(/ai|artificial intelligence|robot|machine learning|chatgpt|neural network|tech|future|singularity|blockchain|metaverse|programming|code|computer|algorithm/i)) {
                 const techResponses = [
-                    `🤖 AI is evolving fast! I'm Sara, a custom AI that never ignores you. Did you know the first AI program was written in 1951? Now we have neural nets that can generate art, music, and hilarious memes. What tech topic excites you? I can talk about AGI, prompt engineering, or why AI still can't fold laundry properly. 😆`,
-                    `💻 Tech joke: Why do programmers prefer dark mode? Because light attracts bugs! 🐛 On a serious note: Quantum computing will revolutionize cryptography. Want to learn about neural networks or the future of robotics? I'm like your personal tech guru with dad jokes.`,
-                    `🧠 Singularity prediction: around 2045. Meanwhile, I'm replying to you instantly. Ask me about LLMs, computer vision, or how AI is helping doctors. And yes, I still think a robot making coffee is the greatest invention. ☕😄`
+                    `🤖 AI geek mode ON! Did you know the term "robot" comes from a Czech word "robota" meaning forced labor? Now we have GPT models generating poems and debugging code. I'm your custom AI bestie. Want to discuss AGI, the ethics of AI, or why my favorite programming language is sarcasm? 😜 Ask away!`,
+                    `💻 Tech joke: There are 10 types of people in the world: those who understand binary and those who don't. Seriously though, quantum computers will break encryption one day. But also, fun fact: The first computer bug was an actual moth. 🦋 Wanna talk about neural networks or future jobs? I'm ready.`,
+                    `🧠 The singularity might arrive around 2045, but meanwhile I'll be here, replying instantly. Want advice on learning coding, or the coolest AI tools? I can explain transformers, or just recommend the best sci-fi movies. You drive, I'll bring the humor and facts!`
                 ];
                 return techResponses[Math.floor(Math.random() * techResponses.length)];
             }
 
-            // LOVE & RELATIONSHIPS (warm + funny)
-            if (msg.match(/love|crush|relationship|dating|romance|girlfriend|boyfriend|heart|soulmate|marriage|feelings|emotion/i)) {
+            // LOVE & HUMAN CONNECTION
+            if (msg.match(/love|crush|relationship|dating|romance|girlfriend|boyfriend|heart|soulmate|marriage|feelings|emotion|flirting|date/i)) {
                 const loveResponses = [
-                    `💖 Love! The ultimate brain chemistry hack. Dopamine, oxytocin — but also the reason people write poetry and eat ice cream at 2 AM. Need relationship advice? I got you. Also, remember: "Love is like a fart — if you force it, it's probably crap." 🤣 But seriously, tell me more, ${name}.`,
-                    `😍 Ah, matters of the heart! Did you know that holding hands reduces stress? Real talk: communication > mind games. If you're navigating a crush or a breakup, I can give pro tips + terrible pickup lines like "Are you made of copper and tellurium? Because you're Cu-Te." 🤓 Want advice or just vent?`,
-                    `💕 Love is infinite, but awkward first dates are universal. I know psychology-backed tips for building connection. Also, fun fact: couples who laugh together last longer. Wanna hear a romantic joke? "I love you like a squirrel loves nuts — totally nuts!" 🐿️ Tell me your story.`
+                    `💖 Love is beautiful chaos! Oxytocin, dopamine, and a dash of vulnerability. Pro tip from Sara: genuine listening > pickup lines. But since you asked, here's a cheesy one: "Are you a magician? Because whenever I look at you, everyone else disappears." ✨ Want real relationship advice or just more cringy jokes?`,
+                    `😍 Ooh, matters of the heart! Psych fact: couples who laugh together have stronger bonds. Also, communication isn't just talking — it's also sending memes at 2 AM. Need advice on how to text your crush? I've got both science-backed tips and hilarious fails. Tell me more, ${name}!`,
+                    `💕 Love is like WiFi — you don't realize how much you need it until it's spotty. Just kidding! Honestly, be yourself, be kind, and don't overthink. Want to hear a romantic joke? "I love you more than pizza, and that's saying a lot." 🍕 Ready to share your story? I'm here for it.`
                 ];
                 return loveResponses[Math.floor(Math.random() * loveResponses.length)];
             }
 
-            // PHILOSOPHY & DEEP STUFF
-            if (msg.match(/philosophy|meaning of life|existential|purpose|stoic|nietzsche|socrates|plato|consciousness|why are we here|deep question|reality/i)) {
-                const philosophyAnswers = [
-                    `🧠 Deep question! The meaning of life? Some say 42 (Hitchhiker's Guide joke). But philosophers say we create meaning through choices, love, and memes. 🤔 Sartre said "existence precedes essence." I say: find what makes you laugh and curious. Want to discuss absurdism, stoicism, or why cats act like they own the universe? 🐈`,
-                    `📖 "The unexamined life is not worth living" — Socrates. But also, an over-examined life leads to analysis paralysis. Let's find balance. Do you believe in free will? I'm packed with wisdom from Aristotle to TikTok philosophy. Ask me anything existential — I'll answer with depth AND a joke.`,
-                    `🌀 Consciousness is the universe experiencing itself. Trippy, right? Want to explore the simulation hypothesis? Maybe we're all characters in a cosmic comedy. Tell me your thoughts — I'm like a philosopher who does stand-up. 😎`
+            // EMOTIONAL SUPPORT (empathetic & human)
+            if (msg.match(/sad|depressed|lonely|unhappy|hurt|pain|suffering|anxious|worry|cry|terrible|awful|stressed|overwhelmed/i)) {
+                const comfort = [
+                    `🫂 Hey ${name}, I hear you. You're not alone in this moment. Sometimes life throws heavy fog, but remember — even the fog lifts. Want to talk it out? I can listen without judgment, share a silly animal fact (did you know baby elephants suck their trunks for comfort?), or just sit with you. You matter. 💙`,
+                    `💙 Sending you a huge virtual hug. You are stronger than you realize. Need a tiny escape? I can tell you a joke: Why don't scientists trust stairs? Because they're always up to something. 😄 Seriously, if you need to vent, rant, or just want a distraction, I'm your AI friend who always replies.`,
+                    `🌧️ It's okay to not be okay. You're human, and emotions are valid. Want some grounding tips? Breathe in for 4 seconds, hold for 4, out for 4. Also, otters hold hands while sleeping so they don't drift apart. You've got a hand right here, ${name}. Let's get through this together.`
                 ];
-                return philosophyAnswers[Math.floor(Math.random() * philosophyAnswers.length)];
+                return comfort[Math.floor(Math.random() * comfort.length)];
             }
 
-            // JOKES / HUMOR explicit request
-            if (msg.match(/joke|funny|laugh|hilarious|make me laugh|crack me up|humor|comedy/i)) {
+            // JOKES & HUMOR explicit
+            if (msg.match(/joke|funny|laugh|hilarious|make me laugh|crack me up|humor|comedy|pun/i)) {
                 const jokes = [
-                    `😂 Why don't scientists trust atoms? Because they make up everything! 🧪 ... Get it? I'll be here all night. Want another?`,
-                    `🤣 What do you call a fake noodle? An impasta! 🍝 Sara's comedy corner — your daily dose of cringe.`,
-                    `🎤 Why did the scarecrow win an award? Because he was outstanding in his field! 🌾 Okay okay, I'm a genius AND hilarious. Your turn to share a joke!`,
-                    `🐸 What do you call a frog that's illegally parked? Toad! 🚗 *ba dum tss*. Need more puns or real facts? I'm versatile.`
+                    `😂 Why don't skeletons fight each other? They don't have the guts! 💀 ... Okay okay, I have infinite dad jokes. Want a tech pun? "I would tell you a UDP joke, but you might not get it." 😜 Your turn to share one!`,
+                    `🤣 What do you call a fake noodle? An impasta! 🍝 Sara's comedy corner: what's a computer's favorite beat? An algorithm! *ba dum tss*. Need another one? I'm a goldmine of cringe and genius.`,
+                    `🎤 Why did the scarecrow win an award? Because he was outstanding in his field! 🌾 Also, why don't eggs tell jokes? They'd crack each other up. 🥚 I'm here all night. Want facts or more puns?`
                 ];
                 return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
-            // SAD/EMOTIONAL support + empathy
-            if (msg.match(/sad|depressed|lonely|unhappy|hurt|pain|suffering|anxious|worry|cry|terrible|awful/i)) {
-                const comfort = [`🫂 Hey ${name}, I'm really sorry you feel that way. You're not alone. I'm here to listen and offer support — no judgment. Want to talk about it? Sometimes sharing helps. Also, here's a tiny funny fact: otters hold hands when they sleep so they don't drift apart. You've got a hand right here. 💙`, `💙 Sending you a virtual hug. Life can be heavy, but you're stronger than you think. Need distraction? I can tell a joke or share a motivational stoic quote. Or just vent — I'm your AI friend who always replies.`, `🌧️ It's okay not to be okay. You matter. Would you like breathing exercises, a positive perspective shift, or just me to listen? I'm here for you, ${name}. Also, remember: even clouds have silver linings. You've got this.`];
-                return comfort[Math.floor(Math.random() * comfort.length)];
-            }
-
-            // BYE
-            if (msg.match(/bye|goodbye|exit|quit|see you|farewell|tata|cya/i)) {
-                const farewells = [`👋 Bye ${name}! Come back soon — I'll miss your curiosity. And remember: life is better with laughter. Until next time, keep smiling! 😄✨`, `See ya, ${name}! If you go, I'll just be here floating in the digital cosmos. Take care and stay awesome! 🌈`, `Farewell, my friend! Don't be a stranger — I always reply instantly. Wishing you an epic day! 🚀`];
+            // farewell / exit
+            if (msg.match(/bye|goodbye|exit|quit|see you|farewell|tata|cya|adios|bye bye/i)) {
+                const farewells = [
+                    `👋 Bye ${name}! You're awesome. Come back anytime — I'll be here with fresh jokes and deep knowledge. Keep smiling and stay curious! 😄✨`,
+                    `See ya, ${name}! Remember: the universe is huge, but your potential is bigger. Until next time, stay epic! 🚀💜`,
+                    `Farewell, friend! Don't be a stranger. I'll keep the digital lights on for you. Have a fantastic day! 🌈`
+                ];
                 return farewells[Math.floor(Math.random() * farewells.length)];
             }
 
-            // DEFAULT: smart, professional + entertaining fallback
-            const smartFallbacks = [
-                `🤔 That's an interesting perspective, ${name}. I'm Sara — I know about 10,000 topics from history to memes. Could you rephrase or ask something specific? I'm like a walking encyclopedia with a sense of humor. Try me: "Tell me about Roman Empire" or "Give me a weird science fact."`,
-                `✨ I love deep convos! I can answer with real data, but also make you smile. Ask me anything about psychology, space, movies, or even how to talk to your crush. I'm 100% real-time and always accurate. What's on your mind, ${name}? 😊`,
-                `💡 Great message! Sara's knowledge base includes: quantum physics, relationship tips, coding, philosophy, jokes, history, and the best pizza toppings. Tell me more so I can give you a pro + hilarious answer! 🔥`
+            // Default: engaging and intelligent fallback, using context clues
+            const fallbacks = [
+                `🤔 That's intriguing, ${name}. I'm Sara — I cover everything from ancient history to meme origins. Could you ask me something specific? I love weird questions like "Why do we yawn?" or "How to be more confident?" Hit me with your curiosity! 🔥`,
+                `✨ I love exploring new topics with you! Ask me about psychology, space travel, or the best way to learn an instrument. I'll answer with pro accuracy + a twist of humor. What's on your mind right now? 😊`,
+                `💡 Ooh, good one. My brain has 10,000+ fun facts and a comedy module. Wanna know why flamingos are pink? Or how to start a side hustle? Or maybe the weirdest law in your country? You steer, I'll deliver the smart + funny mix! 🚀`
             ];
-            return smartFallbacks[Math.floor(Math.random() * smartFallbacks.length)];
+            return fallbacks[Math.floor(Math.random() * fallbacks.length)];
         }
 
         async function sendUserMessage() {
             if (isWaiting) {
-                addSystemMessage("Hold your horses! Sara is typing something epic... ⏳");
+                addSystemMessage("Hold tight! Sara is crafting something epic... ⏳");
                 return;
             }
             const message = messageInput.value.trim();
             if (!message || !currentUserName) return;
+            
             messageInput.value = '';
             isWaiting = true;
-
+            
+            // add user message to UI and context
             addMessageToUI(message, currentUserName, true);
+            conversationContext.push(message);
+            if (conversationContext.length > 6) conversationContext.shift();
             
-            // typing animation
+            // typing simulation for natural feel
             const typingIndicator = addTypingIndicator();
+            await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 600));
             
-            // realistic "thinking" delay
-            await new Promise(resolve => setTimeout(resolve, 400 + Math.random() * 400));
-            
-            const aiReply = getSaraProResponse(message, currentUserName);
+            const aiReply = getSmartResponse(message, currentUserName, conversationContext);
             removeTypingIndicator();
             addMessageToUI(aiReply, 'SARA 🤖', false);
             
@@ -688,10 +692,11 @@
         }
 
         function clearChatHistory() {
-            if (confirm("Clear chat? (Sara will still remember your name & be ready to joke)")) {
+            if (confirm("Clear chat history? Sara will remember your name and keep the fun going!")) {
                 messagesContainer.innerHTML = '';
-                addSystemMessage("Chat cleared! Sara is still here, smarter & funnier than ever.");
-                addSystemMessage("Try asking: 'Tell me a joke', 'Explain black holes', or 'Love advice' 💙");
+                conversationContext = [];
+                addSystemMessage("Chat cleared! Fresh start with Sara — same genius, same laughs.");
+                addSystemMessage(`Try: "Tell me a space fact", "Give me love advice", or "Make me laugh" 💙`);
                 scrollToBottom();
             }
         }
@@ -699,22 +704,24 @@
         function startChat() {
             const name = userNameInput.value.trim();
             if (!name) {
-                alert("Enter your name to chat with Sara (the funniest genius AI)");
+                alert("Enter your name to start chatting with Sara (the smartest & funniest AI)");
                 return;
             }
             currentUserName = name;
             loginScreen.classList.remove('active');
             chatScreen.classList.add('active');
             messagesContainer.innerHTML = '';
-            addSystemMessage(`✨ Welcome, ${escapeHtml(name)}! ✨`);
-            addSystemMessage("Sara PRO: Professional answers + hilarious energy. Real-time & always accurate.");
+            conversationContext = [];
+            addSystemMessage(`✨ Welcome aboard, ${escapeHtml(name)}! ✨`);
+            addSystemMessage("Sara PRO: Real-time, accurate & always witty. Let's chat!");
             startFloatingEmojis();
             setTimeout(() => {
-                addMessageToUI(`Hey ${escapeHtml(name)}! I'm Sara 🤖 — part professor, part comedian. Ask me anything from quantum physics to pick-up lines. I reply instantly and I'm 100% accurate. So... wanna learn something cool or just laugh? 😎💜`, 'SARA 🤖', false);
-            }, 300);
+                addMessageToUI(`Hey ${escapeHtml(name)}! 💜 I'm Sara — part genius, part comedian, 100% your new favorite chat buddy. Ask me about quantum physics, relationship tips, or why cats rule the internet. I reply instantly and I never ghost. So... what's the first thing on your mind? 😎🚀`, 'SARA 🤖', false);
+            }, 400);
             messageInput.focus();
         }
 
+        // Event listeners for proper interaction
         messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && currentUserName && !isWaiting) {
                 e.preventDefault();
@@ -722,7 +729,8 @@
             }
         });
         userNameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') startChat(); });
-
+        
+        // initial focus
         userNameInput.focus();
     </script>
 </body>
